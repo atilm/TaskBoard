@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RequirementSpecification version="1.0">
+    <Language></Language>
+    <AttributeContext/>
+    <LinkContext/>
+    <RequirementSpecification>
+        <Requirement id="2" type="UserRequirement" name="Task Display">
+            <description><![CDATA[Tasks are displayed in several List Views that are layed out next to each other like table columns.]]></description>
+            <Requirement id="8" type="UserRequirement" name="Column Tasks">
+                <description><![CDATA[]]></description>
+            </Requirement>
+            <Requirement id="9" type="UserRequirement" name="Column Today">
+                <description><![CDATA[]]></description>
+            </Requirement>
+            <Requirement id="10" type="UserRequirement" name="Column In Progress">
+                <description><![CDATA[]]></description>
+            </Requirement>
+            <Requirement id="11" type="UserRequirement" name="Column Done">
+                <description><![CDATA[]]></description>
+            </Requirement>
+        </Requirement>
+        <Requirement id="4" type="UserRequirement" name="Task Management">
+            <description><![CDATA[]]></description>
+            <Requirement id="16" type="FunctionalRequirement" name="Task Structure">
+                <description><![CDATA[]]></description>
+                <Requirement id="17" type="FunctionalRequirement" name="Project">
+                    <description><![CDATA[]]></description>
+                </Requirement>
+                <Requirement id="18" type="FunctionalRequirement" name="Description">
+                    <description><![CDATA[]]></description>
+                </Requirement>
+                <Requirement id="19" type="FunctionalRequirement" name="Estimated effort">
+                    <description><![CDATA[]]></description>
+                </Requirement>
+                <Requirement id="20" type="FunctionalRequirement" name="Actual Effort">
+                    <description><![CDATA[]]></description>
+                    <Requirement id="21" type="DesignRequirement" name="Records">
+                        <description><![CDATA[]]></description>
+                    </Requirement>
+                </Requirement>
+            </Requirement>
+            <Requirement id="32" type="DesignRequirement" name="Task Storage">
+                <description><![CDATA[The application data are stored in a sqlite database file. It contains several related tables.]]></description>
+                <Requirement id="37" type="DesignRequirement" name="Table: Tasks">
+                    <description><![CDATA[The table of tasks contains the user's "units of work". This comprises:<ul><li>Task numeric ID</li><li>A title</li><li>A description</li><li>One associated project (numeric ID of project)</li><li>An estimate for the effort</li><li>"Done" state</li></ul>]]></description>
+                </Requirement>
+                <Requirement id="34" type="DesignRequirement" name="Table: Projects">
+                    <description><![CDATA[The table contains the user's projects. Per project:<ul><li>Project numeric ID</li><li>Project ID (short name for display)</li><li>Project Title</li><li>Project description</li></ul>]]></description>
+                </Requirement>
+                <Requirement id="36" type="DesignRequirement" name="Table: Records">
+                    <description><![CDATA[The table contains the user's actual work sessions:<ul><li>Numeric Record ID</li><li>Link to task (numeric task ID)</li><li>Elapsed Time</li></ul>]]></description>
+                </Requirement>
+            </Requirement>
+            <Requirement id="5" type="UserRequirement" name="Adding Tasks">
+                <description><![CDATA[Tasks can directly be added in each of all four columns.]]></description>
+                <Requirement id="40" type="FunctionalRequirement" name="Add button above each column">
+                    <description><![CDATA[]]></description>
+                </Requirement>
+                <Requirement id="41" type="FunctionalRequirement" name="Automatic editing">
+                    <description><![CDATA[]]></description>
+                </Requirement>
+            </Requirement>
+            <Requirement id="27" type="UserRequirement" name="Editing Tasks">
+                <description><![CDATA[]]></description>
+            </Requirement>
+            <Requirement id="38" type="UserRequirement" name="Editing Projects">
+                <description><![CDATA[]]></description>
+            </Requirement>
+            <Requirement id="39" type="UserRequirement" name="Editing Records">
+                <description><![CDATA[]]></description>
+            </Requirement>
+            <Requirement id="12" type="UserRequirement" name="Scheduling Task">
+                <description><![CDATA[]]></description>
+            </Requirement>
+            <Requirement id="13" type="UserRequirement" name="Measuring Task">
+                <description><![CDATA[]]></description>
+            </Requirement>
+            <Requirement id="14" type="UserRequirement" name="Concluding Task">
+                <description><![CDATA[]]></description>
+            </Requirement>
+            <Requirement id="7" type="UserRequirement" name="Removing Task">
+                <description><![CDATA[]]></description>
+            </Requirement>
+        </Requirement>
+        <Requirement id="15" type="UserRequirement" name="Task Measurement">
+            <description><![CDATA[]]></description>
+            <Requirement id="29" type="UserRequirement" name="Starting measurement">
+                <description><![CDATA[]]></description>
+            </Requirement>
+            <Requirement id="30" type="UserRequirement" name="Pausing measurement">
+                <description><![CDATA[]]></description>
+            </Requirement>
+            <Requirement id="31" type="UserRequirement" name="Resuming measurement">
+                <description><![CDATA[]]></description>
+            </Requirement>
+        </Requirement>
+        <Requirement id="3" type="UserRequirement" name="Statistics">
+            <description><![CDATA[]]></description>
+            <Requirement id="22" type="UserRequirement" name="Project Statistics">
+                <description><![CDATA[]]></description>
+                <Requirement id="24" type="UserRequirement" name="Burn Down Chart">
+                    <description><![CDATA[]]></description>
+                </Requirement>
+            </Requirement>
+            <Requirement id="23" type="UserRequirement" name="User Statistics">
+                <description><![CDATA[]]></description>
+                <Requirement id="25" type="UserRequirement" name="Histogram of estimate deviations">
+                    <description><![CDATA[]]></description>
+                </Requirement>
+                <Requirement id="26" type="UserRequirement" name="Projects / Tasks per date">
+                    <description><![CDATA[]]></description>
+                </Requirement>
+            </Requirement>
+        </Requirement>
+    </RequirementSpecification>
+</RequirementSpecification>

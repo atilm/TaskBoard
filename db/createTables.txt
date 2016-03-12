@@ -1,0 +1,48 @@
+DROP TABLE projects;
+DROP TABLE states;
+DROP TABLE tasks;
+DROP TABLE records;
+
+CREATE TABLE projects(
+    id INTEGER PRIMARY KEY,
+    short TEXT,
+    name TEXT,
+    description TEXT
+);
+
+CREATE TABLE states(
+    id INTEGER PRIMARY KEY,
+    name TEXT
+);
+                      
+CREATE TABLE tasks(
+    id INTEGER PRIMARY KEY,
+    title TEXT,
+    description TEXT,
+    project INTEGER,
+    estimation INTEGER,
+    state INTEGER,
+    createdDate TEXT,
+    closedDate TEXT
+);
+                   
+CREATE TABLE records(
+    id INTEGER PRIMARY KEY,
+    task INTEGER,
+    time INTEGER,
+    date TEXT
+);
+
+INSERT INTO states (name) VALUES ("defined");
+INSERT INTO states (name) VALUES ("today");
+INSERT INTO states (name) VALUES ("done");
+
+INSERT INTO projects (short, name, description) VALUES ("OPT", "Opti Projekt", "Alles verbessern.");
+INSERT INTO projects (short, name, description) VALUES ("VCF", "Vena Cava Filter", "Herstellungsprozess entwickeln.");
+
+INSERT INTO tasks (project, title, description, estimation, state, createdDate, closedDate)
+    VALUES(1, "Feasability Study", "Is it possible?", 8, 3, "2016-03-09", "2016-03-11");
+INSERT INTO tasks (project, title, description, estimation, state, createdDate, closedDate)
+    VALUES(1, "Engineering Study", "How much is possible?", 8, 2, 2016-03-09, 2000-00-00);
+INSERT INTO tasks (project, title, description, estimation, state, createdDate, closedDate)
+    VALUES(1, "Validation", "Proof that it is possible?", 8, 1, 2016-03-09, 2000-00-00);

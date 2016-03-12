@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>resources/list-add-3.ico</file>
+        <file>resources/1457759875_Stats.png</file>
+        <file>resources/1457759927_cairo-clock.png</file>
+    </qresource>
+</RCC>
