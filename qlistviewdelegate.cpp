@@ -1,4 +1,5 @@
 #include "qlistviewdelegate.h"
+#include "taskmodel.h"
 #include <QDebug>
 #include <QPainter>
 
@@ -23,19 +24,26 @@ void QListViewDelegate::paint(QPainter *painter,
                               const QStyleOptionViewItem &option,
                               const QModelIndex &index) const
 {
+    const TaskModel *model = static_cast<const TaskModel*>(index.model());
+    TaskEntry task = model->getTask(index);
+    QString displayString = QString("%1 %2").arg(task.projectShort).arg(task.title);
+
     painter->save();
 
     painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
 
+    painter->setPen(QColor(254,210,47));
+
     if(option.state & QStyle::State_Selected)
-        painter->fillRect(option.rect, option.palette.highlight());
+        painter->setPen(Qt::red);
 
     QRect rect = boxRect(option.rect);
 
-    painter->setBrush(QBrush(QColor(225,220,220)));
+    painter->setBrush(QBrush(QColor(255,255,224)));
     painter->drawRoundedRect(rect, 5, 5);
+    painter->setPen(Qt::black);
     painter->drawText(rect.topLeft().x() + 5, rect.bottomLeft().y() - 5,
-                      index.data().toString());
+                      displayString);
 
     painter->restore();
 }

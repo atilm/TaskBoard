@@ -19,13 +19,15 @@ SOURCES += main.cpp\
     taskcolumn.cpp \
     taskmodel.cpp \
     databasemanager.cpp \
-    qlistviewdelegate.cpp
+    qlistviewdelegate.cpp \
+    taskentry.cpp
 
 HEADERS  += mainwindow.h \
     taskcolumn.h \
     taskmodel.h \
     databasemanager.h \
-    qlistviewdelegate.h
+    qlistviewdelegate.h \
+    taskentry.h
 
 FORMS    += mainwindow.ui \
     taskcolumn.ui
