@@ -42,11 +42,11 @@ INSERT INTO projects (short, name, description) VALUES ("OPT", "Opti Projekt", "
 INSERT INTO projects (short, name, description) VALUES ("VCF", "Vena Cava Filter", "Herstellungsprozess entwickeln.");
 
 INSERT INTO tasks (project, title, description, estimate, state, createdDate, closedDate, color)
-    VALUES(1, "Feasability Study", "Is it possible?", 8, 3, "2016-03-09", "2016-03-11", 1);
+    VALUES(1, "Feasibility Study", "Is it possible?", 8, 3, "2016-03-09", "2016-03-11", 0);
 INSERT INTO tasks (project, title, description, estimate, state, createdDate, closedDate, color)
-    VALUES(1, "Engineering Study", "How much is possible?", 8, 2, 2016-03-09, 2000-00-00, 1);
+    VALUES(1, "Engineering Study", "How much is possible?", 120, 2, 2016-03-09, 2000-00-00, 1);
 INSERT INTO tasks (project, title, description, estimate, state, createdDate, closedDate, color)
-    VALUES(1, "Validation", "Proof that it is possible?", 8, 1, 2016-03-09, 2000-00-00, 1);
+    VALUES(1, "Validation", "Proof that it is possible?", 722, 1, 2016-03-09, 2000-00-00, 2);
 
 .mode column
 .headers on

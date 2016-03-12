@@ -72,13 +72,13 @@ TaskEntry DatabaseManager::buildTaskEntry(const QSqlQuery &query) const
 {
     TaskEntry entry;
 
-    entry.closed = QDateTime::fromString(query.record().value("tasks.closedDate").toString());
-    entry.colorIndex = query.record().value("tasks.color").toInt();
-    entry.created = QDateTime::fromString(query.record().value("tasks.createdDate").toString());
-    entry.description = query.record().value("tasks.description").toString();
-    entry.estimated_minutes = query.record().value("tasks.etimate").toInt();
-    entry.projectShort = query.record().value(2).toString();
     entry.title = query.record().value(0).toString();
+    entry.description = query.record().value(1).toString();
+    entry.projectShort = query.record().value(2).toString();
+    entry.estimated_minutes = query.record().value(3).toInt();
+    entry.colorIndex = query.record().value(4).toInt();
+    entry.created = QDateTime::fromString(query.record().value(5).toString());
+    entry.closed = QDateTime::fromString(query.record().value(6).toString());
 
     return entry;
 }
