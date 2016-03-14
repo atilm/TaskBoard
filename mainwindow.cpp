@@ -16,6 +16,27 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::injectColumnWidgets(TaskColumn *todoColumn,
+                                     TaskColumn *todayColumn,
+                                     TaskColumn *doneColumn)
+{
+    this->todoColumn = todoColumn;
+    this->todayColumn = todayColumn;
+    this->doneColumn = doneColumn;
+
+    ui->horizontalLayout->replaceWidget(ui->todoColumn, todoColumn);
+    ui->horizontalLayout->replaceWidget(ui->todayColumn, todayColumn);
+    ui->horizontalLayout->replaceWidget(ui->doneColumn, doneColumn);
+
+    todoColumn->setTitle("To do");
+    todayColumn->setTitle("To do today");
+    doneColumn->setTitle("Done");
+
+    todoColumn->setColumnState(TaskEntry::todo);
+    todayColumn->setColumnState(TaskEntry::today);
+    doneColumn->setColumnState(TaskEntry::done);
+}
+
 void MainWindow::injectModels(TaskModel *todoModel,
                               TaskModel *todayModel,
                               TaskModel *doneModel)
@@ -24,15 +45,12 @@ void MainWindow::injectModels(TaskModel *todoModel,
     todayModel->setFilterString("tasks.state = 2");
     doneModel->setFilterString("tasks.state = 3");
 
-    ui->todoColumn->setModel(todoModel);
-    ui->todayColumn->setModel(todayModel);
-    ui->doneColumn->setModel(doneModel);
+    todoColumn->setModel(todoModel);
+    todayColumn->setModel(todayModel);
+    doneColumn->setModel(doneModel);
 }
 
 void MainWindow::setup()
 {
     setWindowTitle("Task Board");
-    ui->todoColumn->setTitle("To do");
-    ui->todayColumn->setTitle("To do today");
-    ui->doneColumn->setTitle("Done");
 }

@@ -31,17 +31,17 @@
      <number>2</number>
     </property>
     <item>
-     <widget class="TaskColumn" name="todoColumn" native="true">
+     <widget class="QWidget" name="todoColumn" native="true">
       <property name="autoFillBackground">
        <bool>false</bool>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="TaskColumn" name="todayColumn" native="true"/>
+     <widget class="QWidget" name="todayColumn" native="true"/>
     </item>
     <item>
-     <widget class="TaskColumn" name="doneColumn" native="true"/>
+     <widget class="QWidget" name="doneColumn" native="true"/>
     </item>
    </layout>
   </widget>
@@ -76,14 +76,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>TaskColumn</class>
-   <extends>QWidget</extends>
-   <header>taskcolumn.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="resources.qrc"/>
  </resources>

@@ -20,17 +20,20 @@ SOURCES += main.cpp\
     taskmodel.cpp \
     databasemanager.cpp \
     qlistviewdelegate.cpp \
-    taskentry.cpp
+    taskentry.cpp \
+    edittaskdialog.cpp
 
 HEADERS  += mainwindow.h \
     taskcolumn.h \
     taskmodel.h \
     databasemanager.h \
     qlistviewdelegate.h \
-    taskentry.h
+    taskentry.h \
+    edittaskdialog.h
 
 FORMS    += mainwindow.ui \
-    taskcolumn.ui
+    taskcolumn.ui \
+    edittaskdialog.ui
 
 RESOURCES += \
     resources.qrc

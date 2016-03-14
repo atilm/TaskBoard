@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "taskcolumn.h"
 #include "taskmodel.h"
 #include "databasemanager.h"
 
@@ -17,12 +18,18 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void injectColumnWidgets(TaskColumn *todoColumn,
+                             TaskColumn *todayColumn,
+                             TaskColumn *doneColumn);
     void injectModels(TaskModel *todoModel,
                       TaskModel *todayModel,
                       TaskModel *doneModel);
 
 private:
     Ui::MainWindow *ui;
+    TaskColumn *todoColumn;
+    TaskColumn *todayColumn;
+    TaskColumn *doneColumn;
 
     void setup();
 };

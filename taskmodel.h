@@ -12,9 +12,11 @@ public:
     virtual ~TaskModel();
 
     virtual void setFilterString(const QString &s);
-    virtual int rowCount(const QModelIndex &parent) const;
+    virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
     virtual QVariant data(const QModelIndex &index, int role) const;
     virtual TaskEntry getTask(const QModelIndex &index) const;
+    virtual void addTask(TaskEntry entry);
+    virtual void removeRow(int row, const QModelIndex &parent = QModelIndex());
 
 private:
     DatabaseManager *db;

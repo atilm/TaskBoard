@@ -8,6 +8,11 @@ int main(int argc, char *argv[])
     DatabaseManager *db = new DatabaseManager();
 
     MainWindow w;
+
+    w.injectColumnWidgets(new TaskColumn(new EditTaskDialog()),
+                          new TaskColumn(new EditTaskDialog()),
+                          new TaskColumn(new EditTaskDialog()));
+
     w.injectModels(new TaskModel(db),
                    new TaskModel(db),
                    new TaskModel(db));

@@ -32,4 +32,20 @@ TaskEntry TaskModel::getTask(const QModelIndex &index) const
     return db->getTaskEntry(filterString, index.row());
 }
 
+void TaskModel::addTask(TaskEntry entry)
+{
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    db->addTaskEntry(entry);
+    endInsertRows();
+}
+
+void TaskModel::removeRow(int row, const QModelIndex &parent)
+{
+    TaskEntry entry = db->getTaskEntry(filterString, row);
+
+    beginRemoveRows(parent, row, row);
+    db->removeTaskEntry(entry.id);
+    endRemoveRows();
+}
+
 

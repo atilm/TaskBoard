@@ -27,6 +27,16 @@ QString TaskEntry::effortString() const
     return QString("0 m");
 }
 
+QString TaskEntry::createdString() const
+{
+    return created.toString();
+}
+
+QString TaskEntry::closedString() const
+{
+    return closed.toString();
+}
+
 int TaskEntry::getHours(int minutes) const
 {
     return minutes / 60;
