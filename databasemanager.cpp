@@ -64,6 +64,26 @@ void DatabaseManager::addTaskEntry(TaskEntry entry)
         qDebug() << "SQL Error: " << query.lastError().text();
 }
 
+void DatabaseManager::updateTaskEntry(TaskEntry entry)
+{
+    QSqlQuery query;
+
+    query.prepare("UPDATE tasks "
+                  "SET title=:title, description=:desc, project=:pro, "
+                  "color=:color, estimate=:est "
+                  "WHERE id=:id");
+
+    query.bindValue(":id", entry.id);
+    query.bindValue(":title", entry.title);
+    query.bindValue(":desc", entry.description);
+    query.bindValue(":pro", entry.projectIndex);
+    query.bindValue(":color", entry.colorIndex);
+    query.bindValue(":est", entry.estimated_minutes);
+
+    if(!query.exec())
+        qDebug() << "SQL Error: " << query.lastError().text();
+}
+
 void DatabaseManager::removeTaskEntry(int id)
 {
     QString s = QString("DELETE FROM tasks "

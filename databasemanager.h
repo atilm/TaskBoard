@@ -13,6 +13,7 @@ public:
     int size(const QString &filterString) const;
     TaskEntry getTaskEntry(const QString &filterString, int index) const;
     void addTaskEntry(TaskEntry entry);
+    void updateTaskEntry(TaskEntry entry);
     void removeTaskEntry(int id);
 
 private:

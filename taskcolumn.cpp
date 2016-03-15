@@ -20,6 +20,8 @@ TaskColumn::TaskColumn(EditTaskDialog *editDialog,
     ui->listView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->listView, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(handleListViewContextMenuRequested(QPoint)));
+    connect(ui->listView, SIGNAL(doubleClicked(QModelIndex)),
+            this, SLOT(handleTaskDoubleClicked(QModelIndex)));
 }
 
 TaskColumn::~TaskColumn()
@@ -59,6 +61,14 @@ void TaskColumn::handleAddClicked()
 void TaskColumn::handleRemoveCurrent()
 {
     model->removeRow(ui->listView->currentIndex().row());
+}
+
+void TaskColumn::handleTaskDoubleClicked(QModelIndex index)
+{
+    editDialog->setTaskEntry(model->getTask(index));
+
+    if(editDialog->exec())
+        model->updateTask(editDialog->getTaskEntry());
 }
 
 void TaskColumn::handleListViewContextMenuRequested(QPoint point)

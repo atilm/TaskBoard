@@ -33,6 +33,7 @@ private:
 protected slots:
     void handleAddClicked();
     void handleRemoveCurrent();
+    void handleTaskDoubleClicked(QModelIndex index);
     void handleListViewContextMenuRequested(QPoint point);
 };
 

@@ -39,6 +39,11 @@ void TaskModel::addTask(TaskEntry entry)
     endInsertRows();
 }
 
+void TaskModel::updateTask(TaskEntry entry)
+{
+    db->updateTaskEntry(entry);
+}
+
 void TaskModel::removeRow(int row, const QModelIndex &parent)
 {
     TaskEntry entry = db->getTaskEntry(filterString, row);
