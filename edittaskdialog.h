@@ -17,6 +17,7 @@ public:
     virtual ~EditTaskDialog();
 
     void clear();
+    void initProjets(const QStringList &projects);
     void setTaskEntry(const TaskEntry &entry);
     TaskEntry getTaskEntry();
 

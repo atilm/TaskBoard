@@ -59,7 +59,6 @@ void DatabaseManager::addTaskEntry(TaskEntry entry)
 
     QSqlQuery query;
 
-
     if(!query.exec(s))
         qDebug() << "SQL Error: " << query.lastError().text();
 }
@@ -94,6 +93,19 @@ void DatabaseManager::removeTaskEntry(int id)
 
     if(!query.exec(s))
         qDebug() << "SQL Error: " << query.lastError().text();
+}
+
+QStringList DatabaseManager::listOfProjects() const
+{
+    QStringList projects;
+
+    QSqlQuery query("SELECT name FROM projects");
+
+    while(query.next()){
+        projects.append(query.value(0).toString());
+    }
+
+    return projects;
 }
 
 void DatabaseManager::openDatabase()

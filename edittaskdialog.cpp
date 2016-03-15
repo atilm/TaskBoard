@@ -20,6 +20,12 @@ void EditTaskDialog::clear()
     ui->descriptionEdit->clear();
     ui->estimateEdit->clear();
     ui->effortEdit->clear();
+    ui->projectComboBox->clear();
+}
+
+void EditTaskDialog::initProjets(const QStringList &projects)
+{
+    ui->projectComboBox->addItems(projects);
 }
 
 void EditTaskDialog::setTaskEntry(const TaskEntry &entry)

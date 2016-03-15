@@ -19,6 +19,8 @@ public:
     virtual void updateTask(TaskEntry entry);
     virtual void removeRow(int row, const QModelIndex &parent = QModelIndex());
 
+    QStringList projectList() const;
+
 private:
     DatabaseManager *db;
     QString filterString;

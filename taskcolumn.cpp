@@ -49,6 +49,7 @@ void TaskColumn::setColumnState(TaskEntry::State state)
 void TaskColumn::handleAddClicked()
 {
     editDialog->clear();
+    editDialog->initProjets(model->projectList());
 
     if(editDialog->exec()){
         TaskEntry task = editDialog->getTaskEntry();
@@ -65,6 +66,8 @@ void TaskColumn::handleRemoveCurrent()
 
 void TaskColumn::handleTaskDoubleClicked(QModelIndex index)
 {
+    editDialog->clear();
+    editDialog->initProjets(model->projectList());
     editDialog->setTaskEntry(model->getTask(index));
 
     if(editDialog->exec())

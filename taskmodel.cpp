@@ -53,4 +53,9 @@ void TaskModel::removeRow(int row, const QModelIndex &parent)
     endRemoveRows();
 }
 
+QStringList TaskModel::projectList() const
+{
+    return db->listOfProjects();
+}
+
 
