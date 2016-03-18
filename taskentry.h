@@ -22,6 +22,8 @@ public:
     QString createdString() const;
     QString closedString() const;
 
+    void setEstimate(const QString &s);
+
     int id;
     QString title;
     QString description;

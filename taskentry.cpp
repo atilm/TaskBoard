@@ -37,6 +37,29 @@ QString TaskEntry::closedString() const
     return closed.toString();
 }
 
+void TaskEntry::setEstimate(const QString &s)
+{
+    // Capture one or more digits
+    // followed by zero or more whitespace
+    // followed by 'h'
+    QRegExp hourExp("(\\d+)\\s*h");
+
+    // Capture one or more digits
+    // followed by zero or more whitespace
+    // followed by 'm'
+    QRegExp minuteExp("(\\d+)\\s*m");
+
+    int minutes = 0;
+
+    if( hourExp.indexIn(s) > -1 )
+        minutes += hourExp.cap(1).toInt() * 60;
+
+    if( minuteExp.indexIn(s) > -1)
+        minutes += minuteExp.cap(1).toInt();
+
+    estimated_minutes = minutes;
+}
+
 int TaskEntry::getHours(int minutes) const
 {
     return minutes / 60;

@@ -23,6 +23,7 @@ void EditTaskDialog::clear()
     ui->estimateEdit->clear();
     ui->effortEdit->clear();
     ui->projectComboBox->clear();
+    ui->colorComboBox->setCurrentIndex(0);
 }
 
 void EditTaskDialog::initProjets(const QStringList &projects)
@@ -47,7 +48,7 @@ TaskEntry EditTaskDialog::getTaskEntry()
     entry.description = ui->descriptionEdit->toPlainText();
     entry.projectShort = "DUMMY";
     entry.projectIndex = 1;
-    entry.estimated_minutes = 120;
+    entry.setEstimate(ui->estimateEdit->text());
     entry.colorIndex = ui->colorComboBox->currentIndex();
     entry.created = QDateTime::currentDateTime();
     entry.closed = QDateTime();
