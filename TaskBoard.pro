@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     databasemanager.cpp \
     qlistviewdelegate.cpp \
     taskentry.cpp \
-    edittaskdialog.cpp
+    edittaskdialog.cpp \
+    colorcontainer.cpp
 
 HEADERS  += mainwindow.h \
     taskcolumn.h \
@@ -29,7 +30,8 @@ HEADERS  += mainwindow.h \
     databasemanager.h \
     qlistviewdelegate.h \
     taskentry.h \
-    edittaskdialog.h
+    edittaskdialog.h \
+    colorcontainer.h
 
 FORMS    += mainwindow.ui \
     taskcolumn.ui \

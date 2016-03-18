@@ -7,7 +7,6 @@
 QListViewDelegate::QListViewDelegate(QObject *parent)
     : QStyledItemDelegate(parent)
 {
-    initializeColors();
 }
 
 QListViewDelegate::~QListViewDelegate()
@@ -43,27 +42,6 @@ void QListViewDelegate::paint(QPainter *painter,
     painter->restore();
 }
 
-void QListViewDelegate::initializeColors()
-{
-    brushColors.append(QColor(255, 255, 224));
-    brushColors.append(QColor(220, 255, 194));
-    brushColors.append(QColor(195, 221, 255));
-    brushColors.append(QColor(255, 204, 214));
-    brushColors.append(QColor(255, 231, 182));
-    brushColors.append(QColor(226, 210, 242));
-    brushColors.append(QColor(255, 232, 255));
-    brushColors.append(QColor(219, 255, 242));
-
-    penColors.append(QColor(254, 210, 47));
-    penColors.append(QColor(125, 187, 0));
-    penColors.append(QColor(74, 153, 255));
-    penColors.append(QColor(255, 128, 153));
-    penColors.append(QColor(255, 177, 59));
-    penColors.append(QColor(198, 156, 243));
-    penColors.append(QColor(226, 170, 226));
-    penColors.append(QColor(112, 221, 180));
-}
-
 QRect QListViewDelegate::boxRect(const QRect &rect) const
 {
     QRect r(rect);
@@ -77,9 +55,9 @@ void QListViewDelegate::drawBackgroundBox(QPainter *painter, const QStyleOptionV
     if(option.state & QStyle::State_Selected)
         painter->setPen(Qt::red);
     else
-        painter->setPen(penColors[task.colorIndex]);
+        painter->setPen(colors.penColors[task.colorIndex]);
 
-    painter->setBrush(QBrush(brushColors[task.colorIndex]));
+    painter->setBrush(colors.brush(task.colorIndex));
     painter->drawRoundedRect(rect, 5, 5);
     painter->restore();
 }

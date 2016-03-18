@@ -3,6 +3,7 @@
 
 #include <QStyledItemDelegate>
 #include <QList>
+#include "colorcontainer.h"
 #include "taskentry.h"
 
 class QListViewDelegate : public QStyledItemDelegate
@@ -18,10 +19,8 @@ public:
                        const QModelIndex &index) const;
 
 private:
-    QList<QColor> brushColors;
-    QList<QColor> penColors;
+    ColorContainer colors;
 
-    void initializeColors();
     QRect boxRect(const QRect &rect) const;
     void drawBackgroundBox(QPainter *painter, const QStyleOptionViewItem &option,
                            const QRect &rect, const TaskEntry &task) const;

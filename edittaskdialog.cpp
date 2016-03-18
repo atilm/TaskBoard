@@ -7,6 +7,8 @@ EditTaskDialog::EditTaskDialog(QWidget *parent) :
     ui(new Ui::EditTaskDialog)
 {
     ui->setupUi(this);
+
+    initColorChooser();
 }
 
 EditTaskDialog::~EditTaskDialog()
@@ -34,6 +36,7 @@ void EditTaskDialog::setTaskEntry(const TaskEntry &entry)
     ui->descriptionEdit->setPlainText(entry.description);
     ui->estimateEdit->setText(entry.estimateString());
     ui->effortEdit->setText(entry.effortString());
+    ui->colorComboBox->setCurrentIndex(entry.colorIndex);
 }
 
 TaskEntry EditTaskDialog::getTaskEntry()
@@ -45,10 +48,15 @@ TaskEntry EditTaskDialog::getTaskEntry()
     entry.projectShort = "DUMMY";
     entry.projectIndex = 1;
     entry.estimated_minutes = 120;
-    entry.colorIndex = 0;
+    entry.colorIndex = ui->colorComboBox->currentIndex();
     entry.created = QDateTime::currentDateTime();
     entry.closed = QDateTime();
     entry.state = TaskEntry::todo;
 
     return entry;
+}
+
+void EditTaskDialog::initColorChooser()
+{
+    ui->colorComboBox->addItems(colors.names);
 }

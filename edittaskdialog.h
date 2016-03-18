@@ -2,6 +2,7 @@
 #define EDITTASKDIALOG_H
 
 #include <QDialog>
+#include "colorcontainer.h"
 #include "taskentry.h"
 
 namespace Ui {
@@ -23,6 +24,10 @@ public:
 
 private:
     Ui::EditTaskDialog *ui;
+
+    ColorContainer colors;
+
+    void initColorChooser();
 };
 
 #endif // EDITTASKDIALOG_H
