@@ -2,20 +2,28 @@
 #include "ui_edittaskdialog.h"
 #include <QDateTime>
 
-EditTaskDialog::EditTaskDialog(QWidget *parent) :
+EditTaskDialog::EditTaskDialog(EditProjectDialog *projectDialog,
+                               QWidget *parent) :
     QDialog(parent),
     ui(new Ui::EditTaskDialog)
 {
     ui->setupUi(this);
+    this->projectDialog = projectDialog;
 
     setWindowTitle(tr("Edit Task"));
 
     initColorChooser();
+
+    connect(ui->addProjectButton, SIGNAL(clicked(bool)),
+            this, SLOT(handleAddProject()));
+    connect(ui->editProjectButton, SIGNAL(clicked(bool)),
+            this, SLOT(handleEditProject()));
 }
 
 EditTaskDialog::~EditTaskDialog()
 {
     delete ui;
+    delete projectDialog;
 }
 
 void EditTaskDialog::clear()
@@ -58,6 +66,16 @@ TaskEntry EditTaskDialog::getTaskEntry()
     entry.state = TaskEntry::todo;
 
     return entry;
+}
+
+void EditTaskDialog::handleAddProject()
+{
+    projectDialog->exec();
+}
+
+void EditTaskDialog::handleEditProject()
+{
+    projectDialog->exec();
 }
 
 void EditTaskDialog::initColorChooser()

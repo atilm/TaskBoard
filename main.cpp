@@ -9,9 +9,9 @@ int main(int argc, char *argv[])
 
     MainWindow w;
 
-    w.injectColumnWidgets(new TaskColumn(new EditTaskDialog()),
-                          new TaskColumn(new EditTaskDialog()),
-                          new TaskColumn(new EditTaskDialog()));
+    w.injectColumnWidgets(new TaskColumn(new EditTaskDialog(new EditProjectDialog())),
+                          new TaskColumn(new EditTaskDialog(new EditProjectDialog())),
+                          new TaskColumn(new EditTaskDialog(new EditProjectDialog())));
 
     w.injectModels(new TaskModel(db),
                    new TaskModel(db),

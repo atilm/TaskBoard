@@ -22,7 +22,9 @@ SOURCES += main.cpp\
     qlistviewdelegate.cpp \
     taskentry.cpp \
     edittaskdialog.cpp \
-    colorcontainer.cpp
+    colorcontainer.cpp \
+    editprojectdialog.cpp \
+    projectentry.cpp
 
 HEADERS  += mainwindow.h \
     taskcolumn.h \
@@ -31,11 +33,14 @@ HEADERS  += mainwindow.h \
     qlistviewdelegate.h \
     taskentry.h \
     edittaskdialog.h \
-    colorcontainer.h
+    colorcontainer.h \
+    editprojectdialog.h \
+    projectentry.h
 
 FORMS    += mainwindow.ui \
     taskcolumn.ui \
-    edittaskdialog.ui
+    edittaskdialog.ui \
+    editprojectdialog.ui
 
 RESOURCES += \
     resources.qrc
