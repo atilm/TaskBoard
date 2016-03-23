@@ -8,6 +8,8 @@ EditTaskDialog::EditTaskDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    setWindowTitle(tr("Edit Task"));
+
     initColorChooser();
 }
 
@@ -26,14 +28,15 @@ void EditTaskDialog::clear()
     ui->colorComboBox->setCurrentIndex(0);
 }
 
-void EditTaskDialog::initProjets(const QStringList &projects)
+void EditTaskDialog::setTaskModel(TaskModel *model)
 {
-    ui->projectComboBox->addItems(projects);
+    this->model = model;
+    ui->projectComboBox->addItems(model->projectList());
 }
 
 void EditTaskDialog::setTaskEntry(const TaskEntry &entry)
 {
-    ui->titleEdit->setText(entry.title);
+    ui->titleEdit->setPlainText(entry.title);
     ui->descriptionEdit->setPlainText(entry.description);
     ui->estimateEdit->setText(entry.estimateString());
     ui->effortEdit->setText(entry.effortString());
@@ -44,7 +47,7 @@ TaskEntry EditTaskDialog::getTaskEntry()
 {
     TaskEntry entry;
 
-    entry.title = ui->titleEdit->text();
+    entry.title = ui->titleEdit->toPlainText();
     entry.description = ui->descriptionEdit->toPlainText();
     entry.projectShort = "DUMMY";
     entry.projectIndex = 1;

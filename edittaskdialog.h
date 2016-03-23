@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "colorcontainer.h"
 #include "taskentry.h"
+#include "taskmodel.h"
 
 namespace Ui {
 class EditTaskDialog;
@@ -18,12 +19,13 @@ public:
     virtual ~EditTaskDialog();
 
     void clear();
-    void initProjets(const QStringList &projects);
+    void setTaskModel(TaskModel *model);
     void setTaskEntry(const TaskEntry &entry);
     TaskEntry getTaskEntry();
 
 private:
     Ui::EditTaskDialog *ui;
+    TaskModel *model;
 
     ColorContainer colors;
 

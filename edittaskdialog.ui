@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>338</width>
+    <width>309</width>
     <height>381</height>
    </rect>
   </property>
@@ -14,32 +14,53 @@
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="3" column="0" colspan="2">
-    <widget class="QPlainTextEdit" name="descriptionEdit"/>
-   </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="label_3">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
      <property name="text">
-      <string>Project</string>
+      <string>Task</string>
      </property>
     </widget>
    </item>
-   <item row="4" column="1">
-    <widget class="QLabel" name="label_6">
+   <item row="4" column="2">
+    <widget class="QToolButton" name="editProjectButton">
      <property name="text">
-      <string>Color</string>
+      <string>Edit</string>
      </property>
     </widget>
    </item>
-   <item row="5" column="0">
-    <widget class="QComboBox" name="projectComboBox">
-     <property name="editable">
+   <item row="7" column="0" colspan="3">
+    <widget class="QLineEdit" name="estimateEdit"/>
+   </item>
+   <item row="6" column="3">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>Actual effort</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Description</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="3">
+    <widget class="QComboBox" name="colorComboBox"/>
+   </item>
+   <item row="3" column="0" colspan="4">
+    <widget class="QPlainTextEdit" name="descriptionEdit">
+     <property name="tabChangesFocus">
       <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="5" column="1">
-    <widget class="QComboBox" name="colorComboBox"/>
+   <item row="4" column="1">
+    <widget class="QToolButton" name="addProjectButton">
+     <property name="text">
+      <string>Add</string>
+     </property>
+    </widget>
    </item>
    <item row="6" column="0">
     <widget class="QLabel" name="label_4">
@@ -48,20 +69,14 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="1">
-    <widget class="QLabel" name="label_5">
+   <item row="4" column="0">
+    <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>Actual effort</string>
+      <string>Project</string>
      </property>
     </widget>
    </item>
-   <item row="7" column="0">
-    <widget class="QLineEdit" name="estimateEdit"/>
-   </item>
-   <item row="7" column="1">
-    <widget class="QLineEdit" name="effortEdit"/>
-   </item>
-   <item row="8" column="0" colspan="2">
+   <item row="8" column="0" colspan="4">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -71,25 +86,48 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="2">
-    <widget class="QLineEdit" name="titleEdit"/>
-   </item>
-   <item row="0" column="0" colspan="2">
-    <widget class="QLabel" name="label">
+   <item row="4" column="3">
+    <widget class="QLabel" name="label_6">
      <property name="text">
-      <string>Task</string>
+      <string>Color</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Description</string>
+   <item row="5" column="0" colspan="3">
+    <widget class="QComboBox" name="projectComboBox">
+     <property name="editable">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="3">
+    <widget class="QLineEdit" name="effortEdit"/>
+   </item>
+   <item row="1" column="0" colspan="4">
+    <widget class="QPlainTextEdit" name="titleEdit">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>45</height>
+      </size>
+     </property>
+     <property name="tabChangesFocus">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>titleEdit</tabstop>
+  <tabstop>descriptionEdit</tabstop>
+  <tabstop>projectComboBox</tabstop>
+  <tabstop>addProjectButton</tabstop>
+  <tabstop>editProjectButton</tabstop>
+  <tabstop>colorComboBox</tabstop>
+  <tabstop>estimateEdit</tabstop>
+  <tabstop>effortEdit</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -99,8 +137,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>257</x>
+     <y>371</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -115,8 +153,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>299</x>
+     <y>371</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
