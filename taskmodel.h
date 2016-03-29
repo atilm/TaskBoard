@@ -22,6 +22,7 @@ public:
 
     QStringList projectList() const;
     virtual ProjectEntry getProject(int index) const;
+    virtual void updateProject(ProjectEntry entry);
 
 private:
     DatabaseManager *db;

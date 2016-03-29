@@ -20,6 +20,7 @@ public:
 
     QStringList listOfProjects() const;
     ProjectEntry getProjectEntry(int index) const;
+    void updateProjectEntry(ProjectEntry entry);
 
 private:
     QSqlDatabase db;

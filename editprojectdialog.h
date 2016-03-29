@@ -22,6 +22,7 @@ public:
 
 private:
     Ui::EditProjectDialog *ui;
+    int currentId;
 };
 
 #endif // EDITPROJECTDIALOG_H

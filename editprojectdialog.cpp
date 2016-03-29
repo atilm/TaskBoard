@@ -17,6 +17,7 @@ EditProjectDialog::~EditProjectDialog()
 
 void EditProjectDialog::clear()
 {
+    currentId = -1;
     ui->titleEdit->clear();
     ui->shortSignEdit->clear();
     ui->descriptionEdit->clear();
@@ -24,6 +25,7 @@ void EditProjectDialog::clear()
 
 void EditProjectDialog::setProjectEntry(ProjectEntry project)
 {
+    currentId = project.id;
     ui->titleEdit->setText(project.title);
     ui->shortSignEdit->setText(project.shortSign);
     ui->descriptionEdit->setPlainText(project.description);
@@ -32,6 +34,7 @@ void EditProjectDialog::setProjectEntry(ProjectEntry project)
 ProjectEntry EditProjectDialog::getProjectEntry() const
 {
     ProjectEntry project;
+    project.id = currentId;
     project.title = ui->titleEdit->text();
     project.shortSign = ui->shortSignEdit->text();
     project.description = ui->descriptionEdit->toPlainText();

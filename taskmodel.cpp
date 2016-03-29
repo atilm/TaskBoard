@@ -63,4 +63,9 @@ ProjectEntry TaskModel::getProject(int index) const
     return db->getProjectEntry(index);
 }
 
+void TaskModel::updateProject(ProjectEntry entry)
+{
+    db->updateProjectEntry(entry);
+}
+
 

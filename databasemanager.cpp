@@ -124,6 +124,23 @@ ProjectEntry DatabaseManager::getProjectEntry(int index) const
     }
 }
 
+void DatabaseManager::updateProjectEntry(ProjectEntry entry)
+{
+    QSqlQuery query;
+
+    query.prepare("UPDATE projects "
+                  "SET short=:short, name=:name, description=:desc "
+                  "WHERE id=:id");
+
+    query.bindValue(":id", entry.id);
+    query.bindValue(":short", entry.shortSign);
+    query.bindValue(":name", entry.title);
+    query.bindValue(":desc", entry.description);
+
+    if(!query.exec())
+        qDebug() << "SQL Error: " << query.lastError().text();
+}
+
 void DatabaseManager::openDatabase()
 {
     db.setDatabaseName("tasks.db");
