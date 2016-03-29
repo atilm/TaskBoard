@@ -68,4 +68,9 @@ void TaskModel::updateProject(ProjectEntry entry)
     db->updateProjectEntry(entry);
 }
 
+void TaskModel::addProject(ProjectEntry entry)
+{
+    db->addProjectEntry(entry);
+}
+
 

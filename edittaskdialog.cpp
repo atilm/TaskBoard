@@ -39,7 +39,7 @@ void EditTaskDialog::clear()
 void EditTaskDialog::setTaskModel(TaskModel *model)
 {
     this->model = model;
-    ui->projectComboBox->addItems(model->projectList());
+    updateProjectList();
 }
 
 void EditTaskDialog::setTaskEntry(const TaskEntry &entry)
@@ -70,7 +70,11 @@ TaskEntry EditTaskDialog::getTaskEntry()
 
 void EditTaskDialog::handleAddProject()
 {
-    projectDialog->exec();
+    projectDialog->clear();
+    if(projectDialog->exec()){
+        model->addProject(projectDialog->getProjectEntry());
+        updateProjectList();
+    }
 }
 
 void EditTaskDialog::handleEditProject()
@@ -86,4 +90,10 @@ void EditTaskDialog::handleEditProject()
 void EditTaskDialog::initColorChooser()
 {
     ui->colorComboBox->addItems(colors.names);
+}
+
+void EditTaskDialog::updateProjectList()
+{
+    ui->projectComboBox->clear();
+    ui->projectComboBox->addItems(model->projectList());
 }

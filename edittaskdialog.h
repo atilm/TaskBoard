@@ -37,6 +37,7 @@ private:
     ColorContainer colors;
 
     void initColorChooser();
+    void updateProjectList();
 };
 
 #endif // EDITTASKDIALOG_H

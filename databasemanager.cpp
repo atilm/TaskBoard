@@ -108,6 +108,23 @@ QStringList DatabaseManager::listOfProjects() const
     return projects;
 }
 
+void DatabaseManager::addProjectEntry(ProjectEntry entry)
+{
+    QSqlQuery query;
+
+    query.prepare("INSERT INTO projects "
+                  "(short, name, description) "
+                  "VALUES "
+                  "(:short, :name, :description)");
+
+    query.bindValue(":short", entry.shortSign);
+    query.bindValue(":name", entry.title);
+    query.bindValue(":description", entry.description);
+
+    if(!query.exec())
+        qDebug() << "SQL Error: " << query.lastError().text();
+}
+
 ProjectEntry DatabaseManager::getProjectEntry(int index) const
 {
     QString queryText = QString("SELECT id, short, name, description FROM projects"

@@ -19,6 +19,7 @@ public:
     void removeTaskEntry(int id);
 
     QStringList listOfProjects() const;
+    void addProjectEntry(ProjectEntry entry);
     ProjectEntry getProjectEntry(int index) const;
     void updateProjectEntry(ProjectEntry entry);
 
