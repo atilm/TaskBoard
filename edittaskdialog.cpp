@@ -49,6 +49,7 @@ void EditTaskDialog::setTaskEntry(const TaskEntry &entry)
     ui->estimateEdit->setText(entry.estimateString());
     ui->effortEdit->setText(entry.effortString());
     ui->colorComboBox->setCurrentIndex(entry.colorIndex);
+    ui->projectComboBox->setCurrentIndex(entry.projectIndex-1);
 }
 
 TaskEntry EditTaskDialog::getTaskEntry()
@@ -58,7 +59,7 @@ TaskEntry EditTaskDialog::getTaskEntry()
     entry.title = ui->titleEdit->toPlainText();
     entry.description = ui->descriptionEdit->toPlainText();
     entry.projectShort = "DUMMY";
-    entry.projectIndex = 1;
+    entry.projectIndex = ui->projectComboBox->currentIndex() + 1;
     entry.setEstimate(ui->estimateEdit->text());
     entry.colorIndex = ui->colorComboBox->currentIndex();
     entry.created = QDateTime::currentDateTime();

@@ -169,7 +169,7 @@ void DatabaseManager::openDatabase()
 QSqlQuery DatabaseManager::taskQuery(const QString &filterString) const
 {
     QString s("SELECT"
-              " tasks.id, tasks.title, tasks.description, projects.short,"
+              " tasks.id, tasks.title, tasks.description, projects.id, projects.short, "
               " tasks.estimate, tasks.color, tasks.createdDate, tasks.closedDate"
               " FROM tasks"
               " JOIN projects ON tasks.project = projects.id");
@@ -187,11 +187,12 @@ TaskEntry DatabaseManager::buildTaskEntry(const QSqlQuery &query) const
     entry.id = query.record().value(0).toInt();
     entry.title = query.record().value(1).toString();
     entry.description = query.record().value(2).toString();
-    entry.projectShort = query.record().value(3).toString();
-    entry.estimated_minutes = query.record().value(4).toInt();
-    entry.colorIndex = query.record().value(5).toInt();
-    entry.created = QDateTime::fromString(query.record().value(6).toString());
-    entry.closed = QDateTime::fromString(query.record().value(7).toString());
+    entry.projectIndex = query.record().value(3).toInt();
+    entry.projectShort = query.record().value(4).toString();
+    entry.estimated_minutes = query.record().value(5).toInt();
+    entry.colorIndex = query.record().value(6).toInt();
+    entry.created = QDateTime::fromString(query.record().value(7).toString());
+    entry.closed = QDateTime::fromString(query.record().value(8).toString());
 
     return entry;
 }
