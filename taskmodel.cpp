@@ -1,5 +1,7 @@
 #include "taskmodel.h"
+#include <QDataStream>
 #include <QDebug>
+#include <QMimeData>
 
 TaskModel::TaskModel(DatabaseManager *db, QObject *parent)
     : QAbstractListModel(parent)
@@ -27,6 +29,16 @@ QVariant TaskModel::data(const QModelIndex &index, int role) const
     QVariant();
 }
 
+Qt::ItemFlags TaskModel::flags(const QModelIndex &index) const
+{
+    Qt::ItemFlags defaultFlags = QAbstractListModel::flags(index);
+
+    if (index.isValid())
+        return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | defaultFlags;
+    else
+        return Qt::ItemIsDropEnabled | defaultFlags;
+}
+
 TaskEntry TaskModel::getTask(const QModelIndex &index) const
 {
     return db->getTaskEntry(filterString, index.row());
@@ -51,6 +63,30 @@ void TaskModel::removeRow(int row, const QModelIndex &parent)
     beginRemoveRows(parent, row, row);
     db->removeTaskEntry(entry.id);
     endRemoveRows();
+}
+
+QStringList TaskModel::mimeTypes() const
+{
+    QStringList types;
+    types << "application/vnd.text.list";
+    return types;
+}
+
+QMimeData *TaskModel::mimeData(const QModelIndexList &indexes) const
+{
+    QMimeData *mimeData = new QMimeData();
+    QByteArray encodedData;
+
+    QDataStream stream(&encodedData, QIODevice::WriteOnly);
+
+    mimeData->setData("application/vnd.text.list", encodedData);
+    return mimeData;
+}
+
+bool TaskModel::dropMimeData(const QMimeData *data, Qt::DropAction action,
+                             int row, int column, const QModelIndex &parent)
+{
+    return false;
 }
 
 QStringList TaskModel::projectList() const

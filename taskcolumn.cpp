@@ -18,6 +18,10 @@ TaskColumn::TaskColumn(EditTaskDialog *editDialog,
             this, SLOT(handleAddClicked()));
 
     ui->listView->setContextMenuPolicy(Qt::CustomContextMenu);
+    ui->listView->setDragEnabled(true);
+    ui->listView->setAcceptDrops(true);
+    ui->listView->setDropIndicatorShown(true);
+
     connect(ui->listView, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(handleListViewContextMenuRequested(QPoint)));
     connect(ui->listView, SIGNAL(doubleClicked(QModelIndex)),
