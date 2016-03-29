@@ -108,6 +108,22 @@ QStringList DatabaseManager::listOfProjects() const
     return projects;
 }
 
+ProjectEntry DatabaseManager::getProjectEntry(int index) const
+{
+    QString queryText = QString("SELECT id, short, name, description FROM projects"
+                                " WHERE id = %1").arg(index);
+
+    QSqlQuery query(queryText);
+
+    if(query.next()){
+        return buildProjectEntry(query);
+    }
+    else{
+        qDebug() << "SQL Error: " << query.lastError().text();
+        return ProjectEntry();
+    }
+}
+
 void DatabaseManager::openDatabase()
 {
     db.setDatabaseName("tasks.db");
@@ -142,6 +158,18 @@ TaskEntry DatabaseManager::buildTaskEntry(const QSqlQuery &query) const
     entry.colorIndex = query.record().value(5).toInt();
     entry.created = QDateTime::fromString(query.record().value(6).toString());
     entry.closed = QDateTime::fromString(query.record().value(7).toString());
+
+    return entry;
+}
+
+ProjectEntry DatabaseManager::buildProjectEntry(const QSqlQuery &query) const
+{
+    ProjectEntry entry;
+
+    entry.id = query.value(0).toInt();
+    entry.shortSign = query.value(1).toString();
+    entry.title = query.value(2).toString();
+    entry.description = query.value(3).toString();
 
     return entry;
 }

@@ -4,6 +4,7 @@
 #include <QAbstractListModel>
 #include "databasemanager.h"
 #include "taskentry.h"
+#include "projectentry.h"
 
 class TaskModel : public QAbstractListModel
 {
@@ -20,6 +21,7 @@ public:
     virtual void removeRow(int row, const QModelIndex &parent = QModelIndex());
 
     QStringList projectList() const;
+    virtual ProjectEntry getProject(int index) const;
 
 private:
     DatabaseManager *db;

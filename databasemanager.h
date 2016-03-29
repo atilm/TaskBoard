@@ -3,6 +3,7 @@
 
 #include <QSqlDatabase>
 #include "taskentry.h"
+#include "projectentry.h"
 
 class DatabaseManager
 {
@@ -18,6 +19,7 @@ public:
     void removeTaskEntry(int id);
 
     QStringList listOfProjects() const;
+    ProjectEntry getProjectEntry(int index) const;
 
 private:
     QSqlDatabase db;
@@ -25,6 +27,7 @@ private:
     void openDatabase();
     QSqlQuery taskQuery(const QString &filterString) const;
     TaskEntry buildTaskEntry(const QSqlQuery &query) const;
+    ProjectEntry buildProjectEntry(const QSqlQuery &query) const;
 };
 
 #endif // DATABASEMANAGER_H

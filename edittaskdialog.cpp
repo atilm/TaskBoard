@@ -75,6 +75,9 @@ void EditTaskDialog::handleAddProject()
 
 void EditTaskDialog::handleEditProject()
 {
+    int projectIndex = ui->projectComboBox->currentIndex() + 1;
+    ProjectEntry project = model->getProject(projectIndex);
+    projectDialog->setProjectEntry(project);
     projectDialog->exec();
 }
 
