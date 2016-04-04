@@ -68,25 +68,42 @@ void TaskModel::removeRow(int row, const QModelIndex &parent)
 QStringList TaskModel::mimeTypes() const
 {
     QStringList types;
-    types << "application/vnd.text.list";
+    types << "text/plain";
     return types;
 }
 
 QMimeData *TaskModel::mimeData(const QModelIndexList &indexes) const
 {
     QMimeData *mimeData = new QMimeData();
-    QByteArray encodedData;
 
-    QDataStream stream(&encodedData, QIODevice::WriteOnly);
+    TaskEntry entry = getTask(indexes.first());
 
-    mimeData->setData("application/vnd.text.list", encodedData);
+    mimeData->setText(QString("%1").arg(entry.id));
+
     return mimeData;
 }
 
 bool TaskModel::dropMimeData(const QMimeData *data, Qt::DropAction action,
                              int row, int column, const QModelIndex &parent)
 {
-    return false;
+    int id = data->text().toInt();
+
+    int state;
+
+    if(filterString.contains("1"))
+        state = 1;
+    else if(filterString.contains("2"))
+        state = 2;
+    else if(filterString.contains("3"))
+        state = 3;
+    else
+        return false;
+
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    db->setTaskState(id, state);
+    endInsertRows();
+
+    return true;
 }
 
 QStringList TaskModel::projectList() const

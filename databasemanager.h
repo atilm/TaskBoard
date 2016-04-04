@@ -17,6 +17,7 @@ public:
     void addTaskEntry(TaskEntry entry);
     void updateTaskEntry(TaskEntry entry);
     void removeTaskEntry(int id);
+    void setTaskState(int id, int state);
 
     QStringList listOfProjects() const;
     void addProjectEntry(ProjectEntry entry);

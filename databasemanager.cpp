@@ -95,6 +95,21 @@ void DatabaseManager::removeTaskEntry(int id)
         qDebug() << "SQL Error: " << query.lastError().text();
 }
 
+void DatabaseManager::setTaskState(int id, int state)
+{
+    QSqlQuery query;
+
+    query.prepare("UPDATE tasks "
+                  "SET state=:state "
+                  "WHERE id=:id");
+
+    query.bindValue(":id", id);
+    query.bindValue(":state", state);
+
+    if(!query.exec())
+        qDebug() << "SQL Error: " << query.lastError().text();
+}
+
 QStringList DatabaseManager::listOfProjects() const
 {
     QStringList projects;
