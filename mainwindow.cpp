@@ -48,9 +48,25 @@ void MainWindow::injectModels(TaskModel *todoModel,
     todoColumn->setModel(todoModel);
     todayColumn->setModel(todayModel);
     doneColumn->setModel(doneModel);
+
+    connectModels(todoModel, todayModel, doneModel);
 }
 
 void MainWindow::setup()
 {
     setWindowTitle("Task Board");
+}
+
+void MainWindow::connectModels(TaskModel *todoModel,
+                               TaskModel *todayModel,
+                               TaskModel *doneModel)
+{
+    connect(todoModel, SIGNAL(itemDropped()), todayModel, SLOT(sendAllDataChanged()));
+    connect(todoModel, SIGNAL(itemDropped()), doneModel, SLOT(sendAllDataChanged()));
+
+    connect(todayModel, SIGNAL(itemDropped()), todoModel, SLOT(sendAllDataChanged()));
+    connect(todayModel, SIGNAL(itemDropped()), doneModel, SLOT(sendAllDataChanged()));
+
+    connect(doneModel, SIGNAL(itemDropped()), todoModel, SLOT(sendAllDataChanged()));
+    connect(doneModel, SIGNAL(itemDropped()), todayModel, SLOT(sendAllDataChanged()));
 }

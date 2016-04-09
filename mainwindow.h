@@ -32,6 +32,9 @@ private:
     TaskColumn *doneColumn;
 
     void setup();
+    void connectModels(TaskModel *todoModel,
+                       TaskModel *todayModel,
+                       TaskModel *doneModel);
 };
 
 #endif // MAINWINDOW_H

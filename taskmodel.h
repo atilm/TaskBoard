@@ -8,6 +8,7 @@
 
 class TaskModel : public QAbstractListModel
 {
+    Q_OBJECT
 public:
     TaskModel(DatabaseManager *db, QObject* parent = 0);
     virtual ~TaskModel();
@@ -30,6 +31,12 @@ public:
     virtual ProjectEntry getProject(int index) const;
     virtual void updateProject(ProjectEntry entry);
     virtual void addProject(ProjectEntry entry);
+
+signals:
+    void itemDropped();
+
+public slots:
+    void sendAllDataChanged();
 
 private:
     DatabaseManager *db;

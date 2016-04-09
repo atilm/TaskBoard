@@ -103,6 +103,8 @@ bool TaskModel::dropMimeData(const QMimeData *data, Qt::DropAction action,
     db->setTaskState(id, state);
     endInsertRows();
 
+    emit itemDropped();
+
     return true;
 }
 
@@ -124,6 +126,14 @@ void TaskModel::updateProject(ProjectEntry entry)
 void TaskModel::addProject(ProjectEntry entry)
 {
     db->addProjectEntry(entry);
+}
+
+void TaskModel::sendAllDataChanged()
+{
+    QModelIndex top = index(0);
+    QModelIndex bottom = index(rowCount()-1);
+
+    emit dataChanged(top, bottom);
 }
 
 
