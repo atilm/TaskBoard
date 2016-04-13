@@ -14,14 +14,14 @@ TaskModel::~TaskModel()
 
 }
 
-void TaskModel::setFilterString(const QString &s)
+void TaskModel::setColumnType(TaskState columnType)
 {
-    filterString = s;
+    this->columnType = columnType;
 }
 
 int TaskModel::rowCount(const QModelIndex &parent) const
 {
-    return db->size(filterString);
+    return db->size(columnType);
 }
 
 QVariant TaskModel::data(const QModelIndex &index, int role) const
@@ -41,7 +41,7 @@ Qt::ItemFlags TaskModel::flags(const QModelIndex &index) const
 
 TaskEntry TaskModel::getTask(const QModelIndex &index) const
 {
-    return db->getTaskEntry(filterString, index.row());
+    return db->getTaskEntry(columnType, index.row());
 }
 
 void TaskModel::addTask(TaskEntry entry)
@@ -58,7 +58,7 @@ void TaskModel::updateTask(TaskEntry entry)
 
 void TaskModel::removeRow(int row, const QModelIndex &parent)
 {
-    TaskEntry entry = db->getTaskEntry(filterString, row);
+    TaskEntry entry = db->getTaskEntry(columnType, row);
 
     beginRemoveRows(parent, row, row);
     db->removeTaskEntry(entry.id);
@@ -88,19 +88,8 @@ bool TaskModel::dropMimeData(const QMimeData *data, Qt::DropAction action,
 {
     int id = data->text().toInt();
 
-    int state;
-
-    if(filterString.contains("1"))
-        state = 1;
-    else if(filterString.contains("2"))
-        state = 2;
-    else if(filterString.contains("3"))
-        state = 3;
-    else
-        return false;
-
     beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    db->setTaskState(id, state);
+    db->insertIntoColumn(columnType, row, id);
     endInsertRows();
 
     emit itemDropped();

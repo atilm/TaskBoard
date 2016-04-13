@@ -13,7 +13,7 @@ public:
     TaskModel(DatabaseManager *db, QObject* parent = 0);
     virtual ~TaskModel();
 
-    virtual void setFilterString(const QString &s);
+    virtual void setColumnType(TaskState columnType);
     virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
     virtual QVariant data(const QModelIndex &index, int role) const;
     virtual Qt::ItemFlags flags(const QModelIndex &index) const;
@@ -40,7 +40,7 @@ public slots:
 
 private:
     DatabaseManager *db;
-    QString filterString;
+    TaskState columnType;
 
     QString queryString();
 };

@@ -41,9 +41,9 @@ void MainWindow::injectModels(TaskModel *todoModel,
                               TaskModel *todayModel,
                               TaskModel *doneModel)
 {
-    todoModel->setFilterString("tasks.state = 1");
-    todayModel->setFilterString("tasks.state = 2");
-    doneModel->setFilterString("tasks.state = 3");
+    todoModel->setColumnType(ToDo);
+    todayModel->setColumnType(Today);
+    doneModel->setColumnType(Done);
 
     todoColumn->setModel(todoModel);
     todayColumn->setModel(todayModel);

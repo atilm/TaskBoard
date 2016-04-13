@@ -17,14 +17,14 @@ DatabaseManager::~DatabaseManager()
         db.close();
 }
 
-int DatabaseManager::size(const QString &filterString) const
+int DatabaseManager::size(TaskState state) const
 {
     if(!db.isOpen()){
         qDebug() << "Database is not open.";
         return 0;
     }
 
-    QSqlQuery query = taskQuery(filterString);
+    QSqlQuery query = taskQuery(state);
     if( query.last()){
         return query.at() + 1;
     }
@@ -34,9 +34,9 @@ int DatabaseManager::size(const QString &filterString) const
     }
 }
 
-TaskEntry DatabaseManager::getTaskEntry(const QString &filterString, int index) const
+TaskEntry DatabaseManager::getTaskEntry(TaskState state, int index) const
 {
-    QSqlQuery query = taskQuery(filterString);
+    QSqlQuery query = taskQuery(state);
     if(query.seek(index)){
         return buildTaskEntry(query);
     }
@@ -110,6 +110,11 @@ void DatabaseManager::setTaskState(int id, int state)
         qDebug() << "SQL Error: " << query.lastError().text();
 }
 
+void DatabaseManager::insertIntoColumn(int state, int beforeRow, int taskId)
+{
+    setTaskState(taskId, state);
+}
+
 QStringList DatabaseManager::listOfProjects() const
 {
     QStringList projects;
@@ -181,16 +186,17 @@ void DatabaseManager::openDatabase()
         qDebug() << "Error: " << db.lastError();
 }
 
-QSqlQuery DatabaseManager::taskQuery(const QString &filterString) const
+QSqlQuery DatabaseManager::taskQuery(TaskState state) const
 {
-    QString s("SELECT"
-              " tasks.id, tasks.title, tasks.description, projects.id, projects.short, "
-              " tasks.estimate, tasks.color, tasks.createdDate, tasks.closedDate"
-              " FROM tasks"
-              " JOIN projects ON tasks.project = projects.id");
+    QString tempString("SELECT"
+                       " tasks.id, tasks.title, tasks.description, projects.id, projects.short, "
+                       " tasks.estimate, tasks.color, tasks.createdDate, tasks.closedDate"
+                       " FROM tasks"
+                       " JOIN projects ON tasks.project = projects.id"
+                       " WHERE tasks.state = %1"
+                       " ORDER BY tasks.sortingOrder");
 
-    if(!filterString.isEmpty())
-        s += QString(" WHERE %1").arg(filterString);
+    QString s = tempString.arg(state);
 
     return QSqlQuery(s);
 }

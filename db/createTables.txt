@@ -24,7 +24,8 @@ CREATE TABLE tasks(
     state INTEGER,
     color INTEGER,
     createdDate TEXT,
-    closedDate TEXT
+    closedDate TEXT,
+    sortingOrder INTEGER
 );
                    
 CREATE TABLE records(
