@@ -34,6 +34,7 @@ public:
     QDateTime created;
     QDateTime closed;
     State state;
+    int sortingOrder;
 
 private:
     int getHours(int minutes) const;

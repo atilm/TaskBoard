@@ -4,7 +4,7 @@
 #include <QSqlRecord>
 #include <QSqlError>
 
-DatabaseManager::DatabaseManager()
+DatabaseManager::DatabaseManager() : maximumInt(2147483647)
 {
     db = QSqlDatabase::addDatabase("QSQLITE");
 
@@ -41,26 +41,40 @@ TaskEntry DatabaseManager::getTaskEntry(TaskState state, int index) const
         return buildTaskEntry(query);
     }
     else{
-        qDebug() << "SQL Error: " << query.lastError().text();
+        qDebug() << "getTaskEntry: SQL Error: " << query.lastError().text();
         return TaskEntry();
     }
+}
+
+QVector<TaskEntry> DatabaseManager::getTaskEntries(TaskState state) const
+{
+    QVector<TaskEntry> entries;
+
+    QSqlQuery query = taskQuery(state);
+    while(query.next()){
+        TaskEntry entry = buildTaskEntry(query);
+        entries.append(entry);
+    }
+
+    return entries;
 }
 
 void DatabaseManager::addTaskEntry(TaskEntry entry)
 {
     QString s = QString("INSERT INTO tasks "
-                        "(title, description, project, color, estimate, state, createdDate, closedDate) "
+                        "(title, description, project, color, estimate, state, createdDate, closedDate, sortingOrder) "
                         "VALUES "
-                        "(\"%1\", \"%2\", %3, %4, %5, %6, \"%7\", \"%8\")")
+                        "(\"%1\", \"%2\", %3, %4, %5, %6, \"%7\", \"%8\", \"%9\")")
                 .arg(entry.title).arg(entry.description)
                 .arg(entry.projectIndex).arg(entry.colorIndex)
                 .arg(entry.estimated_minutes).arg(entry.state)
-                .arg(entry.createdString()).arg(entry.closedString());
+                .arg(entry.createdString()).arg(entry.closedString())
+                .arg(entry.sortingOrder);
 
     QSqlQuery query;
 
     if(!query.exec(s))
-        qDebug() << "SQL Error: " << query.lastError().text();
+        qDebug() << "addTaskEntry: SQL Error: " << query.lastError().text();
 }
 
 void DatabaseManager::updateTaskEntry(TaskEntry entry)
@@ -69,7 +83,7 @@ void DatabaseManager::updateTaskEntry(TaskEntry entry)
 
     query.prepare("UPDATE tasks "
                   "SET title=:title, description=:desc, project=:pro, "
-                  "color=:color, estimate=:est "
+                  "color=:color, estimate=:est, sortingOrder=:sortingOrder "
                   "WHERE id=:id");
 
     query.bindValue(":id", entry.id);
@@ -78,9 +92,27 @@ void DatabaseManager::updateTaskEntry(TaskEntry entry)
     query.bindValue(":pro", entry.projectIndex);
     query.bindValue(":color", entry.colorIndex);
     query.bindValue(":est", entry.estimated_minutes);
+    query.bindValue(":sortingOrder", entry.sortingOrder);
 
     if(!query.exec())
-        qDebug() << "SQL Error: " << query.lastError().text();
+        qDebug() << "updateTaskEntry: SQL Error: " << query.lastError().text();
+}
+
+void DatabaseManager::updateTaskField(int id, const QString &fieldName, int value)
+{
+    QSqlQuery query;
+
+    QString queryString = QString("UPDATE tasks "
+                                  "SET %1=:value "
+                                  "WHERE id=:id").arg(fieldName);
+
+    query.prepare(queryString);
+
+    query.bindValue(":id", id);
+    query.bindValue(":value", value);
+
+    if(!query.exec())
+        qDebug() << "updateTaskField: SQL Error: " << query.lastError().text();
 }
 
 void DatabaseManager::removeTaskEntry(int id)
@@ -92,7 +124,7 @@ void DatabaseManager::removeTaskEntry(int id)
     QSqlQuery query;
 
     if(!query.exec(s))
-        qDebug() << "SQL Error: " << query.lastError().text();
+        qDebug() << "removeTaskEntry: SQL Error: " << query.lastError().text();
 }
 
 void DatabaseManager::setTaskState(int id, int state)
@@ -107,12 +139,44 @@ void DatabaseManager::setTaskState(int id, int state)
     query.bindValue(":state", state);
 
     if(!query.exec())
-        qDebug() << "SQL Error: " << query.lastError().text();
+        qDebug() << "setTaskState: SQL Error: " << query.lastError().text();
 }
 
-void DatabaseManager::insertIntoColumn(int state, int beforeRow, int taskId)
+void DatabaseManager::setTaskStateAndIndex(int id, int state, int index)
 {
-    setTaskState(taskId, state);
+    QSqlQuery query;
+
+    query.prepare("UPDATE tasks "
+                  "SET state=:state, sortingOrder=:index "
+                  "WHERE id=:id");
+
+    query.bindValue(":id", id);
+    query.bindValue(":state", state);
+    query.bindValue(":index", index);
+
+    if(!query.exec())
+        qDebug() << "setTaskStateAndIndex: SQL Error: " << query.lastError().text();
+}
+
+void DatabaseManager::insertIntoColumn(TaskState state, int beforeRow, int taskId)
+{
+    int currentIndex = 0;
+    int previousIndex = 0;
+    int insertionIndex = maximumInt / 2;
+
+    if(beforeRow != -1){
+
+        getSortingIndices(state, beforeRow, currentIndex, previousIndex);
+
+        if(currentIndex - previousIndex < 2){
+            rearrangeSortingOrder(state);
+            getSortingIndices(state, beforeRow, currentIndex, previousIndex);
+        }
+
+        insertionIndex = (previousIndex + currentIndex) / 2;
+    }
+
+    setTaskStateAndIndex(taskId, state, insertionIndex);
 }
 
 QStringList DatabaseManager::listOfProjects() const
@@ -190,7 +254,7 @@ QSqlQuery DatabaseManager::taskQuery(TaskState state) const
 {
     QString tempString("SELECT"
                        " tasks.id, tasks.title, tasks.description, projects.id, projects.short, "
-                       " tasks.estimate, tasks.color, tasks.createdDate, tasks.closedDate"
+                       " tasks.estimate, tasks.color, tasks.createdDate, tasks.closedDate, tasks.sortingOrder"
                        " FROM tasks"
                        " JOIN projects ON tasks.project = projects.id"
                        " WHERE tasks.state = %1"
@@ -214,6 +278,7 @@ TaskEntry DatabaseManager::buildTaskEntry(const QSqlQuery &query) const
     entry.colorIndex = query.record().value(6).toInt();
     entry.created = QDateTime::fromString(query.record().value(7).toString());
     entry.closed = QDateTime::fromString(query.record().value(8).toString());
+    entry.sortingOrder = query.record().value(9).toInt();
 
     return entry;
 }
@@ -228,6 +293,34 @@ ProjectEntry DatabaseManager::buildProjectEntry(const QSqlQuery &query) const
     entry.description = query.value(3).toString();
 
     return entry;
+}
+
+void DatabaseManager::rearrangeSortingOrder(TaskState state)
+{
+    QVector<TaskEntry> entries = getTaskEntries(state);
+
+    int rows = entries.count();
+    int upperLimit = maximumInt; // = 2^31-1 i.e. biggest signed integer
+
+    int step = upperLimit / (rows + 1);
+
+    for(int i=0; i<rows; i++){
+        updateTaskField(entries[i].id, "sortingOrder", step * (i+1));
+    }
+}
+
+void DatabaseManager::getSortingIndices(TaskState state, int row, int &currentIndex, int &previousIndex)
+{
+    TaskEntry entry = getTaskEntry(state, row);
+    currentIndex = entry.sortingOrder;
+
+    if(row == 0){
+        previousIndex = 0;
+    }
+    else{
+        TaskEntry previousEntry = getTaskEntry(state, row - 1);
+        previousIndex = previousEntry.sortingOrder;
+    }
 }
 
 
