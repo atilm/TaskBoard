@@ -45,6 +45,7 @@ private:
     ProjectEntry buildProjectEntry(const QSqlQuery &query) const;
     void rearrangeSortingOrder(TaskState state);
     void getSortingIndices(TaskState state, int row, int &currentIndex, int &previousIndex);
+    int getNewSortingIndex(TaskState state);
 };
 
 #endif // DATABASEMANAGER_H

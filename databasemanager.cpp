@@ -61,6 +61,8 @@ QVector<TaskEntry> DatabaseManager::getTaskEntries(TaskState state) const
 
 void DatabaseManager::addTaskEntry(TaskEntry entry)
 {
+    int sortingIndex = getNewSortingIndex(static_cast<TaskState>(entry.state));
+
     QString s = QString("INSERT INTO tasks "
                         "(title, description, project, color, estimate, state, createdDate, closedDate, sortingOrder) "
                         "VALUES "
@@ -69,7 +71,7 @@ void DatabaseManager::addTaskEntry(TaskEntry entry)
                 .arg(entry.projectIndex).arg(entry.colorIndex)
                 .arg(entry.estimated_minutes).arg(entry.state)
                 .arg(entry.createdString()).arg(entry.closedString())
-                .arg(entry.sortingOrder);
+                .arg(sortingIndex);
 
     QSqlQuery query;
 
@@ -83,7 +85,7 @@ void DatabaseManager::updateTaskEntry(TaskEntry entry)
 
     query.prepare("UPDATE tasks "
                   "SET title=:title, description=:desc, project=:pro, "
-                  "color=:color, estimate=:est, sortingOrder=:sortingOrder "
+                  "color=:color, estimate=:est "
                   "WHERE id=:id");
 
     query.bindValue(":id", entry.id);
@@ -92,7 +94,6 @@ void DatabaseManager::updateTaskEntry(TaskEntry entry)
     query.bindValue(":pro", entry.projectIndex);
     query.bindValue(":color", entry.colorIndex);
     query.bindValue(":est", entry.estimated_minutes);
-    query.bindValue(":sortingOrder", entry.sortingOrder);
 
     if(!query.exec())
         qDebug() << "updateTaskEntry: SQL Error: " << query.lastError().text();
@@ -320,6 +321,16 @@ void DatabaseManager::getSortingIndices(TaskState state, int row, int &currentIn
     else{
         TaskEntry previousEntry = getTaskEntry(state, row - 1);
         previousIndex = previousEntry.sortingOrder;
+    }
+}
+
+int DatabaseManager::getNewSortingIndex(TaskState state)
+{
+    if(size(state) == 0)
+        return maximumInt / 2;
+    else{
+        TaskEntry entry = getTaskEntry(state, 0);
+        return entry.sortingOrder / 2;
     }
 }
 
