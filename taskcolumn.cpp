@@ -3,6 +3,8 @@
 #include "qlistviewdelegate.h"
 #include <QDebug>
 
+int TaskColumn::currentTaskID = -1;
+
 TaskColumn::TaskColumn(EditTaskDialog *editDialog,
                        QWidget *parent) :
     QWidget(parent),
@@ -24,6 +26,8 @@ TaskColumn::TaskColumn(EditTaskDialog *editDialog,
 
     connect(ui->listView, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(handleListViewContextMenuRequested(QPoint)));
+    connect(ui->listView, SIGNAL(clicked(QModelIndex)),
+            this, SLOT(handleTaskClicked(QModelIndex)));
     connect(ui->listView, SIGNAL(doubleClicked(QModelIndex)),
             this, SLOT(handleTaskDoubleClicked(QModelIndex)));
 }
@@ -32,6 +36,11 @@ TaskColumn::~TaskColumn()
 {
     delete ui;
     delete editDialog;
+}
+
+int TaskColumn::getCurrentTaskID()
+{
+    return currentTaskID;
 }
 
 void TaskColumn::setTitle(const QString &title)
@@ -66,6 +75,12 @@ void TaskColumn::handleAddClicked()
 void TaskColumn::handleRemoveCurrent()
 {
     model->removeRow(ui->listView->currentIndex().row());
+}
+
+void TaskColumn::handleTaskClicked(QModelIndex index)
+{
+    currentTaskID = model->getTask(index).id;
+    emit currentTaskIDChanged();
 }
 
 void TaskColumn::handleTaskDoubleClicked(QModelIndex index)

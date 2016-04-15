@@ -1,5 +1,6 @@
 #include "qlistviewdelegate.h"
 #include "taskmodel.h"
+#include "taskcolumn.h"
 #include <QDebug>
 #include <QFontMetrics>
 #include <QPainter>
@@ -52,7 +53,11 @@ void QListViewDelegate::drawBackgroundBox(QPainter *painter, const QStyleOptionV
                                           const QRect &rect, const TaskEntry &task) const
 {
     painter->save();
-    if(option.state & QStyle::State_Selected)
+
+    if(task.id == TaskColumn::getCurrentTaskID()){
+        painter->setPen(QPen(Qt::green, Qt::DashLine));
+    }
+    else if(option.state & QStyle::State_Selected)
         painter->setPen(Qt::red);
     else
         painter->setPen(colors.penColors[task.colorIndex]);

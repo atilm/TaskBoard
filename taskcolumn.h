@@ -20,12 +20,18 @@ public:
                         QWidget *parent = 0);
     virtual ~TaskColumn();
 
+    static int getCurrentTaskID();
+
     virtual void setTitle(const QString &title);
     virtual void setModel(TaskModel *model);
     virtual void setColumnState(TaskEntry::State state);
 
+signals:
+    void currentTaskIDChanged();
+
 private:
     Ui::TaskColumn *ui;
+    static int currentTaskID;
     TaskEntry::State columnState;
     TaskModel *model;
     EditTaskDialog *editDialog;
@@ -33,6 +39,7 @@ private:
 protected slots:
     void handleAddClicked();
     void handleRemoveCurrent();
+    void handleTaskClicked(QModelIndex index);
     void handleTaskDoubleClicked(QModelIndex index);
     void handleListViewContextMenuRequested(QPoint point);
 };
