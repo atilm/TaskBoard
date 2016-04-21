@@ -54,11 +54,8 @@ void QListViewDelegate::drawBackgroundBox(QPainter *painter, const QStyleOptionV
 {
     painter->save();
 
-    if(task.id == TaskColumn::getCurrentTaskID()){
-        painter->setPen(QPen(Qt::green, Qt::DashLine));
-    }
-    else if(option.state & QStyle::State_Selected)
-        painter->setPen(Qt::red);
+    if(task.id == TaskColumn::getCurrentTaskID())
+        painter->setPen(QPen(Qt::red, Qt::DashLine));
     else
         painter->setPen(colors.penColors[task.colorIndex]);
 

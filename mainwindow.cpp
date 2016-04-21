@@ -8,6 +8,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    todoColumn = nullptr;
+    todayColumn = nullptr;
+    doneColumn = nullptr;
+
     setup();
 }
 
@@ -69,4 +73,17 @@ void MainWindow::connectModels(TaskModel *todoModel,
 
     connect(doneModel, SIGNAL(itemDropped()), todoModel, SLOT(sendAllDataChanged()));
     connect(doneModel, SIGNAL(itemDropped()), todayModel, SLOT(sendAllDataChanged()));
+
+    connect(todoColumn, SIGNAL(currentTaskIDChanged()), todoModel, SLOT(sendAllDataChanged()));
+    connect(todoColumn, SIGNAL(currentTaskIDChanged()), todayModel, SLOT(sendAllDataChanged()));
+    connect(todoColumn, SIGNAL(currentTaskIDChanged()), doneModel, SLOT(sendAllDataChanged()));
+
+    connect(todayColumn, SIGNAL(currentTaskIDChanged()), todoModel, SLOT(sendAllDataChanged()));
+    connect(todayColumn, SIGNAL(currentTaskIDChanged()), todayModel, SLOT(sendAllDataChanged()));
+    connect(todayColumn, SIGNAL(currentTaskIDChanged()), doneModel, SLOT(sendAllDataChanged()));
+
+    connect(doneColumn, SIGNAL(currentTaskIDChanged()), todoModel, SLOT(sendAllDataChanged()));
+    connect(doneColumn, SIGNAL(currentTaskIDChanged()), todayModel, SLOT(sendAllDataChanged()));
+    connect(doneColumn, SIGNAL(currentTaskIDChanged()), doneModel, SLOT(sendAllDataChanged()));
 }
+
