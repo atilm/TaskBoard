@@ -66,6 +66,9 @@
    </property>
   </action>
   <action name="actionTimer">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="icon">
     <iconset resource="resources.qrc">
      <normaloff>:/new/prefix1/resources/1457759927_cairo-clock.png</normaloff>:/new/prefix1/resources/1457759927_cairo-clock.png</iconset>

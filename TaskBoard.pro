@@ -26,7 +26,9 @@ SOURCES += main.cpp\
     edittaskdialog.cpp \
     colorcontainer.cpp \
     editprojectdialog.cpp \
-    projectentry.cpp
+    projectentry.cpp \
+    timercontroller.cpp \
+    timedisplay.cpp
 
 HEADERS  += mainwindow.h \
     taskcolumn.h \
@@ -37,7 +39,9 @@ HEADERS  += mainwindow.h \
     edittaskdialog.h \
     colorcontainer.h \
     editprojectdialog.h \
-    projectentry.h
+    projectentry.h \
+    timercontroller.h \
+    timedisplay.h
 
 FORMS    += mainwindow.ui \
     taskcolumn.ui \

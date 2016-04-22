@@ -7,7 +7,12 @@ int main(int argc, char *argv[])
 
     DatabaseManager *db = new DatabaseManager();
 
-    MainWindow w;
+    TimerController *timerController = new TimerController(new QTimer());
+
+    timerController->injectDisplay(new TimeDisplay());
+    timerController->injectDatabase(db);
+
+    MainWindow w(timerController, 0);
 
     w.injectColumnWidgets(new TaskColumn(new EditTaskDialog(new EditProjectDialog())),
                           new TaskColumn(new EditTaskDialog(new EditProjectDialog())),

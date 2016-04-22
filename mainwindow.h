@@ -5,6 +5,7 @@
 #include "taskcolumn.h"
 #include "taskmodel.h"
 #include "databasemanager.h"
+#include "timercontroller.h"
 
 namespace Ui {
 class MainWindow;
@@ -15,7 +16,8 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(TimerController *timerController,
+                        QWidget *parent = 0);
     ~MainWindow();
 
     void injectColumnWidgets(TaskColumn *todoColumn,
@@ -30,6 +32,7 @@ private:
     TaskColumn *todoColumn;
     TaskColumn *todayColumn;
     TaskColumn *doneColumn;
+    TimerController *timerController;
 
     void setup();
     void connectModels(TaskModel *todoModel,

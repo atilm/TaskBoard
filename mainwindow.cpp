@@ -2,11 +2,16 @@
 #include "ui_mainwindow.h"
 #include "taskcolumn.h"
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(TimerController *timerController,
+                       QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    this->timerController = timerController;
+    timerController->injectToolBar(ui->mainToolBar);
+    timerController->injectTimerAction(ui->actionTimer);
 
     todoColumn = nullptr;
     todayColumn = nullptr;
@@ -18,6 +23,10 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete timerController;
+    delete todoColumn;
+    delete todayColumn;
+    delete doneColumn;
 }
 
 void MainWindow::injectColumnWidgets(TaskColumn *todoColumn,
