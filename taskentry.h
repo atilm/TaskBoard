@@ -23,6 +23,7 @@ public:
     QString closedString() const;
 
     void setEstimate(const QString &s);
+    void setEffort(const QString &s);
 
     int id;
     QString title;
@@ -38,6 +39,7 @@ public:
     int sortingOrder;
 
 private:
+    int stringToMinutes(const QString &s) const;
     QString minutesToString(int minutes) const;
     int getHours(int minutes) const;
     int getMinutes(int minutes) const;

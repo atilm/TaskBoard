@@ -33,6 +33,16 @@ QString TaskEntry::closedString() const
 
 void TaskEntry::setEstimate(const QString &s)
 {
+    estimated_minutes = stringToMinutes(s);
+}
+
+void TaskEntry::setEffort(const QString &s)
+{
+    effort_minutes = stringToMinutes(s);
+}
+
+int TaskEntry::stringToMinutes(const QString &s) const
+{
     // Capture one or more digits
     // followed by zero or more whitespace
     // followed by 'h'
@@ -51,7 +61,7 @@ void TaskEntry::setEstimate(const QString &s)
     if( minuteExp.indexIn(s) > -1)
         minutes += minuteExp.cap(1).toInt();
 
-    estimated_minutes = minutes;
+    return minutes;
 }
 
 QString TaskEntry::minutesToString(int minutes) const

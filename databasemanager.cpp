@@ -97,6 +97,10 @@ void DatabaseManager::updateTaskEntry(TaskEntry entry)
 
     if(!query.exec())
         qDebug() << "updateTaskEntry: SQL Error: " << query.lastError().text();
+
+    int effortDelta = entry.effort_minutes - getEffortForTask(entry.id);
+    if(effortDelta != 0)
+        addToRecord(entry.id, effortDelta);
 }
 
 void DatabaseManager::updateTaskField(int id, const QString &fieldName, int value)

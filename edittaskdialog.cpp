@@ -61,6 +61,7 @@ TaskEntry EditTaskDialog::getTaskEntry()
     entry.projectShort = "DUMMY";
     entry.projectIndex = ui->projectComboBox->currentIndex() + 1;
     entry.setEstimate(ui->estimateEdit->text());
+    entry.setEffort(ui->effortEdit->text());
     entry.colorIndex = ui->colorComboBox->currentIndex();
     entry.created = QDateTime::currentDateTime();
     entry.closed = QDateTime();
