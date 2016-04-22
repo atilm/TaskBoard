@@ -243,21 +243,28 @@ void DatabaseManager::updateProjectEntry(ProjectEntry entry)
         qDebug() << "SQL Error: " << query.lastError().text();
 }
 
-void DatabaseManager::addRecord(int taskID, int minutes)
+void DatabaseManager::addToRecord(int taskID, int minutes)
 {
-    QSqlQuery query;
+    int todaysEffort = getTodaysEffort(taskID);
 
-    query.prepare("INSERT INTO records "
-                  "(task, time, date) "
-                  "VALUES "
-                  "(:task, :time, :date)");
+    if(todaysEffort == 0){
+        performRecordQuery("INSERT INTO records "
+                           "(task, time, date) "
+                           "VALUES "
+                           "(:task, :time, :date)",
+                           taskID,
+                           minutes);
+    }
+    else{
+        todaysEffort += minutes;
 
-    query.bindValue(":task", taskID);
-    query.bindValue(":time", minutes);
-    query.bindValue(":date", QDateTime::currentDateTime().toString(QString("yyyy-MM-dd-hh:mm")));
+        performRecordQuery("UPDATE records "
+                           "SET time=:time "
+                           "WHERE task=:task AND date=:date",
+                           taskID,
+                           todaysEffort);
+    }
 
-    if(!query.exec())
-        qDebug() << "SQL Error: " << query.lastError().text();
 }
 
 int DatabaseManager::getEffortForTask(int taskID) const
@@ -366,6 +373,35 @@ int DatabaseManager::getNewSortingIndex(TaskState state)
         TaskEntry entry = getTaskEntry(state, 0);
         return entry.sortingOrder / 2;
     }
+}
+
+int DatabaseManager::getTodaysEffort(int taskID)
+{
+    QString queryString = QString("SELECT time FROM records "
+                                  "WHERE task=%1 AND date=\"%2\"")
+            .arg(taskID)
+            .arg(QDateTime::currentDateTime().toString(QString("yyyy-MM-dd")));
+
+    QSqlQuery query(queryString);
+
+    if(query.next())
+        return query.value(0).toInt();
+    else
+        return 0;
+}
+
+void DatabaseManager::performRecordQuery(const QString &queryString, int taskID, int minutes)
+{
+    QSqlQuery query;
+
+    query.prepare(queryString);
+
+    query.bindValue(":task", taskID);
+    query.bindValue(":time", minutes);
+    query.bindValue(":date", QDateTime::currentDateTime().toString(QString("yyyy-MM-dd")));
+
+    if(!query.exec())
+        qDebug() << "SQL Error: " << query.lastError().text();
 }
 
 

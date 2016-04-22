@@ -23,12 +23,12 @@ QString TaskEntry::effortString() const
 
 QString TaskEntry::createdString() const
 {
-    return created.toString(QString("yyyy-MM-dd-hh:mm"));
+    return created.toString(QString("yyyy-MM-dd"));
 }
 
 QString TaskEntry::closedString() const
 {
-    return closed.toString(QString("yyyy-MM-dd-hh:mm"));
+    return closed.toString(QString("yyyy-MM-dd"));
 }
 
 void TaskEntry::setEstimate(const QString &s)

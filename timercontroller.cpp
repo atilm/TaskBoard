@@ -67,7 +67,7 @@ void TimerController::handleTimerToggled(bool on)
         }
 
         startTime = QDateTime::currentDateTime();
-        timer->start(60000);
+        timer->start(1000);
     }
     else{
         timer->stop();
@@ -83,12 +83,12 @@ void TimerController::handleTimerTick()
 
 int TimerController::elapsedMinutes()
 {
-    return startTime.secsTo(QDateTime::currentDateTime()) / 60;
+    return startTime.secsTo(QDateTime::currentDateTime());
 }
 
 void TimerController::logTimeRecord(int taskID)
 {
     if(elapsedMinutes() != 0)
-        db->addRecord(taskID, elapsedMinutes());
+        db->addToRecord(taskID, elapsedMinutes());
 }
 

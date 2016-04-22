@@ -35,7 +35,7 @@ public:
     ProjectEntry getProjectEntry(int index) const;
     void updateProjectEntry(ProjectEntry entry);
 
-    void addRecord(int taskID, int minutes);
+    void addToRecord(int taskID, int minutes);
     int getEffortForTask(int taskID) const;
 
 private:
@@ -49,6 +49,8 @@ private:
     void rearrangeSortingOrder(TaskState state);
     void getSortingIndices(TaskState state, int row, int &currentIndex, int &previousIndex);
     int getNewSortingIndex(TaskState state);
+    int getTodaysEffort(int taskID);
+    void performRecordQuery(const QString &queryString, int taskID, int minutes);
 };
 
 #endif // DATABASEMANAGER_H
