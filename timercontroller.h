@@ -25,6 +25,7 @@ public:
 signals:
 
 public slots:
+    void handleCurrentTaskChanged(int current, int previous);
 
 private slots:
     void handleTimerToggled(bool on);
@@ -38,6 +39,8 @@ private:
     TimeDisplay *display;
     QTimer *timer;
 
+    int elapsedMinutes();
+    void logTimeRecord(int taskID);
 };
 
 #endif // TIMERCONTROLLER_H

@@ -79,8 +79,10 @@ void TaskColumn::handleRemoveCurrent()
 
 void TaskColumn::handleTaskClicked(QModelIndex index)
 {
+    int previous = currentTaskID;
     currentTaskID = model->getTask(index).id;
-    emit currentTaskIDChanged();
+
+    emit currentTaskIDChanged(currentTaskID, previous);
 }
 
 void TaskColumn::handleTaskDoubleClicked(QModelIndex index)

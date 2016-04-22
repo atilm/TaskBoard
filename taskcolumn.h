@@ -27,7 +27,7 @@ public:
     virtual void setColumnState(TaskEntry::State state);
 
 signals:
-    void currentTaskIDChanged();
+    void currentTaskIDChanged(int current, int previous);
 
 private:
     Ui::TaskColumn *ui;

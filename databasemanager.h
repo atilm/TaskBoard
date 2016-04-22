@@ -35,6 +35,8 @@ public:
     ProjectEntry getProjectEntry(int index) const;
     void updateProjectEntry(ProjectEntry entry);
 
+    void addRecord(int taskID, int minutes);
+
 private:
     QSqlDatabase db;
     const int maximumInt;

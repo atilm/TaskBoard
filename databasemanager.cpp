@@ -243,6 +243,23 @@ void DatabaseManager::updateProjectEntry(ProjectEntry entry)
         qDebug() << "SQL Error: " << query.lastError().text();
 }
 
+void DatabaseManager::addRecord(int taskID, int minutes)
+{
+    QSqlQuery query;
+
+    query.prepare("INSERT INTO records "
+                  "(task, time, date) "
+                  "VALUES "
+                  "(:task, :time, :date)");
+
+    query.bindValue(":task", taskID);
+    query.bindValue(":time", minutes);
+    query.bindValue(":date", QDateTime::currentDateTime().toString(QString("yyyy-MM-dd-hh:mm")));
+
+    if(!query.exec())
+        qDebug() << "SQL Error: " << query.lastError().text();
+}
+
 void DatabaseManager::openDatabase()
 {
     db.setDatabaseName("tasks.db");
@@ -305,9 +322,8 @@ void DatabaseManager::rearrangeSortingOrder(TaskState state)
 
     int step = upperLimit / (rows + 1);
 
-    for(int i=0; i<rows; i++){
+    for(int i=0; i<rows; i++)
         updateTaskField(entries[i].id, "sortingOrder", step * (i+1));
-    }
 }
 
 void DatabaseManager::getSortingIndices(TaskState state, int row, int &currentIndex, int &previousIndex)

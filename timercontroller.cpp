@@ -1,4 +1,7 @@
 #include "timercontroller.h"
+#include "taskcolumn.h"
+#include <QMessageBox>
+#include <stdexcept>
 
 TimerController::TimerController(QTimer *timer, QObject *parent) : QObject(parent)
 {
@@ -39,21 +42,53 @@ void TimerController::injectTimerAction(QAction *timerAction)
     connect(timerAction, SIGNAL(toggled(bool)), this, SLOT(handleTimerToggled(bool)));
 }
 
+void TimerController::handleCurrentTaskChanged(int current, int previous)
+{
+    if(timer->isActive()){
+        logTimeRecord(previous);
+        startTime = QDateTime::currentDateTime();
+        timer->stop();
+        timer->start();
+        handleTimerTick();
+    }
+}
+
 void TimerController::handleTimerToggled(bool on)
 {
     if(on){
+        if(TaskColumn::getCurrentTaskID() == -1){
+            timerAction->blockSignals(true);
+            timerAction->setChecked(false);
+            timerAction->blockSignals(false);
+
+            QMessageBox::information(0, "No Task Selected", "Please select a task first.");
+
+            return;
+        }
+
         startTime = QDateTime::currentDateTime();
-        timer->start(1000);
+        timer->start(60000);
     }
     else{
         timer->stop();
+        logTimeRecord(TaskColumn::getCurrentTaskID());
         display->setMinutes(0);
     }
 }
 
 void TimerController::handleTimerTick()
 {
-    int seconds = startTime.secsTo(QDateTime::currentDateTime());
-    display->setMinutes(seconds);
+    display->setMinutes(elapsedMinutes());
+}
+
+int TimerController::elapsedMinutes()
+{
+    return startTime.secsTo(QDateTime::currentDateTime()) / 60;
+}
+
+void TimerController::logTimeRecord(int taskID)
+{
+    if(elapsedMinutes() != 0)
+        db->addRecord(taskID, elapsedMinutes());
 }
 
