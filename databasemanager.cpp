@@ -260,6 +260,22 @@ void DatabaseManager::addRecord(int taskID, int minutes)
         qDebug() << "SQL Error: " << query.lastError().text();
 }
 
+int DatabaseManager::getEffortForTask(int taskID) const
+{
+    QString queryText = QString("SELECT SUM(time) FROM records "
+                                "WHERE task = %1").arg(taskID);
+
+    QSqlQuery query(queryText);
+
+    if(query.next()){
+        return query.record().value(0).toInt();
+    }
+    else{
+        qDebug() << "SQL Error: " << query.lastError().text();
+        return 0;
+    }
+}
+
 void DatabaseManager::openDatabase()
 {
     db.setDatabaseName("tasks.db");
@@ -297,6 +313,8 @@ TaskEntry DatabaseManager::buildTaskEntry(const QSqlQuery &query) const
     entry.created = QDateTime::fromString(query.record().value(7).toString());
     entry.closed = QDateTime::fromString(query.record().value(8).toString());
     entry.sortingOrder = query.record().value(9).toInt();
+
+    entry.effort_minutes = getEffortForTask(entry.id);
 
     return entry;
 }

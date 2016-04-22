@@ -13,18 +13,12 @@ TaskEntry::~TaskEntry()
 
 QString TaskEntry::estimateString() const
 {
-    int hours = getHours(estimated_minutes);
-    int minutes = getMinutes(estimated_minutes);
-
-    if(hours == 0)
-        return QString("%1 m").arg(minutes);
-    else
-        return QString("%1 h %2 m").arg(hours).arg(minutes);
+    return minutesToString(estimated_minutes);
 }
 
 QString TaskEntry::effortString() const
 {
-    return QString("0 m");
+    return minutesToString(effort_minutes);
 }
 
 QString TaskEntry::createdString() const
@@ -58,6 +52,17 @@ void TaskEntry::setEstimate(const QString &s)
         minutes += minuteExp.cap(1).toInt();
 
     estimated_minutes = minutes;
+}
+
+QString TaskEntry::minutesToString(int minutes) const
+{
+    int hours = getHours(minutes);
+    int mins = getMinutes(minutes);
+
+    if(hours == 0)
+        return QString("%1 m").arg(mins);
+    else
+        return QString("%1 h %2 m").arg(hours).arg(mins);
 }
 
 int TaskEntry::getHours(int minutes) const

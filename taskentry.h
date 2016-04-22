@@ -30,6 +30,7 @@ public:
     QString projectShort;
     int projectIndex;
     int estimated_minutes;
+    int effort_minutes;
     int colorIndex;
     QDateTime created;
     QDateTime closed;
@@ -37,6 +38,7 @@ public:
     int sortingOrder;
 
 private:
+    QString minutesToString(int minutes) const;
     int getHours(int minutes) const;
     int getMinutes(int minutes) const;
 };

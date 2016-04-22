@@ -36,6 +36,7 @@ public:
     void updateProjectEntry(ProjectEntry entry);
 
     void addRecord(int taskID, int minutes);
+    int getEffortForTask(int taskID) const;
 
 private:
     QSqlDatabase db;
