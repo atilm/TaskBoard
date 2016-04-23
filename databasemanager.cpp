@@ -29,7 +29,7 @@ int DatabaseManager::size(TaskState state) const
         return query.at() + 1;
     }
     else{
-        qDebug() << "error: " << query.lastError();
+        // qDebug() << "error: " << query.lastError();
         return 0;
     }
 }
