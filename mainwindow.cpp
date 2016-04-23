@@ -3,6 +3,7 @@
 #include "taskcolumn.h"
 
 MainWindow::MainWindow(TimerController *timerController,
+                       StatisticsWindow *statsWindow,
                        QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -12,6 +13,8 @@ MainWindow::MainWindow(TimerController *timerController,
     this->timerController = timerController;
     timerController->injectToolBar(ui->mainToolBar);
     timerController->injectTimerAction(ui->actionTimer);
+
+    this->statsWindow = statsWindow;
 
     todoColumn = nullptr;
     todayColumn = nullptr;
@@ -27,6 +30,7 @@ MainWindow::~MainWindow()
     delete todoColumn;
     delete todayColumn;
     delete doneColumn;
+    delete statsWindow;
 }
 
 void MainWindow::injectColumnWidgets(TaskColumn *todoColumn,
@@ -65,9 +69,16 @@ void MainWindow::injectModels(TaskModel *todoModel,
     connectModels(todoModel, todayModel, doneModel);
 }
 
+void MainWindow::handleActionStatistics()
+{
+    statsWindow->show();
+}
+
 void MainWindow::setup()
 {
     setWindowTitle("Task Board");
+
+    connect(ui->actionStatistics, SIGNAL(triggered(bool)), this, SLOT(handleActionStatistics()));
 }
 
 void MainWindow::connectModels(TaskModel *todoModel,

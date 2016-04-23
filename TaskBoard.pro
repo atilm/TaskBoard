@@ -8,7 +8,7 @@ QT       += core gui sql
 
 CONFIG += c++11
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 RC_ICONS = appIcon.ico
 
@@ -29,7 +29,11 @@ SOURCES += main.cpp\
     projectentry.cpp \
     timercontroller.cpp \
     timedisplay.cpp \
-    QCustomPlot/qcustomplot.cpp
+    QCustomPlot/qcustomplot.cpp \
+    statisticswindow.cpp \
+    projectanalyzer.cpp \
+    burnupchartcreator.cpp \
+    dailyworkchartcreator.cpp
 
 HEADERS  += mainwindow.h \
     taskcolumn.h \
@@ -43,12 +47,17 @@ HEADERS  += mainwindow.h \
     projectentry.h \
     timercontroller.h \
     timedisplay.h \
-    QCustomPlot/qcustomplot.h
+    QCustomPlot/qcustomplot.h \
+    statisticswindow.h \
+    projectanalyzer.h \
+    burnupchartcreator.h \
+    dailyworkchartcreator.h
 
 FORMS    += mainwindow.ui \
     taskcolumn.ui \
     edittaskdialog.ui \
-    editprojectdialog.ui
+    editprojectdialog.ui \
+    statisticswindow.ui
 
 RESOURCES += \
     resources.qrc

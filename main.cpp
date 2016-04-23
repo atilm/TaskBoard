@@ -1,3 +1,5 @@
+#include "burnupchartcreator.h"
+#include "dailyworkchartcreator.h"
 #include "mainwindow.h"
 #include <QApplication>
 
@@ -12,7 +14,11 @@ int main(int argc, char *argv[])
     timerController->injectDisplay(new TimeDisplay());
     timerController->injectDatabase(db);
 
-    MainWindow w(timerController, 0);
+    StatisticsWindow *statsWindow = new StatisticsWindow();
+    statsWindow->addAnalyzer(new BurnUpChartCreator());
+    statsWindow->addAnalyzer(new DailyWorkChartCreator());
+
+    MainWindow w(timerController, statsWindow, 0);
 
     w.injectColumnWidgets(new TaskColumn(new EditTaskDialog(new EditProjectDialog())),
                           new TaskColumn(new EditTaskDialog(new EditProjectDialog())),
