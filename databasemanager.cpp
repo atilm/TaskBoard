@@ -29,7 +29,6 @@ int DatabaseManager::size(TaskState state) const
         return query.at() + 1;
     }
     else{
-        // qDebug() << "error: " << query.lastError();
         return 0;
     }
 }
@@ -147,17 +146,18 @@ void DatabaseManager::setTaskState(int id, int state)
         qDebug() << "setTaskState: SQL Error: " << query.lastError().text();
 }
 
-void DatabaseManager::setTaskStateAndIndex(int id, int state, int index)
+void DatabaseManager::sortTaskIntoColumn(int id, int state, int index)
 {
     QSqlQuery query;
 
     query.prepare("UPDATE tasks "
-                  "SET state=:state, sortingOrder=:index "
+                  "SET state=:state, sortingOrder=:index, closedDate=:date "
                   "WHERE id=:id");
 
     query.bindValue(":id", id);
     query.bindValue(":state", state);
     query.bindValue(":index", index);
+    query.bindValue(":date", getUpdatedClosedDate(id, state));
 
     if(!query.exec())
         qDebug() << "setTaskStateAndIndex: SQL Error: " << query.lastError().text();
@@ -181,7 +181,7 @@ void DatabaseManager::insertIntoColumn(TaskState state, int beforeRow, int taskI
         insertionIndex = (previousIndex + currentIndex) / 2;
     }
 
-    setTaskStateAndIndex(taskId, state, insertionIndex);
+    sortTaskIntoColumn(taskId, state, insertionIndex);
 }
 
 QStringList DatabaseManager::listOfProjects() const
@@ -406,6 +406,35 @@ void DatabaseManager::performRecordQuery(const QString &queryString, int taskID,
 
     if(!query.exec())
         qDebug() << "SQL Error: " << query.lastError().text();
+}
+
+QString DatabaseManager::getUpdatedClosedDate(int id, int state)
+{
+    if(state == Done){
+        QString dateString = getClosedDateString(id);
+        if(!dateString.isEmpty())
+            return dateString;
+        else
+            return QDateTime::currentDateTime().toString(QString("yyyy-MM-dd"));
+    }
+    else
+        return QString();
+}
+
+QString DatabaseManager::getClosedDateString(int id)
+{
+    QString queryString = QString("SELECT closedDate FROM tasks "
+                                  "WHERE id=%1").arg(id);
+
+    QSqlQuery query(queryString);
+
+    QString dateString;
+
+    if(query.next()){
+        dateString = query.value(0).toString().trimmed();
+    }
+
+    return dateString;
 }
 
 

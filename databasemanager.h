@@ -27,7 +27,7 @@ public:
     void updateTaskField(int id, const QString &fieldName, int value);
     void removeTaskEntry(int id);
     void setTaskState(int id, int state);
-    void setTaskStateAndIndex(int id, int state, int index);
+    void sortTaskIntoColumn(int id, int state, int index);
     void insertIntoColumn(TaskState state, int beforeRow, int taskId);
 
     QStringList listOfProjects() const;
@@ -51,6 +51,8 @@ private:
     int getNewSortingIndex(TaskState state);
     int getTodaysEffort(int taskID);
     void performRecordQuery(const QString &queryString, int taskID, int minutes);
+    QString getUpdatedClosedDate(int id, int state);
+    QString getClosedDateString(int id);
 };
 
 #endif // DATABASEMANAGER_H
