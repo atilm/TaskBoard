@@ -28,7 +28,8 @@ SOURCES += main.cpp\
     editprojectdialog.cpp \
     projectentry.cpp \
     timercontroller.cpp \
-    timedisplay.cpp
+    timedisplay.cpp \
+    QCustomPlot/qcustomplot.cpp
 
 HEADERS  += mainwindow.h \
     taskcolumn.h \
@@ -41,7 +42,8 @@ HEADERS  += mainwindow.h \
     editprojectdialog.h \
     projectentry.h \
     timercontroller.h \
-    timedisplay.h
+    timedisplay.h \
+    QCustomPlot/qcustomplot.h
 
 FORMS    += mainwindow.ui \
     taskcolumn.ui \
