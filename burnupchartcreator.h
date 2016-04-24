@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 
 #include "projectanalyzer.h"
+#include "QCustomPlot/qcustomplot.h"
 
 class BurnUpChartCreator : public ProjectAnalyzer
 {
@@ -19,6 +20,7 @@ public slots:
 private:
     QVBoxLayout *controlsLayout;
     QComboBox *projectChooser;
+    QCustomPlot *chartView;
 
     void buildControls();
 };

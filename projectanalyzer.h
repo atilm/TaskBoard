@@ -22,6 +22,7 @@ public slots:
 
 protected:
     QWidget *controlsWidget;
+    QWidget *viewWidget;
     QHBoxLayout *controlsContainer;
 
     virtual void buildControls() = 0;

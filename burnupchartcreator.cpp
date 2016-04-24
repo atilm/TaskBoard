@@ -22,6 +22,8 @@ void BurnUpChartCreator::buildControls()
 {  
     projectChooser = new QComboBox();
     controlsLayout = new QVBoxLayout();
+    chartView = new QCustomPlot;
+    viewWidget = chartView;
 
     controlsLayout->addWidget(new QLabel(tr("Project:")));
     controlsLayout->addWidget(projectChooser);

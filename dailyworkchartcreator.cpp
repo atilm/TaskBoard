@@ -23,6 +23,8 @@ void DailyWorkChartCreator::buildControls()
     beginEdit = new QDateEdit();
     endEdit = new QDateEdit();
     controlsLayout = new QVBoxLayout();
+    chartView = new QCustomPlot;
+    viewWidget = chartView;
 
     controlsLayout->addWidget(new QLabel(tr("From:")));
     controlsLayout->addWidget(beginEdit);

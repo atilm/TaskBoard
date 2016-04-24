@@ -19,11 +19,16 @@ void ProjectAnalyzer::injectControlsContainer(QHBoxLayout *container)
 
 void ProjectAnalyzer::showControls()
 {
-    QWidget *previous = controlsContainer->itemAt(0)->widget();
-    controlsContainer->removeWidget(previous);
-    previous->setVisible(false);
+    QWidget *previousControls = controlsContainer->itemAt(0)->widget();
+    QWidget *previousView = controlsContainer->itemAt(1)->widget();
+    controlsContainer->removeWidget(previousControls);
+    controlsContainer->removeWidget(previousView);
+    previousControls->setVisible(false);
+    previousView->setVisible(false);
 
+    controlsContainer->insertWidget(0, viewWidget);
     controlsContainer->insertWidget(0, controlsWidget);
     controlsWidget->setVisible(true);
+    viewWidget->setVisible(true);
 }
 

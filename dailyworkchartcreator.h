@@ -5,6 +5,7 @@
 #include <QDateEdit>
 
 #include "projectanalyzer.h"
+#include "QCustomPlot/qcustomplot.h"
 
 class DailyWorkChartCreator : public ProjectAnalyzer
 {
@@ -21,6 +22,7 @@ private:
     QVBoxLayout *controlsLayout;
     QDateEdit *beginEdit;
     QDateEdit *endEdit;
+    QCustomPlot *chartView;
 
     void buildControls();
 };
