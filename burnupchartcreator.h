@@ -10,7 +10,7 @@
 class BurnUpChartCreator : public ProjectAnalyzer
 {
 public:
-    BurnUpChartCreator(QObject *parent = 0);
+    BurnUpChartCreator(DatabaseManager *db, QObject *parent = 0);
     virtual ~BurnUpChartCreator();
 
     QString getActionText() const;

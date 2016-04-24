@@ -15,8 +15,8 @@ int main(int argc, char *argv[])
     timerController->injectDatabase(db);
 
     StatisticsWindow *statsWindow = new StatisticsWindow();
-    statsWindow->addAnalyzer(new BurnUpChartCreator());
-    statsWindow->addAnalyzer(new DailyWorkChartCreator());
+    statsWindow->addAnalyzer(new BurnUpChartCreator(db));
+    statsWindow->addAnalyzer(new DailyWorkChartCreator(db));
 
     MainWindow w(timerController, statsWindow, 0);
 

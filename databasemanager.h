@@ -1,6 +1,7 @@
 #ifndef DATABASEMANAGER_H
 #define DATABASEMANAGER_H
 
+#include <QMap>
 #include <QVector>
 #include <QSqlDatabase>
 #include "taskentry.h"
@@ -37,6 +38,8 @@ public:
 
     void addToRecord(int taskID, int minutes);
     int getEffortForTask(int taskID) const;
+    QMap<QString, QVector<double>> getProjectEfforts(QDate begin, QDate end);
+    QMap<QString, double> getProjectEfforts(QDate date);
 
 private:
     QSqlDatabase db;

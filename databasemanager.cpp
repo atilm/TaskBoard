@@ -3,6 +3,7 @@
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QSqlError>
+#include <QMap>
 
 DatabaseManager::DatabaseManager() : maximumInt(2147483647)
 {
@@ -285,6 +286,54 @@ int DatabaseManager::getEffortForTask(int taskID) const
         qDebug() << "SQL Error: " << query.lastError().text();
         return 0;
     }
+}
+
+QMap<QString, QVector<double>> DatabaseManager::getProjectEfforts(QDate begin, QDate end)
+{
+    QMap<QString, QVector<double>> efforts;
+
+    int days = begin.daysTo(end);
+
+    QDate date = begin;
+
+    for(int day=0; day<days; day++){
+        QMap<QString, double> currentDayEffort = getProjectEfforts(date);
+
+        QMapIterator<QString, double> it(currentDayEffort);
+
+        while(it.hasNext()){
+            it.next();
+
+            if(!efforts.contains(it.key()))
+                efforts[it.key()] = QVector<double>(days);
+
+            efforts[it.key()][day] = it.value();
+        }
+
+        begin.addDays(1);
+    }
+
+    return efforts;
+}
+
+QMap<QString, double> DatabaseManager::getProjectEfforts(QDate date)
+{
+    QMap<QString, double> map;
+
+    QString queryString = QString("SELECT projects.name, SUM(records.time) FROM records"
+                                  " JOIN tasks ON records.task = tasks.id"
+                                  " JOIN projects ON tasks.project = projects.id"
+                                  " WHERE records.date = \"%1\""
+                                  " GROUP BY tasks.project")
+            .arg(date.toString("yyyy-MM-dd"));
+
+    QSqlQuery query(queryString);
+
+    while(query.next()){
+        map[query.value(0).toString()] = query.value(1).toDouble();
+    }
+
+    return map;
 }
 
 void DatabaseManager::openDatabase()

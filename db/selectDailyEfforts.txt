@@ -1,0 +1,14 @@
+.mode column
+.headers on
+    
+SELECT records.id, records.time, tasks.title, projects.name FROM records
+    JOIN tasks ON records.task = tasks.id 
+    JOIN projects ON tasks.project = projects.id
+    WHERE records.date = "2016-4-24";
+    
+SELECT projects.name, SUM(records.time) FROM records
+    JOIN tasks ON records.task = tasks.id 
+    JOIN projects ON tasks.project = projects.id
+    WHERE records.date = "2016-4-23"
+    GROUP BY tasks.project;
+

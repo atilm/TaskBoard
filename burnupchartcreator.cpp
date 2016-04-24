@@ -2,8 +2,8 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
-BurnUpChartCreator::BurnUpChartCreator(QObject *parent)
-    : ProjectAnalyzer(parent)
+BurnUpChartCreator::BurnUpChartCreator(DatabaseManager *db, QObject *parent)
+    : ProjectAnalyzer(db, parent)
 {
     buildControls();
 }

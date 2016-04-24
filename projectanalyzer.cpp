@@ -1,8 +1,9 @@
 #include "projectanalyzer.h"
 #include <QLayout>
 
-ProjectAnalyzer::ProjectAnalyzer(QObject *parent) : QObject(parent)
+ProjectAnalyzer::ProjectAnalyzer(DatabaseManager *db, QObject *parent) : QObject(parent)
 {
+    this->db = db;
     controlsWidget = new QWidget();
     controlsWidget->setMaximumWidth(150);
 }

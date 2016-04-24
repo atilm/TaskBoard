@@ -5,11 +5,13 @@
 #include <QAction>
 #include <QHBoxLayout>
 
+#include "databasemanager.h"
+
 class ProjectAnalyzer : public QObject
 {
     Q_OBJECT
 public:
-    explicit ProjectAnalyzer(QObject *parent = 0);
+    explicit ProjectAnalyzer(DatabaseManager *db, QObject *parent = 0);
     virtual ~ProjectAnalyzer();
 
     virtual QString getActionText() const = 0;
@@ -21,6 +23,7 @@ public slots:
     virtual void showControls();
 
 protected:
+    DatabaseManager *db;
     QWidget *controlsWidget;
     QWidget *viewWidget;
     QHBoxLayout *controlsContainer;

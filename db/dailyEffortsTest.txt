@@ -1,0 +1,75 @@
+DROP TABLE projects;
+DROP TABLE tasks;
+DROP TABLE records;
+
+CREATE TABLE projects(
+    id INTEGER PRIMARY KEY,
+    short TEXT,
+    name TEXT,
+    description TEXT
+);
+                      
+CREATE TABLE tasks(
+    id INTEGER PRIMARY KEY,
+    title TEXT,
+    description TEXT,
+    project INTEGER,
+    estimate INTEGER,
+    state INTEGER,
+    color INTEGER,
+    createdDate TEXT,
+    closedDate TEXT,
+    sortingOrder INTEGER
+);
+                   
+CREATE TABLE records(
+    id INTEGER PRIMARY KEY,
+    task INTEGER,
+    time INTEGER,
+    date TEXT
+);
+
+
+INSERT INTO projects (short, name, description) VALUES ("OPT", "Opti Projekt", "Alles verbessern.");
+INSERT INTO projects (short, name, description) VALUES ("VCF", "Vena Cava Filter", "Herstellungsprozess entwickeln.");
+
+INSERT INTO tasks (project, title, description, estimate, state, createdDate, closedDate, color, sortingOrder)
+    VALUES(1, "Task 1", "", 10, 3, "2016-03-09", "", 0, 0);
+INSERT INTO tasks (project, title, description, estimate, state, createdDate, closedDate, color, sortingOrder)
+    VALUES(1, "Task 2", "", 20, 3, "2016-03-09", "", 1, 0);
+INSERT INTO tasks (project, title, description, estimate, state, createdDate, closedDate, color, sortingOrder)
+    VALUES(2, "Task 3", "", 30, 3, "2016-03-09", "", 2, 0);
+INSERT INTO tasks (project, title, description, estimate, state, createdDate, closedDate, color, sortingOrder)
+    VALUES(2, "Task 4", "", 40, 3, "2016-03-09", "", 2, 0);
+
+INSERT INTO records (task, time, date)
+    VALUES(1, 6, "2016-4-24");
+INSERT INTO records (task, time, date)
+    VALUES(1, 6, "2016-4-24");
+INSERT INTO records (task, time, date)
+    VALUES(2, 12, "2016-4-24");
+INSERT INTO records (task, time, date)
+    VALUES(2, 12, "2016-4-24");
+INSERT INTO records (task, time, date)
+    VALUES(3, 16, "2016-4-24");
+INSERT INTO records (task, time, date)
+    VALUES(3, 16, "2016-4-24");
+INSERT INTO records (task, time, date)
+    VALUES(4, 22, "2016-4-24");
+INSERT INTO records (task, time, date)
+    VALUES(4, 22, "2016-4-24");
+    
+.mode column
+.headers on
+    
+SELECT records.id, records.time, tasks.title, projects.name FROM records
+    JOIN tasks ON records.task = tasks.id 
+    JOIN projects ON tasks.project = projects.id
+    WHERE records.date = "2016-4-24";
+    
+SELECT projects.name, SUM(records.time) FROM records
+    JOIN tasks ON records.task = tasks.id 
+    JOIN projects ON tasks.project = projects.id
+    WHERE records.date = "2016-4-24"
+    GROUP BY tasks.project;
+
