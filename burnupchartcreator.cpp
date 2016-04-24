@@ -5,7 +5,7 @@
 BurnUpChartCreator::BurnUpChartCreator(QObject *parent)
     : ProjectAnalyzer(parent)
 {
-    projectChooser = new QComboBox();
+    buildControls();
 }
 
 BurnUpChartCreator::~BurnUpChartCreator()
@@ -19,13 +19,13 @@ QString BurnUpChartCreator::getActionText() const
 }
 
 void BurnUpChartCreator::buildControls()
-{
-    resetControls();
-
+{  
+    projectChooser = new QComboBox();
     controlsLayout = new QVBoxLayout();
+
     controlsLayout->addWidget(new QLabel(tr("Project:")));
     controlsLayout->addWidget(projectChooser);
     controlsLayout->addStretch();
-    controlsContainer->setLayout(controlsLayout);
+    controlsWidget->setLayout(controlsLayout);
 }
 

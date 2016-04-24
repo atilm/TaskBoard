@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="viewsLayout">
      <item>
       <widget class="QWidget" name="controlsContainer" native="true">
        <property name="maximumSize">
@@ -46,10 +46,6 @@
     </widget>
    </item>
   </layout>
-  <zorder>buttonBox</zorder>
-  <zorder>viewWidget</zorder>
-  <zorder>controlsContainer</zorder>
-  <zorder>viewWidget</zorder>
  </widget>
  <resources/>
  <connections>

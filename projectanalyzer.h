@@ -3,26 +3,28 @@
 
 #include <QObject>
 #include <QAction>
+#include <QHBoxLayout>
 
 class ProjectAnalyzer : public QObject
 {
     Q_OBJECT
 public:
     explicit ProjectAnalyzer(QObject *parent = 0);
+    virtual ~ProjectAnalyzer();
 
     virtual QString getActionText() const = 0;
-    virtual void injectControlsContainer(QWidget *container);
+    virtual void injectControlsContainer(QHBoxLayout *container);
 
 signals:
 
 public slots:
-
-    virtual void buildControls() = 0;
+    virtual void showControls();
 
 protected:
-    QWidget *controlsContainer;
+    QWidget *controlsWidget;
+    QHBoxLayout *controlsContainer;
 
-    void resetControls();
+    virtual void buildControls() = 0;
 };
 
 #endif // PROJECTANALYZER_H

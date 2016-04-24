@@ -18,10 +18,10 @@ StatisticsWindow::~StatisticsWindow()
 
 void StatisticsWindow::addAnalyzer(ProjectAnalyzer *analyzer)
 {
-    analyzer->injectControlsContainer(ui->controlsContainer);
+    analyzer->injectControlsContainer(ui->viewsLayout);
 
     QAction *action = toolBar->addAction(analyzer->getActionText());
-    connect(action, SIGNAL(triggered(bool)), analyzer, SLOT(buildControls()));
+    connect(action, SIGNAL(triggered(bool)), analyzer, SLOT(showControls()));
 
     analyzers.push_back(analyzer);
 }

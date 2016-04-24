@@ -15,12 +15,12 @@ public:
     QString getActionText() const;
 
 public slots:
-    void buildControls();
 
 private:
     QVBoxLayout *controlsLayout;
     QComboBox *projectChooser;
 
+    void buildControls();
 };
 
 #endif // BURNUPCHARTCREATOR_H

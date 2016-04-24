@@ -16,12 +16,13 @@ public:
     QString getActionText() const;
 
 public slots:
-    void buildControls();
 
 private:
     QVBoxLayout *controlsLayout;
     QDateEdit *beginEdit;
     QDateEdit *endEdit;
+
+    void buildControls();
 };
 
 #endif // DAILYWORKCHARTCREATOR_H

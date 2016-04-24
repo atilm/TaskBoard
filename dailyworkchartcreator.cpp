@@ -4,8 +4,7 @@
 DailyWorkChartCreator::DailyWorkChartCreator(QObject *parent)
     : ProjectAnalyzer(parent)
 {
-    beginEdit = new QDateEdit();
-    endEdit = new QDateEdit();
+    buildControls();
 }
 
 DailyWorkChartCreator::~DailyWorkChartCreator()
@@ -21,14 +20,15 @@ QString DailyWorkChartCreator::getActionText() const
 
 void DailyWorkChartCreator::buildControls()
 {
-    resetControls();
-
+    beginEdit = new QDateEdit();
+    endEdit = new QDateEdit();
     controlsLayout = new QVBoxLayout();
+
     controlsLayout->addWidget(new QLabel(tr("From:")));
     controlsLayout->addWidget(beginEdit);
     controlsLayout->addWidget(new QLabel(tr("To:")));
     controlsLayout->addWidget(endEdit);
     controlsLayout->addStretch();
-    controlsContainer->setLayout(controlsLayout);
+    controlsWidget->setLayout(controlsLayout);
 }
 
