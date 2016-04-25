@@ -67,7 +67,7 @@ void TimerController::handleTimerToggled(bool on)
         }
 
         startTime = QDateTime::currentDateTime();
-        timer->start(1000);
+        timer->start(60000);
     }
     else{
         timer->stop();
