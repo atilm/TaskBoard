@@ -1,18 +1,8 @@
-DROP TABLE projects;
-DROP TABLE states;
-DROP TABLE tasks;
-DROP TABLE records;
-
 CREATE TABLE projects(
     id INTEGER PRIMARY KEY,
     short TEXT,
     name TEXT,
     description TEXT
-);
-
-CREATE TABLE states(
-    id INTEGER PRIMARY KEY,
-    name TEXT
 );
                       
 CREATE TABLE tasks(
@@ -34,22 +24,3 @@ CREATE TABLE records(
     time INTEGER,
     date TEXT
 );
-
-INSERT INTO states (name) VALUES ("defined");
-INSERT INTO states (name) VALUES ("today");
-INSERT INTO states (name) VALUES ("done");
-
-INSERT INTO projects (short, name, description) VALUES ("OPT", "Opti Projekt", "Alles verbessern.");
-INSERT INTO projects (short, name, description) VALUES ("VCF", "Vena Cava Filter", "Herstellungsprozess entwickeln.");
-
-INSERT INTO tasks (project, title, description, estimate, state, createdDate, closedDate, color)
-    VALUES(1, "Feasibility Study", "Is it possible?", 8, 3, "2016-03-09", "2016-03-11", 0);
-INSERT INTO tasks (project, title, description, estimate, state, createdDate, closedDate, color)
-    VALUES(1, "Engineering Study", "How much is possible?", 120, 2, 2016-03-09, 2000-00-00, 1);
-INSERT INTO tasks (project, title, description, estimate, state, createdDate, closedDate, color)
-    VALUES(1, "Validation", "Proof that it is possible?", 722, 1, 2016-03-09, 2000-00-00, 2);
-
-.mode column
-.headers on
-    
-SELECT * FROM tasks JOIN projects ON tasks.project = projects.id WHERE tasks.state = 1;
