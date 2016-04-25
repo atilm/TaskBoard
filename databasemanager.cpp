@@ -292,7 +292,7 @@ QMap<QString, QVector<double>> DatabaseManager::getProjectEfforts(QDate begin, Q
 {
     QMap<QString, QVector<double>> efforts;
 
-    int days = begin.daysTo(end);
+    int days = begin.daysTo(end) + 1;
 
     QDate date = begin;
 
@@ -307,10 +307,10 @@ QMap<QString, QVector<double>> DatabaseManager::getProjectEfforts(QDate begin, Q
             if(!efforts.contains(it.key()))
                 efforts[it.key()] = QVector<double>(days);
 
-            efforts[it.key()][day] = it.value();
+            efforts[it.key()][day] = it.value() / 60.0; // value in hours
         }
 
-        begin.addDays(1);
+        date = date.addDays(1);
     }
 
     return efforts;

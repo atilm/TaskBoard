@@ -6,6 +6,7 @@
 #include <QString>
 #include <QMap>
 #include <QVector>
+#include <QPushButton>
 
 #include "projectanalyzer.h"
 #include "QCustomPlot/qcustomplot.h"
@@ -22,15 +23,29 @@ public:
 public slots:
     void showControls();
 
+protected slots:
+    void updatePlot();
+
 private:
+    QVector<QColor> colors;
     QVBoxLayout *controlsLayout;
     QDateEdit *beginEdit;
     QDateEdit *endEdit;
+    QPushButton *updateButton;
     QCustomPlot *chartView;
     QMap<QString, QVector<double>> efforts;
+    QVector<double> xTicks;
+    QVector<QCPBars*> bars;
+    int colorIndex;
 
     void buildControls();
-    void updatePlot();
+    void formatAxes();
+    void plotEfforts();
+    void setXTics();
+    void setYTics();
+    void buildBars();
+    void styleBar(QCPBars *bar);
+    void nextColorIndex();
 };
 
 #endif // DAILYWORKCHARTCREATOR_H
