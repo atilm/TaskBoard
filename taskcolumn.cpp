@@ -67,6 +67,8 @@ void TaskColumn::handleAddClicked()
     if(editDialog->exec()){
         TaskEntry task = editDialog->getTaskEntry();
         task.state = columnState;
+        if(columnState == TaskEntry::done)
+            task.closed = QDateTime::currentDateTime();
 
         model->addTask(task);
     }

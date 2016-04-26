@@ -83,7 +83,8 @@ void TimerController::handleTimerTick()
 
 int TimerController::elapsedMinutes()
 {
-    return startTime.secsTo(QDateTime::currentDateTime());
+    // +1 sec so that floor division yields 1 after 60 secs:
+    return (startTime.secsTo(QDateTime::currentDateTime()) + 1) / 60;
 }
 
 void TimerController::logTimeRecord(int taskID)
