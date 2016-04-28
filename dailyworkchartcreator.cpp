@@ -53,11 +53,19 @@ void DailyWorkChartCreator::buildControls()
     controlsWidget->setLayout(controlsLayout);
 
     colors.append(QColor("#DC050C"));
-    colors.append(QColor("#4EB265"));
-    colors.append(QColor("#1965B0"));
-    colors.append(QColor("#882E72"));
+    colors.append(QColor("#E8601C"));
+    colors.append(QColor("#F1932D"));
+    colors.append(QColor("#F6C141"));
     colors.append(QColor("#F7EE55"));
+    colors.append(QColor("#CAE0AB"));
+    colors.append(QColor("#90C987"));
+    colors.append(QColor("#4EB265"));
+    colors.append(QColor("#7BAFDE"));
+    colors.append(QColor("#5289C7"));
+    colors.append(QColor("#1965B0"));
     colors.append(QColor("#D6C1DE"));
+    colors.append(QColor("#B178A6"));
+    colors.append(QColor("#882E72"));
 }
 
 void DailyWorkChartCreator::updatePlot()
@@ -154,7 +162,7 @@ void DailyWorkChartCreator::styleBar(QCPBars *bar)
     pen.setWidthF(1.2);
 
     bar->setWidthType(QCPBars::wtPlotCoords);
-    bar->setWidth(84400);
+    bar->setWidth(77760);
 
     QColor brushColor = colors[colorIndex];
     brushColor.setAlpha(125);

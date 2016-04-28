@@ -22,5 +22,6 @@ CREATE TABLE records(
     id INTEGER PRIMARY KEY,
     task INTEGER,
     time INTEGER,
-    date TEXT
+    date TEXT,
+    startTime TEXT
 );

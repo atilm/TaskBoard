@@ -269,7 +269,6 @@ void DatabaseManager::addToRecord(int taskID, int minutes)
                            taskID,
                            todaysEffort);
     }
-
 }
 
 int DatabaseManager::getEffortForTask(int taskID) const
