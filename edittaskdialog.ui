@@ -100,9 +100,6 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="3">
-    <widget class="QLineEdit" name="effortEdit"/>
-   </item>
    <item row="1" column="0" colspan="4">
     <widget class="QPlainTextEdit" name="titleEdit">
      <property name="maximumSize">
@@ -116,6 +113,13 @@
      </property>
     </widget>
    </item>
+   <item row="7" column="3">
+    <widget class="QPushButton" name="recordsButton">
+     <property name="text">
+      <string>Edit Records</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <tabstops>
@@ -126,7 +130,6 @@
   <tabstop>editProjectButton</tabstop>
   <tabstop>colorComboBox</tabstop>
   <tabstop>estimateEdit</tabstop>
-  <tabstop>effortEdit</tabstop>
  </tabstops>
  <resources/>
  <connections>

@@ -6,6 +6,7 @@
 #include "taskentry.h"
 #include "taskmodel.h"
 #include "editprojectdialog.h"
+#include "taskrecordsdialog.h"
 
 namespace Ui {
 class EditTaskDialog;
@@ -17,6 +18,7 @@ class EditTaskDialog : public QDialog
 
 public:
     explicit EditTaskDialog(EditProjectDialog *projectDialog,
+                            TaskRecordsDialog *recordsDialog,
                             QWidget *parent = 0);
     virtual ~EditTaskDialog();
 
@@ -28,12 +30,15 @@ public:
 protected slots:
     void handleAddProject();
     void handleEditProject();
+    void handleEditRecords();
 
 private:
     Ui::EditTaskDialog *ui;
     TaskModel *model;
     EditProjectDialog *projectDialog;
+    TaskRecordsDialog *recordsDialog;
 
+    int currentTaskID;
     ColorContainer colors;
 
     void initColorChooser();

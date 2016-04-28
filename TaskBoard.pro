@@ -33,7 +33,8 @@ SOURCES += main.cpp\
     statisticswindow.cpp \
     projectanalyzer.cpp \
     burnupchartcreator.cpp \
-    dailyworkchartcreator.cpp
+    dailyworkchartcreator.cpp \
+    taskrecordsdialog.cpp
 
 HEADERS  += mainwindow.h \
     taskcolumn.h \
@@ -51,13 +52,15 @@ HEADERS  += mainwindow.h \
     statisticswindow.h \
     projectanalyzer.h \
     burnupchartcreator.h \
-    dailyworkchartcreator.h
+    dailyworkchartcreator.h \
+    taskrecordsdialog.h
 
 FORMS    += mainwindow.ui \
     taskcolumn.ui \
     edittaskdialog.ui \
     editprojectdialog.ui \
-    statisticswindow.ui
+    statisticswindow.ui \
+    taskrecordsdialog.ui
 
 RESOURCES += \
     resources.qrc

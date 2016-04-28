@@ -7,7 +7,9 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    DatabaseManager *db = new DatabaseManager();
+    QSqlDatabase dataBase = QSqlDatabase::addDatabase("QSQLITE");
+
+    DatabaseManager *db = new DatabaseManager(&dataBase);
 
     TimerController *timerController = new TimerController(new QTimer());
 
@@ -20,9 +22,12 @@ int main(int argc, char *argv[])
 
     MainWindow w(timerController, statsWindow, 0);
 
-    w.injectColumnWidgets(new TaskColumn(new EditTaskDialog(new EditProjectDialog())),
-                          new TaskColumn(new EditTaskDialog(new EditProjectDialog())),
-                          new TaskColumn(new EditTaskDialog(new EditProjectDialog())));
+    w.injectColumnWidgets(new TaskColumn(new EditTaskDialog(new EditProjectDialog(),
+                                                            new TaskRecordsDialog(&dataBase))),
+                          new TaskColumn(new EditTaskDialog(new EditProjectDialog(),
+                                                            new TaskRecordsDialog(&dataBase))),
+                          new TaskColumn(new EditTaskDialog(new EditProjectDialog(),
+                                                            new TaskRecordsDialog(&dataBase))));
 
     w.injectModels(new TaskModel(db),
                    new TaskModel(db),

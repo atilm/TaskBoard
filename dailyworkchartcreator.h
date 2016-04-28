@@ -19,6 +19,7 @@ public:
     virtual ~DailyWorkChartCreator();
 
     QString getActionText() const;
+    void updateView();
 
 public slots:
     void showControls();

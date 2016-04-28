@@ -14,6 +14,7 @@ public:
     virtual ~BurnUpChartCreator();
 
     QString getActionText() const;
+    void updateView() {}
 
 public slots:
 

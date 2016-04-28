@@ -5,22 +5,24 @@
 #include <QSqlError>
 #include <QMap>
 
-DatabaseManager::DatabaseManager() : maximumInt(2147483647)
+DatabaseManager::DatabaseManager(QSqlDatabase *db) : maximumInt(2147483647)
 {
-    db = QSqlDatabase::addDatabase("QSQLITE");
+    this->db = db;
 
     openDatabase();
 }
 
 DatabaseManager::~DatabaseManager()
 {
-    if(db.isOpen())
-        db.close();
+    if(db->isOpen())
+        db->close();
+
+    delete db;
 }
 
 int DatabaseManager::size(TaskState state) const
 {
-    if(!db.isOpen()){
+    if(!db->isOpen()){
         qDebug() << "Database is not open.";
         return 0;
     }
@@ -97,10 +99,6 @@ void DatabaseManager::updateTaskEntry(TaskEntry entry)
 
     if(!query.exec())
         qDebug() << "updateTaskEntry: SQL Error: " << query.lastError().text();
-
-    int effortDelta = entry.effort_minutes - getEffortForTask(entry.id);
-    if(effortDelta != 0)
-        addToRecord(entry.id, effortDelta);
 }
 
 void DatabaseManager::updateTaskField(int id, const QString &fieldName, int value)
@@ -248,27 +246,15 @@ void DatabaseManager::updateProjectEntry(ProjectEntry entry)
         qDebug() << "SQL Error: " << query.lastError().text();
 }
 
-void DatabaseManager::addToRecord(int taskID, int minutes)
+void DatabaseManager::addRecord(int taskID, QDateTime startTime, int minutes)
 {
-    int todaysEffort = getTodaysEffort(taskID);
-
-    if(todaysEffort == 0){
-        performRecordQuery("INSERT INTO records "
-                           "(task, time, date) "
-                           "VALUES "
-                           "(:task, :time, :date)",
-                           taskID,
-                           minutes);
-    }
-    else{
-        todaysEffort += minutes;
-
-        performRecordQuery("UPDATE records "
-                           "SET time=:time "
-                           "WHERE task=:task AND date=:date",
-                           taskID,
-                           todaysEffort);
-    }
+    performRecordQuery("INSERT INTO records "
+                       "(task, time, date, startTime) "
+                       "VALUES "
+                       "(:task, :time, :date, :startTime)",
+                       taskID,
+                       startTime,
+                       minutes);
 }
 
 int DatabaseManager::getEffortForTask(int taskID) const
@@ -337,10 +323,10 @@ QMap<QString, double> DatabaseManager::getProjectEfforts(QDate date)
 
 void DatabaseManager::openDatabase()
 {
-    db.setDatabaseName("tasks.db");
+    db->setDatabaseName("tasks.db");
 
-    if(!db.open())
-        qDebug() << "Error: " << db.lastError();
+    if(!db->open())
+        qDebug() << "Error: " << db->lastError();
 }
 
 QSqlQuery DatabaseManager::taskQuery(TaskState state) const
@@ -442,7 +428,8 @@ int DatabaseManager::getTodaysEffort(int taskID)
         return 0;
 }
 
-void DatabaseManager::performRecordQuery(const QString &queryString, int taskID, int minutes)
+void DatabaseManager::performRecordQuery(const QString &queryString, int taskID,
+                                         QDateTime startTime, int minutes)
 {
     QSqlQuery query;
 
@@ -450,7 +437,8 @@ void DatabaseManager::performRecordQuery(const QString &queryString, int taskID,
 
     query.bindValue(":task", taskID);
     query.bindValue(":time", minutes);
-    query.bindValue(":date", QDateTime::currentDateTime().toString(QString("yyyy-MM-dd")));
+    query.bindValue(":date", startTime.toString(QString("yyyy-MM-dd")));
+    query.bindValue(":startTime", startTime.toString(QString("hh:mm")));
 
     if(!query.exec())
         qDebug() << "SQL Error: " << query.lastError().text();

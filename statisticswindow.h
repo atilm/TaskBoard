@@ -20,6 +20,7 @@ public:
     ~StatisticsWindow();
 
     void addAnalyzer(ProjectAnalyzer *analyzer);
+    void show();
 
 private:
     Ui::StatisticsWindow *ui;

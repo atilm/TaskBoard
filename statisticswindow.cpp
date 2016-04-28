@@ -26,6 +26,15 @@ void StatisticsWindow::addAnalyzer(ProjectAnalyzer *analyzer)
     analyzers.push_back(analyzer);
 }
 
+void StatisticsWindow::show()
+{
+    foreach(ProjectAnalyzer *a, analyzers){
+        a->updateView();
+    }
+
+    QDialog::show();
+}
+
 void StatisticsWindow::setup()
 {
     setWindowTitle(tr("Statistics"));

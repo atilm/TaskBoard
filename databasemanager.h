@@ -16,7 +16,7 @@ enum TaskState{
 class DatabaseManager
 {
 public:
-    DatabaseManager();
+    DatabaseManager(QSqlDatabase *db);
     virtual ~DatabaseManager();
 
     int size(TaskState state) const;
@@ -36,13 +36,13 @@ public:
     ProjectEntry getProjectEntry(int index) const;
     void updateProjectEntry(ProjectEntry entry);
 
-    void addToRecord(int taskID, int minutes);
+    void addRecord(int taskID, QDateTime startTime, int minutes);
     int getEffortForTask(int taskID) const;
     QMap<QString, QVector<double>> getProjectEfforts(QDate begin, QDate end);
     QMap<QString, double> getProjectEfforts(QDate date);
 
 private:
-    QSqlDatabase db;
+    QSqlDatabase *db;
     const int maximumInt;
 
     void openDatabase();
@@ -53,7 +53,7 @@ private:
     void getSortingIndices(TaskState state, int row, int &currentIndex, int &previousIndex);
     int getNewSortingIndex(TaskState state);
     int getTodaysEffort(int taskID);
-    void performRecordQuery(const QString &queryString, int taskID, int minutes);
+    void performRecordQuery(const QString &queryString, int taskID, QDateTime startTime, int minutes);
     QString getUpdatedClosedDate(int id, int state);
     QString getClosedDateString(int id);
 };

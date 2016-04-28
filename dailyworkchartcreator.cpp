@@ -20,6 +20,11 @@ QString DailyWorkChartCreator::getActionText() const
     return tr("Daily work");
 }
 
+void DailyWorkChartCreator::updateView()
+{
+    updatePlot();
+}
+
 void DailyWorkChartCreator::showControls()
 {
     updatePlot();

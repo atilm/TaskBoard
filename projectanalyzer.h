@@ -15,6 +15,7 @@ public:
     virtual ~ProjectAnalyzer();
 
     virtual QString getActionText() const = 0;
+    virtual void updateView() = 0;
     virtual void injectControlsContainer(QHBoxLayout *container);
 
 signals:

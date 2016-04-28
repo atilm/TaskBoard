@@ -90,6 +90,6 @@ int TimerController::elapsedMinutes()
 void TimerController::logTimeRecord(int taskID)
 {
     if(elapsedMinutes() != 0)
-        db->addToRecord(taskID, elapsedMinutes());
+        db->addRecord(taskID, startTime, elapsedMinutes());
 }
 
