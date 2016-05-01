@@ -1,0 +1,71 @@
+DROP TABLE projects;
+DROP TABLE tasks;
+DROP TABLE records;
+
+
+CREATE TABLE projects(
+    id INTEGER PRIMARY KEY,
+    short TEXT,
+    name TEXT,
+    description TEXT
+);
+                      
+CREATE TABLE tasks(
+    id INTEGER PRIMARY KEY,
+    title TEXT,
+    description TEXT,
+    project INTEGER,
+    estimate INTEGER,
+    state INTEGER,
+    color INTEGER,
+    createdDate TEXT,
+    closedDate TEXT,
+    sortingOrder INTEGER
+);
+                   
+CREATE TABLE records(
+    id INTEGER PRIMARY KEY,
+    task INTEGER,
+    time INTEGER,
+    date TEXT,
+    startTime TEXT
+);
+
+     
+
+INSERT INTO projects (short, name, description) VALUES ("OPT", "Opti Projekt", "Alles verbessern.");
+
+INSERT INTO tasks (project, title, description, estimate, state, createdDate, closedDate, color, sortingOrder)
+    VALUES(1, "Task 1", "", 10, 3, "2016-03-09", "2016-05-01", 0, 0);
+INSERT INTO tasks (project, title, description, estimate, state, createdDate, closedDate, color, sortingOrder)
+    VALUES(1, "Task 2", "", 20, 2, "2016-03-09", "2016-05-01", 1, 0);
+    
+
+INSERT INTO records (task, time, date, startTime)
+    VALUES(1, 6, "2016-04-10", "10:00");
+INSERT INTO records (task, time, date, startTime)
+    VALUES(1, 6, "2016-04-12", "10:00");
+INSERT INTO records (task, time, date, startTime)
+    VALUES(1, 3, "2016-04-15", "10:00");
+INSERT INTO records (task, time, date, startTime)
+    VALUES(1, 12, "2016-04-20", "10:00");
+INSERT INTO records (task, time, date, startTime)
+    VALUES(1, 12, "2016-04-21", "10:00");
+    
+INSERT INTO records (task, time, date, startTime)
+    VALUES(2, 16, "2016-04-11", "10:00");
+INSERT INTO records (task, time, date, startTime)
+    VALUES(2, 16, "2016-04-12", "10:00");
+INSERT INTO records (task, time, date, startTime)
+    VALUES(2, 22, "2016-04-13", "10:00");
+INSERT INTO records (task, time, date, startTime)
+    VALUES(2, 22, "2016-04-14", "10:00");
+    
+.mode column
+.headers on
+    
+SELECT tasks.title, tasks.estimate, SUM(records.time) FROM records
+    JOIN tasks ON records.task = tasks.id
+    WHERE records.date > "2016-04-10" AND records.date <= "2016-04-20" AND tasks.closedDate != ""
+    GROUP BY records.task; 
+

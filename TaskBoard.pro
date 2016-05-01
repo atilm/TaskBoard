@@ -34,7 +34,8 @@ SOURCES += main.cpp\
     projectanalyzer.cpp \
     burnupchartcreator.cpp \
     dailyworkchartcreator.cpp \
-    taskrecordsdialog.cpp
+    taskrecordsdialog.cpp \
+    estimationerrorchartcreator.cpp
 
 HEADERS  += mainwindow.h \
     taskcolumn.h \
@@ -53,7 +54,8 @@ HEADERS  += mainwindow.h \
     projectanalyzer.h \
     burnupchartcreator.h \
     dailyworkchartcreator.h \
-    taskrecordsdialog.h
+    taskrecordsdialog.h \
+    estimationerrorchartcreator.h
 
 FORMS    += mainwindow.ui \
     taskcolumn.ui \

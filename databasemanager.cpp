@@ -346,6 +346,36 @@ QVector<DatabaseManager::DayEffort> DatabaseManager::getDayEffortsOfProject(int 
     return efforts;
 }
 
+QVector<DatabaseManager::EstimationError> DatabaseManager::getEstimationErrors(QDate begin, QDate end)
+{
+    QString queryString = QString("SELECT tasks.title, tasks.estimate, SUM(records.time) FROM records "
+                                  "JOIN tasks ON records.task = tasks.id "
+                                  "WHERE records.date > \"%1\" "
+                                  "AND records.date <= \"%2\" "
+                                  "AND tasks.closedDate != \"\" "
+                                  "GROUP BY records.task");
+
+    queryString = queryString
+                  .arg(begin.toString("yyyy-MM-dd"))
+                  .arg(end.toString("yyyy-MM-dd"));
+
+    QSqlQuery query(queryString);
+
+    QVector<EstimationError> errors;
+
+    while(query.next()){
+        EstimationError e;
+        e.taskTitle = query.value(0).toString();
+        int estimate = query.value(1).toInt();
+        int effort = query.value(2).toInt();
+        e.estimationError = effort - estimate;
+
+        errors.append(e);
+    }
+
+    return errors;
+}
+
 void DatabaseManager::openDatabase()
 {
     db->setDatabaseName("tasks.db");

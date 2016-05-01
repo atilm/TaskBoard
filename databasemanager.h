@@ -22,6 +22,12 @@ public:
         double effortMinutes;
     };
 
+    struct EstimationError{
+        QDateTime date;
+        QString taskTitle;
+        double estimationError;
+    };
+
     DatabaseManager(QSqlDatabase *db);
     virtual ~DatabaseManager();
 
@@ -47,6 +53,8 @@ public:
     QMap<QString, QVector<double>> getProjectEfforts(QDate begin, QDate end);
     QMap<QString, double> getProjectEfforts(QDate date);
     QVector<DayEffort> getDayEffortsOfProject(int projectID);
+
+    QVector<EstimationError> getEstimationErrors(QDate begin, QDate end);
 
 private:
     QSqlDatabase *db;

@@ -1,5 +1,6 @@
 #include "burnupchartcreator.h"
 #include "dailyworkchartcreator.h"
+#include "estimationerrorchartcreator.h"
 #include "mainwindow.h"
 #include <QApplication>
 
@@ -19,6 +20,7 @@ int main(int argc, char *argv[])
     StatisticsWindow *statsWindow = new StatisticsWindow();
     statsWindow->addAnalyzer(new BurnUpChartCreator(db));
     statsWindow->addAnalyzer(new DailyWorkChartCreator(db));
+    statsWindow->addAnalyzer(new EstimationErrorChartCreator(db));
 
     MainWindow w(timerController, statsWindow, 0);
 
