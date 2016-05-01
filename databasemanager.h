@@ -13,9 +13,15 @@ enum TaskState{
     Done = 3
 };
 
+
 class DatabaseManager
 {
 public:
+    struct DayEffort{
+        QDateTime date;
+        double effortMinutes;
+    };
+
     DatabaseManager(QSqlDatabase *db);
     virtual ~DatabaseManager();
 
@@ -40,6 +46,7 @@ public:
     int getEffortForTask(int taskID) const;
     QMap<QString, QVector<double>> getProjectEfforts(QDate begin, QDate end);
     QMap<QString, double> getProjectEfforts(QDate date);
+    QVector<DayEffort> getDayEffortsOfProject(int projectID);
 
 private:
     QSqlDatabase *db;

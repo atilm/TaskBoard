@@ -193,6 +193,8 @@ QStringList DatabaseManager::listOfProjects() const
         projects.append(query.value(0).toString());
     }
 
+    qDebug() << "projects: " << projects.count();
+
     return projects;
 }
 
@@ -319,6 +321,29 @@ QMap<QString, double> DatabaseManager::getProjectEfforts(QDate date)
     }
 
     return map;
+}
+
+QVector<DatabaseManager::DayEffort> DatabaseManager::getDayEffortsOfProject(int projectID)
+{
+    QString queryString = QString("SELECT records.date, SUM(records.time) FROM records "
+                                  "JOIN tasks ON records.task = tasks.id "
+                                  "WHERE tasks.project=%1 "
+                                  "GROUP BY records.date "
+                                  "ORDER BY records.date").arg(projectID);
+
+    QSqlQuery query(queryString);
+
+    QVector<DayEffort> efforts;
+
+    while(query.next()){
+        DayEffort entry;
+        QString dateString = query.record().value(0).toString();
+        entry.date = QDateTime::fromString(dateString, "yyyy-MM-dd");
+        entry.effortMinutes = query.record().value(1).toInt();
+        efforts.append(entry);
+    }
+
+    return efforts;
 }
 
 void DatabaseManager::openDatabase()
