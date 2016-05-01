@@ -331,17 +331,24 @@ void DatabaseManager::openDatabase()
 
 QSqlQuery DatabaseManager::taskQuery(TaskState state) const
 {
-    QString tempString("SELECT"
-                       " tasks.id, tasks.title, tasks.description, projects.id, projects.short, "
-                       " tasks.estimate, tasks.color, tasks.createdDate, tasks.closedDate, tasks.sortingOrder"
-                       " FROM tasks"
-                       " JOIN projects ON tasks.project = projects.id"
-                       " WHERE tasks.state = %1"
-                       " ORDER BY tasks.sortingOrder");
+    QString tempString = QString("SELECT"
+                                 " tasks.id, tasks.title, tasks.description, projects.id, projects.short, "
+                                 " tasks.estimate, tasks.color, tasks.createdDate, tasks.closedDate, tasks.sortingOrder"
+                                 " FROM tasks"
+                                 " JOIN projects ON tasks.project = projects.id"
+                                 " WHERE tasks.state = %1").arg(state);
 
-    QString s = tempString.arg(state);
+    if(state == TaskState::Done){
+        QDate sevenDaysAgo = QDate::currentDate().addDays(-7);
+        tempString += QString(" AND tasks.closedDate > \"%1\""
+                              " ORDER BY tasks.closedDate")
+                .arg(sevenDaysAgo.toString("yyyy-MM-dd"));
+    }
+    else{
+        tempString += QString(" ORDER BY tasks.sortingOrder");
+    }
 
-    return QSqlQuery(s);
+    return QSqlQuery(tempString);
 }
 
 TaskEntry DatabaseManager::buildTaskEntry(const QSqlQuery &query) const
@@ -355,8 +362,8 @@ TaskEntry DatabaseManager::buildTaskEntry(const QSqlQuery &query) const
     entry.projectShort = query.record().value(4).toString();
     entry.estimated_minutes = query.record().value(5).toInt();
     entry.colorIndex = query.record().value(6).toInt();
-    entry.created = QDateTime::fromString(query.record().value(7).toString());
-    entry.closed = QDateTime::fromString(query.record().value(8).toString());
+    entry.created = QDateTime::fromString(query.record().value(7).toString(), "yyyy-MM-dd");
+    entry.closed = QDateTime::fromString(query.record().value(8).toString(), "yyyy-MM-dd");
     entry.sortingOrder = query.record().value(9).toInt();
 
     entry.effort_minutes = getEffortForTask(entry.id);
