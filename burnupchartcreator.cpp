@@ -40,8 +40,11 @@ void BurnUpChartCreator::updatePlot()
     chartView->clearPlottables();
 
     updateEfforts();
-    formatAxes();
-    plotEfforts();
+
+    if(!efforts.isEmpty()){
+        formatAxes();
+        plotEfforts();
+    }
 
     chartView->replot();
 }
