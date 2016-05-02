@@ -396,7 +396,7 @@ QSqlQuery DatabaseManager::taskQuery(TaskState state) const
     if(state == TaskState::Done){
         QDate sevenDaysAgo = QDate::currentDate().addDays(-7);
         tempString += QString(" AND tasks.closedDate > \"%1\""
-                              " ORDER BY tasks.closedDate")
+                              " ORDER BY tasks.closedDate DESC")
                 .arg(sevenDaysAgo.toString("yyyy-MM-dd"));
     }
     else{

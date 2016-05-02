@@ -140,7 +140,7 @@ QString QListViewDelegate::verboseClosedString(const QString &dateString) const
     case 0:
         return "Today";
     case 1:
-        return "1 day ago";
+        return "Yesterday";
     default:
         return QString("%1 days ago").arg(days);
     }
