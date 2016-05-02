@@ -31,6 +31,7 @@ private:
     QVector<double> dates;
     QVector<double> accumulatedHours;
     QVector<double> xTicks;
+    QVector<QString> xTickLabels;
     QVector<double> yTicks;
     QVBoxLayout *controlsLayout;
     QComboBox *projectChooser;
@@ -43,6 +44,8 @@ private:
     void updateEfforts();
     void readEfforts();
     void buildPlottableData();
+    void buildAllDates();
+    void buildRecordDates();
     void formatAxes();
     void plotEfforts();
     void setXTicks();

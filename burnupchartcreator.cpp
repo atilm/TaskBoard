@@ -42,8 +42,8 @@ void BurnUpChartCreator::updatePlot()
     updateEfforts();
 
     if(!efforts.isEmpty()){
-        formatAxes();
         plotEfforts();
+        formatAxes();
     }
 
     chartView->replot();
@@ -112,24 +112,37 @@ void BurnUpChartCreator::buildPlottableData()
     dates.clear();
     accumulatedHours.clear();
 
-    dates.append(efforts.first().date.toTime_t());
-    accumulatedHours.append(efforts.first().effortMinutes / 60.0);
+    if(showAllDaysButton->isChecked())
+        buildAllDates();
+    else
+        buildRecordDates();
 
+    accumulatedHours.append(efforts.first().effortMinutes / 60.0);
     for(int i=1; i<efforts.size(); i++){
-        dates.append(efforts[i].date.toTime_t());
         accumulatedHours.append(accumulatedHours[i-1] + efforts[i].effortMinutes / 60.0);
     }
 }
 
+void BurnUpChartCreator::buildAllDates()
+{
+    foreach(DatabaseManager::DayEffort effort, efforts)
+        dates.append(effort.date.toTime_t());
+}
+
+void BurnUpChartCreator::buildRecordDates()
+{
+    for(int d=0; d<efforts.count(); d++)
+        dates.append(d+1);
+}
+
 void BurnUpChartCreator::formatAxes()
 {
-    chartView->xAxis->setTickLabelType(QCPAxis::ltDateTime);
-    chartView->xAxis->setDateTimeFormat("yyyy-MM-dd");
+    chartView->xAxis->setTickLabelRotation(60);
 
-    double secondsPerDay = 86400;
+    double xRangePadding = 0.1 * (dates.last() - dates.first());
 
-    chartView->xAxis->setRange(efforts.first().date.toTime_t() - secondsPerDay,
-                               efforts.last().date.toTime_t() + secondsPerDay);
+    chartView->xAxis->setRange(dates.first() - xRangePadding,
+                               dates.last()  + xRangePadding);
     chartView->yAxis->setRange(0, accumulatedHours.last() + 1);
     chartView->yAxis->setLabel(tr("Hours"));
 }
@@ -148,6 +161,7 @@ void BurnUpChartCreator::plotEfforts()
 void BurnUpChartCreator::setXTicks()
 {
     xTicks.clear();
+    xTickLabels.clear();
 
     if(showAllDaysButton->isChecked())
         buildAllDayTicks();
@@ -155,7 +169,9 @@ void BurnUpChartCreator::setXTicks()
         buildRecordDayTicks();
 
     chartView->xAxis->setAutoTicks(false);
+    chartView->xAxis->setAutoTickLabels(false);
     chartView->xAxis->setTickVector(xTicks);
+    chartView->xAxis->setTickVectorLabels(xTickLabels);
     chartView->xAxis->setSubTickCount(0);
 }
 
@@ -167,14 +183,17 @@ void BurnUpChartCreator::buildAllDayTicks()
 
     for(int d=0; d<=days; d++){
         xTicks.append(date.toTime_t());
+        xTickLabels.append(date.toString("yyyy-MM-dd"));
         date = date.addDays(1);
     }
 }
 
 void BurnUpChartCreator::buildRecordDayTicks()
 {
-    foreach(DatabaseManager::DayEffort entry, efforts)
-        xTicks.append(entry.date.toTime_t());
+    for(int i=0; i<efforts.count(); i++){
+        xTicks.append(i+1);
+        xTickLabels.append(efforts[i].date.toString("yyyy-MM-dd"));
+    }
 }
 
 void BurnUpChartCreator::setYTicks()

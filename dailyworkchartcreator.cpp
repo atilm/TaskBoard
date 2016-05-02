@@ -123,6 +123,7 @@ void DailyWorkChartCreator::setXTics()
     chartView->xAxis->setAutoTicks(false);
     chartView->xAxis->setTickVector(xTicks);
     chartView->xAxis->setSubTickCount(0);
+    chartView->xAxis->setTickLabelRotation(60);
 }
 
 void DailyWorkChartCreator::setYTics()
