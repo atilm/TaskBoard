@@ -23,7 +23,6 @@ public:
     };
 
     struct EstimationError{
-        QDateTime date;
         QString taskTitle;
         double estimationError;
     };

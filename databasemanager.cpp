@@ -4,6 +4,7 @@
 #include <QSqlRecord>
 #include <QSqlError>
 #include <QMap>
+#include <QMessageBox>
 
 DatabaseManager::DatabaseManager(QSqlDatabase *db) : maximumInt(2147483647)
 {
@@ -173,6 +174,7 @@ void DatabaseManager::insertIntoColumn(TaskState state, int beforeRow, int taskI
         getSortingIndices(state, beforeRow, currentIndex, previousIndex);
 
         if(currentIndex - previousIndex < 2){
+            QMessageBox::information(0, "Debug info", "Rearranging sorting indices.");
             rearrangeSortingOrder(state);
             getSortingIndices(state, beforeRow, currentIndex, previousIndex);
         }
@@ -368,7 +370,7 @@ QVector<DatabaseManager::EstimationError> DatabaseManager::getEstimationErrors(Q
         e.taskTitle = query.value(0).toString();
         int estimate = query.value(1).toInt();
         int effort = query.value(2).toInt();
-        e.estimationError = effort - estimate;
+        e.estimationError = estimate - effort;
 
         errors.append(e);
     }
