@@ -4,6 +4,8 @@
 #include <QDateEdit>
 #include <QObject>
 #include <QPushButton>
+#include <QRadioButton>
+#include <QSpinBox>
 
 #include "projectanalyzer.h"
 #include "QCustomPlot/qcustomplot.h"
@@ -27,11 +29,24 @@ protected slots:
 protected:
     QDateEdit *beginEdit;
     QDateEdit *endEdit;
+    QSpinBox *binChooser;
+    QRadioButton *minutesButton;
+    QRadioButton *percentButton;
     QPushButton *updateButton;
     QVBoxLayout *controlsLayout;
     QCustomPlot *chartView;
 
+    QVector<DatabaseManager::EstimationError> errors;
+    QVector<double> xTicks;
+    QVector<double> barHeights;
+
     virtual void buildControls();
+    void calculateData();
+    QVector<double> extractDataFromErrors();
+    void formatAxes();
+    void plotHistogram();
+    void setXTicks();
+    void setYTicks();
 };
 
 #endif // ESTIMATIONERRORCHARTCREATOR_H

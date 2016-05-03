@@ -370,9 +370,11 @@ QVector<DatabaseManager::EstimationError> DatabaseManager::getEstimationErrors(Q
         e.taskTitle = query.value(0).toString();
         int estimate = query.value(1).toInt();
         int effort = query.value(2).toInt();
-        e.estimationError = estimate - effort;
 
-        errors.append(e);
+        if(estimate != 0 && effort != 0){
+            e.estimationError = estimate - effort;
+            errors.append(e);
+        }
     }
 
     return errors;
