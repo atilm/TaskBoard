@@ -51,6 +51,7 @@ private:
     void setXTicks();
     void buildAllDayTicks();
     void buildRecordDayTicks();
+    int getXTickSize(int days);
     void setYTicks();
 };
 

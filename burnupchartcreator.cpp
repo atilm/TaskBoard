@@ -181,19 +181,29 @@ void BurnUpChartCreator::buildAllDayTicks()
 
     int days = date.daysTo(efforts.last().date);
 
-    for(int d=0; d<=days; d++){
+    int step = getXTickSize(days);
+
+    for(int d=0; d<=days; d += step){
         xTicks.append(date.toTime_t());
         xTickLabels.append(date.toString("yyyy-MM-dd"));
-        date = date.addDays(1);
+        date = date.addDays(step);
     }
 }
 
 void BurnUpChartCreator::buildRecordDayTicks()
 {
-    for(int i=0; i<efforts.count(); i++){
+    int step = getXTickSize(efforts.count());
+
+    for(int i=0; i<efforts.count(); i += step){
         xTicks.append(i+1);
         xTickLabels.append(efforts[i].date.toString("yyyy-MM-dd"));
     }
+}
+
+int BurnUpChartCreator::getXTickSize(int days)
+{
+    int magnitude = days / 10;
+    return (magnitude != 0) ? magnitude : 1;
 }
 
 void BurnUpChartCreator::setYTicks()
