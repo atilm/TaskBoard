@@ -10,8 +10,13 @@ CONFIG -= app_bundle
 
 TEMPLATE = app
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    histogramtests.cpp
 
+
+INCLUDEPATH += $$PWD/../TaskBoard
+
+LIBS += $$PWD/../TaskBoard/release/histogram.o
 
 win32: LIBS += -L$$PWD/gtest/ -lgmock
 

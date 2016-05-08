@@ -1,17 +1,17 @@
 #include "histogram.h"
+#include <QDebug>
 
 Histogram::Histogram()
 {
-
 }
 
 Histogram::~Histogram()
 {
-
 }
 
 void Histogram::calculate(const QVector<double> &data, double binWidth)
 {
+    this->data = data;
     this->binWidth = binWidth;
 
     findBinRange();
@@ -35,7 +35,10 @@ void Histogram::findBinRange()
     double maxVal = *std::max_element(data.begin(), data.end());
 
     minBinPos = static_cast<int>(floor(minVal / binWidth));
-    maxBinPos = static_cast<int>(ceil(maxVal / binWidth));
+    maxBinPos = static_cast<int>(ceil(maxVal / binWidth) - 1);
+
+    qDebug() << "minBinPost: " << minBinPos;
+    qDebug() << "maxBinPos: " << maxBinPos;
 }
 
 void Histogram::buildTicks()
@@ -58,7 +61,7 @@ void Histogram::buildBars(const QVector<double> &data)
         double upper = pos * binWidth + binWidth / 2;
 
         foreach(double d, data){
-            if(d >= lower && d < upper)
+            if(d > lower && d <= upper)
                 bars[index] += 1;
         }
 
