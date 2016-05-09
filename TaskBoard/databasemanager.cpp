@@ -352,8 +352,8 @@ QVector<DatabaseManager::EstimationError> DatabaseManager::getEstimationErrors(Q
 {
     QString queryString = QString("SELECT tasks.title, tasks.estimate, SUM(records.time) FROM records "
                                   "JOIN tasks ON records.task = tasks.id "
-                                  "WHERE records.date > \"%1\" "
-                                  "AND records.date <= \"%2\" "
+                                  "WHERE tasks.closedDate > \"%1\" "
+                                  "AND tasks.closedDate <= \"%2\" "
                                   "AND tasks.closedDate != \"\" "
                                   "GROUP BY records.task");
 
@@ -370,6 +370,8 @@ QVector<DatabaseManager::EstimationError> DatabaseManager::getEstimationErrors(Q
         e.taskTitle = query.value(0).toString();
         int estimate = query.value(1).toInt();
         int effort = query.value(2).toInt();
+
+        qDebug() << e.taskTitle << endl << estimate << " " << effort;
 
         if(estimate != 0 && effort != 0){
             e.estimationError = estimate - effort;

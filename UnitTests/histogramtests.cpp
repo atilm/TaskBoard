@@ -33,7 +33,7 @@ TEST_F(HistogramTests, minimum_determination){
     EXPECT_NEAR(0.2, maxVal, 1e-6);
 }
 
-TEST_F(HistogramTests, builds_triangle_histogram){
+TEST_F(HistogramTests, builds_histogram_correctly){
     QVector<double> data;
     data << -1.5
          << -0.8 << -1.2
@@ -45,8 +45,34 @@ TEST_F(HistogramTests, builds_triangle_histogram){
 
     QVector<double> bars = hist->getBars();
 
-    EXPECT_EQ(5, bars.size());
+    EXPECT_EQ(6, bars.size());
 
-    foreach(double val, bars)
-        qDebug() << val;
+    EXPECT_NEAR(1, bars[0], 0.001);
+    EXPECT_NEAR(2, bars[1], 0.001);
+    EXPECT_NEAR(3, bars[2], 0.001);
+    EXPECT_NEAR(2, bars[3], 0.001);
+    EXPECT_NEAR(1, bars[4], 0.001);
+    EXPECT_NEAR(0, bars[5], 0.001);
+}
+
+TEST_F(HistogramTests, builds_ticks_correctly){
+    QVector<double> data;
+    data << -1.5
+         << -0.8 << -1.2
+         << -0.4 << 0.2 << 0.5
+         << 0.7  << 1.4
+         << 2.1;
+
+    hist->calculate(data, 1.0);
+
+    QVector<double> ticks = hist->getTicks();
+
+    EXPECT_EQ(6, ticks.size());
+
+    EXPECT_NEAR(-2, ticks[0], 0.001);
+    EXPECT_NEAR(-1, ticks[1], 0.001);
+    EXPECT_NEAR(0, ticks[2], 0.001);
+    EXPECT_NEAR(1, ticks[3], 0.001);
+    EXPECT_NEAR(2, ticks[4], 0.001);
+    EXPECT_NEAR(3, ticks[5], 0.001);
 }

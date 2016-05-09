@@ -61,6 +61,7 @@ void EstimationErrorChartCreator::buildControls()
 
     binChooser->setMinimum(1);
     binChooser->setMaximum(24*60);
+    binChooser->setValue(10);
 
     minutesButton->setText(tr("Minutes"));
     percentButton->setText(tr("Percent"));
@@ -92,14 +93,6 @@ void EstimationErrorChartCreator::calculateData()
     hist.calculate(extractDataFromErrors(), binChooser->value());
     xTicks = hist.getTicks();
     barHeights = hist.getBars();
-
-    foreach(double t, xTicks){
-        qDebug() << t;
-    }
-
-    foreach(double h, barHeights){
-        qDebug() << h;
-    }
 }
 
 QVector<double> EstimationErrorChartCreator::extractDataFromErrors()
@@ -121,6 +114,7 @@ void EstimationErrorChartCreator::formatAxes()
     chartView->xAxis->setLabel(tr("Estimation error [min]"));
 
     double maxHeight = *std::max_element(barHeights.begin(), barHeights.end());
+
     chartView->yAxis->setRange(0, maxHeight * 1.02);
     chartView->yAxis->setLabel(tr("Count"));
 }
@@ -133,6 +127,9 @@ void EstimationErrorChartCreator::plotHistogram()
     QCPBars *bars = new QCPBars(chartView->xAxis, chartView->yAxis);
 
     bars->setData(xTicks, barHeights);
+    bars->setWidthType(QCPBars::wtPlotCoords);
+    bars->setWidth(binChooser->value());
+
     chartView->addPlottable(bars);
 }
 
@@ -145,6 +142,11 @@ void EstimationErrorChartCreator::setXTicks()
 
 void EstimationErrorChartCreator::setYTicks()
 {
-
+    chartView->yAxis->setAutoTicks(true);
+    chartView->yAxis->setAutoTickLabels(true);
+    chartView->yAxis->setAutoSubTicks(false);
+    chartView->yAxis->setAutoTickStep(false);
+    chartView->yAxis->setTickStep(1);
+    chartView->yAxis->setSubTickCount(0);
 }
 

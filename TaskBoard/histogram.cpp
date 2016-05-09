@@ -35,10 +35,7 @@ void Histogram::findBinRange()
     double maxVal = *std::max_element(data.begin(), data.end());
 
     minBinPos = static_cast<int>(floor(minVal / binWidth));
-    maxBinPos = static_cast<int>(ceil(maxVal / binWidth) - 1);
-
-    qDebug() << "minBinPost: " << minBinPos;
-    qDebug() << "maxBinPos: " << maxBinPos;
+    maxBinPos = static_cast<int>(ceil(maxVal / binWidth));
 }
 
 void Histogram::buildTicks()

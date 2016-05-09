@@ -78,8 +78,6 @@ void BurnUpChartCreator::updateProjectChooser()
 {
     projectChooser->clear();
     projectChooser->addItems(db->listOfProjects());
-
-    qDebug() << "chooser items: " << projectChooser->count();
 }
 
 void BurnUpChartCreator::updateEfforts()

@@ -1,0 +1,8 @@
+.mode column
+.headers on
+    
+SELECT tasks.title, tasks.estimate, SUM(records.time) FROM records
+    JOIN tasks ON records.task = tasks.id
+    WHERE tasks.closedDate != ""
+    GROUP BY records.task; 
+
