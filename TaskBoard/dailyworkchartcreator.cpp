@@ -13,6 +13,8 @@ DailyWorkChartCreator::~DailyWorkChartCreator()
 {
     delete beginEdit;
     delete endEdit;
+    delete subLayout;
+    delete dummyElement;
 }
 
 QString DailyWorkChartCreator::getActionText() const
@@ -71,6 +73,9 @@ void DailyWorkChartCreator::buildControls()
     colors.append(QColor("#D6C1DE"));
     colors.append(QColor("#B178A6"));
     colors.append(QColor("#882E72"));
+
+    subLayout = new QCPLayoutGrid();
+    dummyElement = new QCPLayoutElement();
 }
 
 void DailyWorkChartCreator::updatePlot()
@@ -104,7 +109,18 @@ void DailyWorkChartCreator::plotEfforts()
 
     buildBars();
 
+    showOutsideLegend();
+}
+
+void DailyWorkChartCreator::showOutsideLegend()
+{
+    //subLayout->clear();
     chartView->legend->setVisible(true);
+    chartView->plotLayout()->addElement(0, 1, subLayout);
+    subLayout->addElement(0, 0, chartView->legend);
+    subLayout->addElement(1, 0, dummyElement);
+    subLayout->setRowStretchFactor(0, 0.01);
+    subLayout->setMaximumSize(150, QWIDGETSIZE_MAX);
 }
 
 void DailyWorkChartCreator::setXTics()

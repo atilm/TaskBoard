@@ -39,9 +39,14 @@ private:
     QVector<QCPBars*> bars;
     int colorIndex;
 
+    // For outside legend:
+    QCPLayoutGrid *subLayout;
+    QCPLayoutElement *dummyElement;
+
     void buildControls();
     void formatAxes();
     void plotEfforts();
+    void showOutsideLegend();
     void setXTics();
     void setYTics();
     void buildBars();

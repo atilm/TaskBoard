@@ -195,8 +195,6 @@ QStringList DatabaseManager::listOfProjects() const
         projects.append(query.value(0).toString());
     }
 
-    qDebug() << "projects: " << projects.count();
-
     return projects;
 }
 
@@ -370,8 +368,6 @@ QVector<DatabaseManager::EstimationError> DatabaseManager::getEstimationErrors(Q
         e.taskTitle = query.value(0).toString();
         int estimate = query.value(1).toInt();
         int effort = query.value(2).toInt();
-
-        qDebug() << e.taskTitle << endl << estimate << " " << effort;
 
         if(estimate != 0 && effort != 0){
             e.estimationError = estimate - effort;
