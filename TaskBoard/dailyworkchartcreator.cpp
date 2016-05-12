@@ -114,7 +114,6 @@ void DailyWorkChartCreator::plotEfforts()
 
 void DailyWorkChartCreator::showOutsideLegend()
 {
-    //subLayout->clear();
     chartView->legend->setVisible(true);
     chartView->plotLayout()->addElement(0, 1, subLayout);
     subLayout->addElement(0, 0, chartView->legend);

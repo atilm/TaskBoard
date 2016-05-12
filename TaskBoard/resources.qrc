@@ -3,5 +3,6 @@
         <file>resources/list-add-3.ico</file>
         <file>resources/1457759875_Stats.png</file>
         <file>resources/1457759927_cairo-clock.png</file>
+        <file>resources/edit_remove.png</file>
     </qresource>
 </RCC>

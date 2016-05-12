@@ -22,6 +22,10 @@ public:
 
     int exec(int taskID);
 
+private slots:
+    void handleAddButton();
+    void handleRemoveButton();
+
 private:
     Ui::TaskRecordsDialog *ui;
     QSqlDatabase *db;
