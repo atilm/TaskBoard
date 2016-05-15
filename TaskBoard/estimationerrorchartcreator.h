@@ -30,8 +30,8 @@ protected:
     QDateEdit *beginEdit;
     QDateEdit *endEdit;
     QSpinBox *binChooser;
-    QRadioButton *minutesButton;
-    QRadioButton *percentButton;
+    QRadioButton *histogramButton;
+    QRadioButton *scatterPlotButton;
     QPushButton *updateButton;
     QVBoxLayout *controlsLayout;
     QCustomPlot *chartView;
@@ -39,6 +39,8 @@ protected:
     QVector<DatabaseManager::EstimationError> errors;
     QVector<double> xTicks;
     QVector<double> barHeights;
+    QVector<double> scatterX;
+    QVector<double> scatterY;
 
     virtual void buildControls();
     void calculateData();
@@ -47,6 +49,10 @@ protected:
     void plotHistogram();
     void setXTicks();
     void setYTicks();
+
+    void extractScatterData();
+    void formatScatterAxes();
+    void scatterPlot();
 };
 
 #endif // ESTIMATIONERRORCHARTCREATOR_H

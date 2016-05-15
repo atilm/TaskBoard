@@ -38,9 +38,16 @@ void EstimationErrorChartCreator::updatePlot()
     errors = db->getEstimationErrors(beginEdit->date(), endEdit->date());
 
     if(!errors.isEmpty()){
-        calculateData();
-        formatAxes();
-        plotHistogram();
+        if(histogramButton->isChecked()){
+            calculateData();
+            formatAxes();
+            plotHistogram();
+        }
+        else{
+            extractScatterData();
+            formatScatterAxes();
+            scatterPlot();
+        }
     }
 
     chartView->replot();
@@ -52,8 +59,8 @@ void EstimationErrorChartCreator::buildControls()
     endEdit = new QDateEdit();
     binChooser = new QSpinBox();
     updateButton = new QPushButton();
-    minutesButton = new QRadioButton();
-    percentButton = new QRadioButton();
+    histogramButton = new QRadioButton();
+    scatterPlotButton = new QRadioButton();
 
     endEdit->setDate(QDate::currentDate());
     beginEdit->setDate(QDate::currentDate().addMonths(-1));
@@ -63,9 +70,9 @@ void EstimationErrorChartCreator::buildControls()
     binChooser->setMaximum(24*60);
     binChooser->setValue(10);
 
-    minutesButton->setText(tr("Minutes"));
-    percentButton->setText(tr("Percent"));
-    minutesButton->setChecked(true);
+    histogramButton->setText(tr("Histogram"));
+    scatterPlotButton->setText(tr("Scatter Plot"));
+    histogramButton->setChecked(true);
 
     connect(updateButton, SIGNAL(clicked(bool)),
             this, SLOT(updatePlot()));
@@ -78,10 +85,10 @@ void EstimationErrorChartCreator::buildControls()
     controlsLayout->addWidget(beginEdit);
     controlsLayout->addWidget(new QLabel(tr("To:")));
     controlsLayout->addWidget(endEdit);
-    controlsLayout->addWidget(new QLabel(tr("Histogram bin width:")));
+    controlsLayout->addWidget(new QLabel(tr("Estimation step [min]:")));
     controlsLayout->addWidget(binChooser);
-    controlsLayout->addWidget(minutesButton);
-    controlsLayout->addWidget(percentButton);
+    controlsLayout->addWidget(histogramButton);
+    controlsLayout->addWidget(scatterPlotButton);
     controlsLayout->addWidget(updateButton);
     controlsLayout->addStretch();
     controlsWidget->setLayout(controlsLayout);
@@ -100,7 +107,7 @@ QVector<double> EstimationErrorChartCreator::extractDataFromErrors()
     QVector<double> data;
 
     foreach(DatabaseManager::EstimationError e, errors){
-        data.append(e.estimationError);
+        data.append(e.estimationError());
     }
 
     return data;
@@ -148,5 +155,64 @@ void EstimationErrorChartCreator::setYTicks()
     chartView->yAxis->setAutoTickStep(false);
     chartView->yAxis->setTickStep(1);
     chartView->yAxis->setSubTickCount(0);
+}
+
+void EstimationErrorChartCreator::extractScatterData()
+{
+    scatterX.clear();
+    scatterY.clear();
+
+    foreach(DatabaseManager::EstimationError e, errors){
+        scatterX.append(e.estimation);
+        scatterY.append(e.effort);
+    }
+}
+
+void EstimationErrorChartCreator::formatScatterAxes()
+{
+    double maxEstimation = *std::max_element(scatterX.begin(), scatterX.end());
+    double maxEffort = *std::max_element(scatterY.begin(), scatterY.end());
+    double range = fmax(maxEstimation, maxEffort);
+
+    chartView->xAxis->setTickLabelRotation(60);
+    chartView->xAxis->setRange(0, range * 1.02);
+    chartView->xAxis->setLabel(tr("Estimation [min]"));
+
+    chartView->yAxis->setRange(0, range * 1.02);
+    chartView->yAxis->setLabel(tr("Effort [min]"));
+
+    chartView->xAxis->setAutoTicks(true);
+    chartView->xAxis->setAutoTickLabels(true);
+    chartView->xAxis->setAutoSubTicks(false);
+    chartView->xAxis->setAutoTickStep(false);
+    chartView->xAxis->setTickStep(binChooser->value());
+    chartView->xAxis->setSubTickCount(0);
+
+    chartView->yAxis->setAutoTicks(true);
+    chartView->yAxis->setAutoTickLabels(true);
+    chartView->yAxis->setAutoSubTicks(false);
+    chartView->yAxis->setAutoTickStep(false);
+    chartView->yAxis->setTickStep(binChooser->value());
+    chartView->yAxis->setSubTickCount(0);
+}
+
+void EstimationErrorChartCreator::scatterPlot()
+{
+    QCPGraph *scatter = chartView->addGraph();
+    scatter->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 4));
+    scatter->setLineStyle(QCPGraph::lsNone);
+    scatter->setData(scatterX, scatterY);
+
+    QPen pen;
+    pen.setStyle(Qt::SolidLine);
+    pen.setWidth(1);
+    pen.setColor(Qt::gray);
+
+    scatterX.insert(0, 0);
+    scatterY.insert(0, 0);
+
+    QCPGraph *identity = chartView->addGraph();
+    identity->setPen(pen);
+    identity->setData(scatterX, scatterX);
 }
 

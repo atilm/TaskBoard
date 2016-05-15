@@ -372,13 +372,11 @@ QVector<DatabaseManager::EstimationError> DatabaseManager::getEstimationErrors(Q
     while(query.next()){
         EstimationError e;
         e.taskTitle = query.value(0).toString();
-        int estimate = query.value(1).toInt();
-        int effort = query.value(2).toInt();
+        e.estimation = query.value(1).toInt();
+        e.effort = query.value(2).toInt();
 
-        if(estimate != 0 && effort != 0){
-            e.estimationError = estimate - effort;
+        if(e.isValid())
             errors.append(e);
-        }
     }
 
     return errors;

@@ -24,7 +24,10 @@ public:
 
     struct EstimationError{
         QString taskTitle;
-        double estimationError;
+        int estimation;
+        int effort;
+        int estimationError() { return estimation - effort; }
+        bool isValid() { return estimation != 0 && effort != 0; }
     };
 
     DatabaseManager(QSqlDatabase *db);
