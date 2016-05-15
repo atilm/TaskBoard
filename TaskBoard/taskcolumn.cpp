@@ -2,6 +2,7 @@
 #include "ui_taskcolumn.h"
 #include "qlistviewdelegate.h"
 #include <QDebug>
+#include <QMessageBox>
 
 int TaskColumn::currentTaskID = -1;
 
@@ -76,7 +77,13 @@ void TaskColumn::handleAddClicked()
 
 void TaskColumn::handleRemoveCurrent()
 {
-    model->removeRow(ui->listView->currentIndex().row());
+    if(QMessageBox::question(this,
+                             tr("Remove Task"),
+                             tr("Do you really want to remove this task and all it's records?"))
+            == QMessageBox::Yes)
+    {
+        model->removeRow(ui->listView->currentIndex().row());
+    }
 }
 
 void TaskColumn::handleTaskClicked(QModelIndex index)

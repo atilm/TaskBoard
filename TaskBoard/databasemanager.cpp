@@ -121,14 +121,20 @@ void DatabaseManager::updateTaskField(int id, const QString &fieldName, int valu
 
 void DatabaseManager::removeTaskEntry(int id)
 {
-    QString s = QString("DELETE FROM tasks "
-                        "WHERE id=%1")
-                .arg(id);
+    QSqlQuery removeRecords;
+    QSqlQuery removeTask;
 
-    QSqlQuery query;
+    removeRecords.prepare("DELETE FROM records "
+                          "WHERE task=:id");
 
-    if(!query.exec(s))
-        qDebug() << "removeTaskEntry: SQL Error: " << query.lastError().text();
+    removeTask.prepare("DELETE FROM tasks "
+                       "WHERE id=:id");
+
+    removeRecords.bindValue(":id", id);
+    removeTask.bindValue(":id", id);
+
+    executeQuery(removeRecords);
+    executeQuery(removeTask);
 }
 
 void DatabaseManager::setTaskState(int id, int state)
@@ -398,30 +404,34 @@ bool DatabaseManager::dataBaseIsInitialized()
 
 void DatabaseManager::createTables()
 {
-    QSqlQuery createProjects("CREATE TABLE projects("
-                             " id INTEGER PRIMARY KEY,"
-                             " short TEXT,"
-                             " name TEXT,"
-                             " description TEXT)");
+    QSqlQuery createProjects;
+    QSqlQuery createTasks;
+    QSqlQuery createRecords;
 
-    QSqlQuery createTasks("CREATE TABLE tasks("
+    createProjects.prepare("CREATE TABLE projects("
+                           " id INTEGER PRIMARY KEY,"
+                           " short TEXT,"
+                           " name TEXT,"
+                           " description TEXT)");
+
+    createTasks.prepare("CREATE TABLE tasks("
+                        " id INTEGER PRIMARY KEY,"
+                        " title TEXT,"
+                        " description TEXT,"
+                        " project INTEGER,"
+                        " estimate INTEGER,"
+                        " state INTEGER,"
+                        " color INTEGER,"
+                        " createdDate TEXT,"
+                        " closedDate TEXT,"
+                        " sortingOrder INTEGER)");
+
+    createRecords.prepare("CREATE TABLE records("
                           " id INTEGER PRIMARY KEY,"
-                          " title TEXT,"
-                          " description TEXT,"
-                          " project INTEGER,"
-                          " estimate INTEGER,"
-                          " state INTEGER,"
-                          " color INTEGER,"
-                          " createdDate TEXT,"
-                          " closedDate TEXT,"
-                          " sortingOrder INTEGER)");
-
-    QSqlQuery createRecords("CREATE TABLE records("
-                            " id INTEGER PRIMARY KEY,"
-                            " task INTEGER,"
-                            " time INTEGER,"
-                            " date TEXT,"
-                            " startTime TEXT)");
+                          " task INTEGER,"
+                          " time INTEGER,"
+                          " date TEXT,"
+                          " startTime TEXT)");
 
     executeQuery(createProjects);
     executeQuery(createTasks);
@@ -581,8 +591,10 @@ QString DatabaseManager::getClosedDateString(int id)
 
 void DatabaseManager::executeQuery(QSqlQuery &query)
 {
-    if(!query.exec())
-        qDebug() << "Error: " << query.lastError();
+    if(!query.exec()){
+        qDebug() << "Error: " << query.lastQuery();
+        qDebug() << query.lastError();
+    }
 }
 
 
