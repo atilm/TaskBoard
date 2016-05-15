@@ -382,8 +382,50 @@ void DatabaseManager::openDatabase()
 {
     db->setDatabaseName("tasks.db");
 
-    if(!db->open())
+    if(!db->open()){
         qDebug() << "Error: " << db->lastError();
+        return;
+    }
+
+    if(!dataBaseIsInitialized())
+        createTables();
+}
+
+bool DatabaseManager::dataBaseIsInitialized()
+{
+    return db->tables().contains("tasks");
+}
+
+void DatabaseManager::createTables()
+{
+    QSqlQuery createProjects("CREATE TABLE projects("
+                             " id INTEGER PRIMARY KEY,"
+                             " short TEXT,"
+                             " name TEXT,"
+                             " description TEXT)");
+
+    QSqlQuery createTasks("CREATE TABLE tasks("
+                          " id INTEGER PRIMARY KEY,"
+                          " title TEXT,"
+                          " description TEXT,"
+                          " project INTEGER,"
+                          " estimate INTEGER,"
+                          " state INTEGER,"
+                          " color INTEGER,"
+                          " createdDate TEXT,"
+                          " closedDate TEXT,"
+                          " sortingOrder INTEGER)");
+
+    QSqlQuery createRecords("CREATE TABLE records("
+                            " id INTEGER PRIMARY KEY,"
+                            " task INTEGER,"
+                            " time INTEGER,"
+                            " date TEXT,"
+                            " startTime TEXT)");
+
+    executeQuery(createProjects);
+    executeQuery(createTasks);
+    executeQuery(createRecords);
 }
 
 QSqlQuery DatabaseManager::taskQuery(TaskState state) const
@@ -535,6 +577,12 @@ QString DatabaseManager::getClosedDateString(int id)
     }
 
     return dateString;
+}
+
+void DatabaseManager::executeQuery(QSqlQuery &query)
+{
+    if(!query.exec())
+        qDebug() << "Error: " << query.lastError();
 }
 
 

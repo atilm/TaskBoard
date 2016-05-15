@@ -60,6 +60,8 @@ private:
     const int maximumInt;
 
     void openDatabase();
+    bool dataBaseIsInitialized();
+    void createTables();
     QSqlQuery taskQuery(TaskState state) const;
     TaskEntry buildTaskEntry(const QSqlQuery &query) const;
     ProjectEntry buildProjectEntry(const QSqlQuery &query) const;
@@ -70,6 +72,7 @@ private:
     void performRecordQuery(const QString &queryString, int taskID, QDateTime startTime, int minutes);
     QString getUpdatedClosedDate(int id, int state);
     QString getClosedDateString(int id);
+    void executeQuery(QSqlQuery &query);
 };
 
 #endif // DATABASEMANAGER_H
