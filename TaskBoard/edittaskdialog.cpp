@@ -88,6 +88,8 @@ void EditTaskDialog::handleEditProject()
     projectDialog->setProjectEntry(project);
     if(projectDialog->exec()){
         model->updateProject(projectDialog->getProjectEntry());
+        updateProjectList();
+        ui->projectComboBox->setCurrentIndex(projectIndex - 1);
     }
 }
 
