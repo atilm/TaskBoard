@@ -9,7 +9,7 @@
 #include <QPushButton>
 
 #include "projectanalyzer.h"
-#include "QCustomPlot/qcustomplot.h"
+#include "QCustomPlot/dailyworkchartview.h"
 
 class DailyWorkChartCreator : public ProjectAnalyzer
 {
@@ -33,7 +33,7 @@ private:
     QDateEdit *beginEdit;
     QDateEdit *endEdit;
     QPushButton *updateButton;
-    QCustomPlot *chartView;
+    DailyWorkChartView *chartView;
     QMap<QString, QVector<double>> efforts;
     QVector<double> xTicks;
     QVector<QCPBars*> bars;

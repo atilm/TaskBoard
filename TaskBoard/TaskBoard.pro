@@ -36,7 +36,8 @@ SOURCES += main.cpp\
     dailyworkchartcreator.cpp \
     taskrecordsdialog.cpp \
     estimationerrorchartcreator.cpp \
-    histogram.cpp
+    histogram.cpp \
+    QCustomPlot/dailyworkchartview.cpp
 
 HEADERS  += mainwindow.h \
     taskcolumn.h \
@@ -57,7 +58,8 @@ HEADERS  += mainwindow.h \
     dailyworkchartcreator.h \
     taskrecordsdialog.h \
     estimationerrorchartcreator.h \
-    histogram.h
+    histogram.h \
+    QCustomPlot/dailyworkchartview.h
 
 FORMS    += mainwindow.ui \
     taskcolumn.ui \

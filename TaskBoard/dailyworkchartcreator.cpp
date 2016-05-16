@@ -48,7 +48,7 @@ void DailyWorkChartCreator::buildControls()
             this, SLOT(updatePlot()));
 
     controlsLayout = new QVBoxLayout();
-    chartView = new QCustomPlot();
+    chartView = new DailyWorkChartView();
     viewWidget = chartView;
 
     controlsLayout->addWidget(new QLabel(tr("From:")));
