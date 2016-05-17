@@ -164,22 +164,23 @@ void EstimationErrorChartCreator::extractScatterData()
 
     foreach(DatabaseManager::EstimationError e, errors){
         scatterX.append(e.estimation);
-        scatterY.append(e.effort);
+        scatterY.append(e.estimationError());
     }
 }
 
 void EstimationErrorChartCreator::formatScatterAxes()
 {
     double maxEstimation = *std::max_element(scatterX.begin(), scatterX.end());
-    double maxEffort = *std::max_element(scatterY.begin(), scatterY.end());
-    double range = fmax(maxEstimation, maxEffort);
+    double minError = *std::min_element(scatterY.begin(), scatterY.end());
+    double maxError = *std::max_element(scatterY.begin(), scatterY.end());
+    double margin = 0.02 * (maxError - minError);
 
     chartView->xAxis->setTickLabelRotation(60);
-    chartView->xAxis->setRange(0, range * 1.02);
+    chartView->xAxis->setRange(0, maxEstimation * 1.02);
     chartView->xAxis->setLabel(tr("Estimation [min]"));
 
-    chartView->yAxis->setRange(0, range * 1.02);
-    chartView->yAxis->setLabel(tr("Effort [min]"));
+    chartView->yAxis->setRange(minError - margin, maxError + margin);
+    chartView->yAxis->setLabel(tr("Error [min]"));
 
     chartView->xAxis->setAutoTicks(true);
     chartView->xAxis->setAutoTickLabels(true);
@@ -202,17 +203,5 @@ void EstimationErrorChartCreator::scatterPlot()
     scatter->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 4));
     scatter->setLineStyle(QCPGraph::lsNone);
     scatter->setData(scatterX, scatterY);
-
-    QPen pen;
-    pen.setStyle(Qt::SolidLine);
-    pen.setWidth(1);
-    pen.setColor(Qt::gray);
-
-    scatterX.insert(0, 0);
-    scatterY.insert(0, 0);
-
-    QCPGraph *identity = chartView->addGraph();
-    identity->setPen(pen);
-    identity->setData(scatterX, scatterX);
 }
 
