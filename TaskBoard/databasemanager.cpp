@@ -180,7 +180,6 @@ void DatabaseManager::insertIntoColumn(TaskState state, int beforeRow, int taskI
         getSortingIndices(state, beforeRow, currentIndex, previousIndex);
 
         if(currentIndex - previousIndex < 2){
-            QMessageBox::information(0, "Debug info", "Rearranging sorting indices.");
             rearrangeSortingOrder(state);
             getSortingIndices(state, beforeRow, currentIndex, previousIndex);
         }
