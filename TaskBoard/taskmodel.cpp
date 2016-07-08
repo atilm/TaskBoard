@@ -88,8 +88,18 @@ bool TaskModel::dropMimeData(const QMimeData *data, Qt::DropAction action,
 {
     int id = data->text().toInt();
 
-    beginInsertRows(QModelIndex(), rowCount(), rowCount());
-    db->insertIntoColumn(columnType, parent.row(), id);
+    int insertionIndex;
+
+    if(columnType == Done){
+        insertionIndex = 0;
+    }
+    else{
+        insertionIndex = parent.row();
+    }
+
+
+    beginInsertRows(QModelIndex(), insertionIndex, insertionIndex);
+    db->insertIntoColumn(columnType, insertionIndex, id);
     endInsertRows();
 
     emit itemDropped();

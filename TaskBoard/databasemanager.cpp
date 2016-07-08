@@ -442,17 +442,8 @@ QSqlQuery DatabaseManager::taskQuery(TaskState state) const
                                  " tasks.estimate, tasks.color, tasks.createdDate, tasks.closedDate, tasks.sortingOrder"
                                  " FROM tasks"
                                  " JOIN projects ON tasks.project = projects.id"
-                                 " WHERE tasks.state = %1").arg(state);
-
-    if(state == TaskState::Done){
-        QDate sevenDaysAgo = QDate::currentDate().addDays(-14);
-        tempString += QString(" AND tasks.closedDate > \"%1\""
-                              " ORDER BY tasks.closedDate DESC")
-                .arg(sevenDaysAgo.toString("yyyy-MM-dd"));
-    }
-    else{
-        tempString += QString(" ORDER BY tasks.sortingOrder");
-    }
+                                 " WHERE tasks.state = %1"
+                                 " ORDER BY tasks.sortingOrder").arg(state);
 
     return QSqlQuery(tempString);
 }
