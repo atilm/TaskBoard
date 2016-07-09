@@ -66,19 +66,24 @@ void DatabaseManager::addTaskEntry(TaskEntry entry)
 {
     int sortingIndex = getNewSortingIndex(static_cast<TaskState>(entry.state));
 
-    QString s = QString("INSERT INTO tasks "
-                        "(title, description, project, color, estimate, state, createdDate, closedDate, sortingOrder) "
-                        "VALUES "
-                        "(\"%1\", \"%2\", %3, %4, %5, %6, \"%7\", \"%8\", \"%9\")")
-                .arg(entry.title).arg(entry.description)
-                .arg(entry.projectIndex).arg(entry.colorIndex)
-                .arg(entry.estimated_minutes).arg(entry.state)
-                .arg(entry.createdString()).arg(entry.closedString())
-                .arg(sortingIndex);
-
     QSqlQuery query;
 
-    if(!query.exec(s))
+    query.prepare("INSERT INTO tasks "
+                  "(title, description, project, color, estimate, state, createdDate, closedDate, sortingOrder) "
+                  "VALUES "
+                  "(:title, :description, :project, :color, :estimate, :state, :createdDate, :closedDate, :sortingOrder)");
+
+    query.bindValue(":title", entry.title);
+    query.bindValue(":description", entry.description);
+    query.bindValue(":project", entry.projectIndex);
+    query.bindValue(":color", entry.colorIndex);
+    query.bindValue(":estimate", entry.estimated_minutes);
+    query.bindValue(":state", entry.state);
+    query.bindValue(":createdDate", entry.createdString());
+    query.bindValue(":closedDate", entry.closedString());
+    query.bindValue(":sortingOrder", sortingIndex);
+
+    if(!query.exec())
         qDebug() << "addTaskEntry: SQL Error: " << query.lastError().text();
 }
 
