@@ -13,6 +13,7 @@ public:
 protected:
 
     virtual void mouseMoveEvent(QMouseEvent *event);
+    virtual QString getTimeString(double seconds, QCPBars *bars);
 };
 
 #endif // DAILYWORKCHARTVIEW_H
