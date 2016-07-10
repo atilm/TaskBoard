@@ -7,6 +7,9 @@ TaskModel::TaskModel(DatabaseManager *db, QObject *parent)
     : QAbstractListModel(parent)
 {
     this->db = db;
+
+    connect(db, SIGNAL(dataChanged(int)),
+            this, SLOT(emitTaskChanged(int)));
 }
 
 TaskModel::~TaskModel()
@@ -133,6 +136,15 @@ void TaskModel::sendAllDataChanged()
     QModelIndex bottom = index(rowCount()-1);
 
     emit dataChanged(top, bottom);
+}
+
+void TaskModel::emitTaskChanged(int taskIndex)
+{
+    for(int i=0;i<rowCount();i++){
+        QModelIndex idx = index(i,0);
+        if(getTask(idx).id == taskIndex)
+            emit dataChanged(idx, idx);
+    }
 }
 
 

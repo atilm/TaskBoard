@@ -2,6 +2,7 @@
 #define DATABASEMANAGER_H
 
 #include <QMap>
+#include <QObject>
 #include <QVector>
 #include <QSqlDatabase>
 #include "taskentry.h"
@@ -14,8 +15,9 @@ enum TaskState{
 };
 
 
-class DatabaseManager
+class DatabaseManager : public QObject
 {
+    Q_OBJECT
 public:
     struct DayEffort{
         QDateTime date;
@@ -57,6 +59,9 @@ public:
     QVector<DayEffort> getDayEffortsOfProject(int projectID);
 
     QVector<EstimationError> getEstimationErrors(QDate begin, QDate end);
+
+signals:
+    void dataChanged(int taskID);
 
 private:
     QSqlDatabase *db;

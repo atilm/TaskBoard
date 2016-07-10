@@ -15,7 +15,6 @@ RC_ICONS = appIcon.ico
 TARGET = TaskBoard
 TEMPLATE = app
 
-
 SOURCES += main.cpp\
         mainwindow.cpp \
     taskcolumn.cpp \

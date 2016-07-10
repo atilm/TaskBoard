@@ -37,6 +37,7 @@ signals:
 
 public slots:
     void sendAllDataChanged();
+    void emitTaskChanged(int taskIndex);
 
 private:
     DatabaseManager *db;

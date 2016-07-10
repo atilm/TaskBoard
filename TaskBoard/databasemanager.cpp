@@ -551,6 +551,8 @@ void DatabaseManager::performRecordQuery(const QString &queryString, int taskID,
 
     if(!query.exec())
         qDebug() << "SQL Error: " << query.lastError().text();
+    else
+        emit dataChanged(taskID);
 }
 
 QString DatabaseManager::getUpdatedClosedDate(int id, int state)
