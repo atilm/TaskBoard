@@ -119,10 +119,19 @@ void EditTaskDialog::setProjectBoxToIndex(int projectIndex)
 {
     int itemCount = ui->projectComboBox->count();
 
+    bool success = false;
+
     for(int i=0;i < itemCount; i++){
-        if(ui->projectComboBox->itemData(i).toInt() == projectIndex)
+        if(ui->projectComboBox->itemData(i).toInt() == projectIndex){
             ui->projectComboBox->setCurrentIndex(i);
+            success = true;
+        }
     }
 
-    ui->projectComboBox->setCurrentText("n.a.");
+    // if project does not exist, because it is hidden:
+    if(!success){
+        ProjectEntry p = model->getProject(projectIndex);
+        ui->projectComboBox->addItem(p.title, projectIndex);
+        ui->projectComboBox->setCurrentIndex(ui->projectComboBox->count()-1);
+    }
 }
