@@ -3,16 +3,19 @@
 #include <iostream>
 using namespace std;
 
-DailyWorkChartCreator::DailyWorkChartCreator(DatabaseManager *db, QObject *parent)
+DailyWorkChartCreator::DailyWorkChartCreator(DatabaseManager *db,
+                                             TimePeriodChooser *timeChooser,
+                                             QObject *parent)
     : ProjectAnalyzer(db, parent)
 {
+    this->timeChooser = timeChooser;
+
     buildControls();
 }
 
 DailyWorkChartCreator::~DailyWorkChartCreator()
 {
-    delete beginEdit;
-    delete endEdit;
+    delete timeChooser;
     delete subLayout;
     delete dummyElement;
 }
@@ -36,26 +39,16 @@ void DailyWorkChartCreator::showControls()
 
 void DailyWorkChartCreator::buildControls()
 {
-    beginEdit = new QDateEdit();
-    endEdit = new QDateEdit();
-    updateButton = new QPushButton();
-
-    endEdit->setDate(QDate::currentDate());
-    beginEdit->setDate(QDate::currentDate().addDays(-7));
-    updateButton->setText(tr("Update"));
-
-    connect(updateButton, SIGNAL(clicked(bool)),
-            this, SLOT(updatePlot()));
+    timeChooser->showCurrentWeek();
 
     controlsLayout = new QVBoxLayout();
     chartView = new DailyWorkChartView();
     viewWidget = chartView;
 
-    controlsLayout->addWidget(new QLabel(tr("From:")));
-    controlsLayout->addWidget(beginEdit);
-    controlsLayout->addWidget(new QLabel(tr("To:")));
-    controlsLayout->addWidget(endEdit);
-    controlsLayout->addWidget(updateButton);
+    connect(timeChooser, SIGNAL(periodChanged()),
+            this, SLOT(updatePlot()));
+
+    controlsLayout->addWidget(timeChooser);
     controlsLayout->addStretch();
     controlsWidget->setLayout(controlsLayout);
 
@@ -82,7 +75,8 @@ void DailyWorkChartCreator::updatePlot()
 {
     chartView->clearPlottables();
 
-    efforts = db->getProjectEfforts(beginEdit->date(), endEdit->date());
+    efforts = db->getProjectEfforts(timeChooser->beginDate(),
+                                    timeChooser->endDate());
 
     formatAxes();
 
@@ -96,8 +90,8 @@ void DailyWorkChartCreator::formatAxes()
     chartView->xAxis->setTickLabelType(QCPAxis::ltDateTime);
     chartView->xAxis->setDateTimeFormat("yyyy-MM-dd");
 
-    chartView->xAxis->setRange(beginEdit->dateTime().addDays(-1).toTime_t(),
-                               endEdit->dateTime().addDays(1).toTime_t());
+    chartView->xAxis->setRange(timeChooser->beginDateTime().addDays(-1).toTime_t(),
+                               timeChooser->endDateTime().addDays(1).toTime_t());
     chartView->yAxis->setRange(0, 10);
     chartView->yAxis->setLabel(tr("Hours"));
 }
@@ -126,9 +120,9 @@ void DailyWorkChartCreator::setXTics()
 {
     xTicks.clear();
 
-    QDateTime date = beginEdit->dateTime();
+    QDateTime date = timeChooser->beginDateTime();
 
-    int days = beginEdit->dateTime().daysTo(endEdit->dateTime());
+    int days = timeChooser->beginDateTime().daysTo(timeChooser->endDateTime());
 
     for(int d=0; d<=days; d++){
         xTicks.append(date.toTime_t());

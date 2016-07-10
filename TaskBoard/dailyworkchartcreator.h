@@ -9,13 +9,16 @@
 #include <QPushButton>
 
 #include "projectanalyzer.h"
+#include "timeperiodchooser.h"
 #include "QCustomPlot/dailyworkchartview.h"
 
 class DailyWorkChartCreator : public ProjectAnalyzer
 {
     Q_OBJECT
 public:
-    DailyWorkChartCreator(DatabaseManager *db, QObject *parent = 0);
+    DailyWorkChartCreator(DatabaseManager *db,
+                          TimePeriodChooser *timeChooser,
+                          QObject *parent = 0);
     virtual ~DailyWorkChartCreator();
 
     QString getActionText() const;
@@ -30,9 +33,7 @@ protected slots:
 private:
     QVector<QColor> colors;
     QVBoxLayout *controlsLayout;
-    QDateEdit *beginEdit;
-    QDateEdit *endEdit;
-    QPushButton *updateButton;
+    TimePeriodChooser *timeChooser;
     DailyWorkChartView *chartView;
     QMap<QString, QVector<double>> efforts;
     QVector<double> xTicks;

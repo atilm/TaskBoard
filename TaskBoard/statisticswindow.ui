@@ -18,6 +18,12 @@
     <layout class="QHBoxLayout" name="viewsLayout">
      <item>
       <widget class="QWidget" name="controlsContainer" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="maximumSize">
         <size>
          <width>150</width>

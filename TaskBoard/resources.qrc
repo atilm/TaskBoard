@@ -4,5 +4,7 @@
         <file>resources/1457759875_Stats.png</file>
         <file>resources/1457759927_cairo-clock.png</file>
         <file>resources/edit_remove.png</file>
+        <file>resources/leftarrow.png</file>
+        <file>resources/rightarrow.png</file>
     </qresource>
 </RCC>

@@ -5,7 +5,7 @@ ProjectAnalyzer::ProjectAnalyzer(DatabaseManager *db, QObject *parent) : QObject
 {
     this->db = db;
     controlsWidget = new QWidget();
-    controlsWidget->setMaximumWidth(150);
+    controlsWidget->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Preferred);
 }
 
 ProjectAnalyzer::~ProjectAnalyzer()

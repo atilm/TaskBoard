@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 
     StatisticsWindow *statsWindow = new StatisticsWindow();
     statsWindow->addAnalyzer(new BurnUpChartCreator(db));
-    statsWindow->addAnalyzer(new DailyWorkChartCreator(db));
+    statsWindow->addAnalyzer(new DailyWorkChartCreator(db, new TimePeriodChooser()));
     statsWindow->addAnalyzer(new EstimationErrorChartCreator(db));
 
     MainWindow w(timerController, statsWindow, 0);
