@@ -51,6 +51,7 @@ protected:
     void plotHistogram();
     void setXTicks();
     void setYTicks();
+    void setIntegerYAxsisTickStep();
 
     void extractScatterData();
     void formatScatterAxes();

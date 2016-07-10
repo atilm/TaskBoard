@@ -127,14 +127,14 @@ void EstimationErrorChartCreator::formatAxes()
 
 void EstimationErrorChartCreator::plotHistogram()
 {
-    setXTicks();
-    setYTicks();
-
     QCPBars *bars = new QCPBars(chartView->xAxis, chartView->yAxis);
 
     bars->setData(xTicks, barHeights);
     bars->setWidthType(QCPBars::wtPlotCoords);
     bars->setWidth(binChooser->value());
+
+    setXTicks();
+    setYTicks();
 
     chartView->addPlottable(bars);
 }
@@ -150,8 +150,19 @@ void EstimationErrorChartCreator::setYTicks()
 {
     chartView->yAxis->setAutoTicks(true);
     chartView->yAxis->setAutoTickLabels(true);
-    chartView->yAxis->setAutoSubTicks(true);
-    chartView->yAxis->setAutoTickStep(true);
+    chartView->yAxis->setAutoSubTicks(false);
+    chartView->yAxis->setSubTickCount(0);
+    chartView->yAxis->setAutoTickStep(false);
+    setIntegerYAxsisTickStep();
+}
+
+void EstimationErrorChartCreator::setIntegerYAxsisTickStep()
+{
+    double upperLimit = chartView->yAxis->range().upper;
+
+    double fStep = upperLimit / 10.0;
+
+    chartView->yAxis->setTickStep(ceil(fStep));
 }
 
 void EstimationErrorChartCreator::extractScatterData()
