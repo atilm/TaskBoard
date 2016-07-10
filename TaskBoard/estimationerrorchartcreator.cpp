@@ -1,16 +1,18 @@
 #include "estimationerrorchartcreator.h"
 #include "histogram.h"
 
-EstimationErrorChartCreator::EstimationErrorChartCreator(DatabaseManager *db, QObject *parent)
+EstimationErrorChartCreator::EstimationErrorChartCreator(DatabaseManager *db,
+                                                         TimePeriodChooser *timeChooser,
+                                                         QObject *parent)
     : ProjectAnalyzer(db, parent)
 {
+    this->timeChooser = timeChooser;
     buildControls();
 }
 
 EstimationErrorChartCreator::~EstimationErrorChartCreator()
 {
-    delete beginEdit;
-    delete endEdit;
+    delete timeChooser;
     delete updateButton;
 }
 
@@ -35,7 +37,7 @@ void EstimationErrorChartCreator::updatePlot()
 {
     chartView->clearPlottables();
 
-    errors = db->getEstimationErrors(beginEdit->date(), endEdit->date());
+    errors = db->getEstimationErrors(timeChooser->beginDate(), timeChooser->endDate());
 
     if(!errors.isEmpty()){
         if(histogramButton->isChecked()){
@@ -55,15 +57,13 @@ void EstimationErrorChartCreator::updatePlot()
 
 void EstimationErrorChartCreator::buildControls()
 {
-    beginEdit = new QDateEdit();
-    endEdit = new QDateEdit();
+    timeChooser->toggleCurrentMonth(true);
+
     binChooser = new QSpinBox();
     updateButton = new QPushButton();
     histogramButton = new QRadioButton();
     scatterPlotButton = new QRadioButton();
 
-    endEdit->setDate(QDate::currentDate());
-    beginEdit->setDate(QDate::currentDate().addMonths(-1));
     updateButton->setText(tr("Update"));
 
     binChooser->setMinimum(1);
@@ -76,15 +76,14 @@ void EstimationErrorChartCreator::buildControls()
 
     connect(updateButton, SIGNAL(clicked(bool)),
             this, SLOT(updatePlot()));
+    connect(timeChooser, SIGNAL(periodChanged()),
+            this, SLOT(updatePlot()));
 
     controlsLayout = new QVBoxLayout();
     chartView = new QCustomPlot();
     viewWidget = chartView;
 
-    controlsLayout->addWidget(new QLabel(tr("From:")));
-    controlsLayout->addWidget(beginEdit);
-    controlsLayout->addWidget(new QLabel(tr("To:")));
-    controlsLayout->addWidget(endEdit);
+    controlsLayout->addWidget(timeChooser);
     controlsLayout->addWidget(new QLabel(tr("Estimation step [min]:")));
     controlsLayout->addWidget(binChooser);
     controlsLayout->addWidget(histogramButton);

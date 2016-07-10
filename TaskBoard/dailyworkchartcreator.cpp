@@ -39,7 +39,7 @@ void DailyWorkChartCreator::showControls()
 
 void DailyWorkChartCreator::buildControls()
 {
-    timeChooser->showCurrentWeek();
+    timeChooser->toggleCurrentWeek(true);
 
     controlsLayout = new QVBoxLayout();
     chartView = new DailyWorkChartView();
@@ -69,6 +69,8 @@ void DailyWorkChartCreator::buildControls()
 
     subLayout = new QCPLayoutGrid();
     dummyElement = new QCPLayoutElement();
+
+    showOutsideLegend();
 }
 
 void DailyWorkChartCreator::updatePlot()
@@ -102,8 +104,6 @@ void DailyWorkChartCreator::plotEfforts()
     setYTics();
 
     buildBars();
-
-    showOutsideLegend();
 }
 
 void DailyWorkChartCreator::showOutsideLegend()

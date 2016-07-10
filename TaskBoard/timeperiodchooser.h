@@ -25,12 +25,14 @@ signals:
     void periodChanged();
 
 public slots:
-    virtual void showCurrentWeek(bool on = true);
-    virtual void showCurrentMonth(bool on = true);
+    virtual void toggleCurrentWeek(bool on);
+    virtual void toggleCurrentMonth(bool on);
 
 protected slots:
     virtual void nextPeriod();
     virtual void previousPeriod();
+    virtual void showCurrentWeek(bool on);
+    virtual void showCurrentMonth(bool on);
     void untoggleButtons();
 
 protected:

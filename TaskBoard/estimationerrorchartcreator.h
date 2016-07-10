@@ -8,13 +8,16 @@
 #include <QSpinBox>
 
 #include "projectanalyzer.h"
+#include "timeperiodchooser.h"
 #include "QCustomPlot/qcustomplot.h"
 
 class EstimationErrorChartCreator : public ProjectAnalyzer
 {
     Q_OBJECT
 public:
-    EstimationErrorChartCreator(DatabaseManager *db, QObject *parent = 0);
+    EstimationErrorChartCreator(DatabaseManager *db,
+                                TimePeriodChooser *timeChooser,
+                                QObject *parent = 0);
     virtual ~EstimationErrorChartCreator();
 
     virtual QString getActionText() const;
@@ -27,8 +30,7 @@ protected slots:
     void updatePlot();
 
 protected:
-    QDateEdit *beginEdit;
-    QDateEdit *endEdit;
+    TimePeriodChooser *timeChooser;
     QSpinBox *binChooser;
     QRadioButton *histogramButton;
     QRadioButton *scatterPlotButton;

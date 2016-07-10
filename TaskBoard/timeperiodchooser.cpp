@@ -50,6 +50,16 @@ QDateTime TimePeriodChooser::endDateTime() const
     return ui->endDateChooser->dateTime();
 }
 
+void TimePeriodChooser::toggleCurrentWeek(bool on)
+{
+    ui->weekButton->setChecked(on);
+}
+
+void TimePeriodChooser::toggleCurrentMonth(bool on)
+{
+    ui->monthButton->setChecked(on);
+}
+
 void TimePeriodChooser::showCurrentWeek(bool on)
 {
     if(!on)
