@@ -6,5 +6,6 @@
         <file>resources/edit_remove.png</file>
         <file>resources/leftarrow.png</file>
         <file>resources/rightarrow.png</file>
+        <file>resources/gear.png</file>
     </qresource>
 </RCC>

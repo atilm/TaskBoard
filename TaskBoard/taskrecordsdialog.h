@@ -16,7 +16,7 @@ class TaskRecordsDialog : public QDialog
 public:
     explicit TaskRecordsDialog(QSqlDatabase *db,
                                QWidget *parent = 0);
-    ~TaskRecordsDialog();
+    virtual ~TaskRecordsDialog();
 
     void setTaskID(int id);
 

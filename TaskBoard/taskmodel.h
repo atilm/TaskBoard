@@ -27,7 +27,8 @@ public:
     virtual bool dropMimeData(const QMimeData *data, Qt::DropAction action,
                               int row, int column, const QModelIndex &parent);
 
-    QStringList projectList() const;
+    virtual QStringList projectList() const;
+    virtual QList<ProjectEntry> getActiveProjects() const;
     virtual ProjectEntry getProject(int index) const;
     virtual void updateProject(ProjectEntry entry);
     virtual void addProject(ProjectEntry entry);

@@ -115,6 +115,11 @@ QStringList TaskModel::projectList() const
     return db->listOfProjects();
 }
 
+QList<ProjectEntry> TaskModel::getActiveProjects() const
+{
+    return db->getActiveProjects();
+}
+
 ProjectEntry TaskModel::getProject(int index) const
 {
     return db->getProjectEntry(index);

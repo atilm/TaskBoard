@@ -2,7 +2,8 @@
 #include "ui_edittaskdialog.h"
 #include <QDateTime>
 
-EditTaskDialog::EditTaskDialog(EditProjectDialog *projectDialog, TaskRecordsDialog *recordsDialog,
+EditTaskDialog::EditTaskDialog(EditProjectDialog *projectDialog,
+                               TaskRecordsDialog *recordsDialog,
                                QWidget *parent) :
     QDialog(parent),
     ui(new Ui::EditTaskDialog)
@@ -52,7 +53,7 @@ void EditTaskDialog::setTaskEntry(const TaskEntry &entry)
     ui->descriptionEdit->setPlainText(entry.description);
     ui->estimateEdit->setText(entry.estimateString());
     ui->colorComboBox->setCurrentIndex(entry.colorIndex);
-    ui->projectComboBox->setCurrentIndex(entry.projectIndex-1);
+    setProjectBoxToIndex(entry.projectIndex);
 }
 
 TaskEntry EditTaskDialog::getTaskEntry()
@@ -62,7 +63,7 @@ TaskEntry EditTaskDialog::getTaskEntry()
     entry.title = ui->titleEdit->toPlainText();
     entry.description = ui->descriptionEdit->toPlainText();
     entry.projectShort = "DUMMY";
-    entry.projectIndex = ui->projectComboBox->currentIndex() + 1;
+    entry.projectIndex = ui->projectComboBox->currentData().toInt();
     entry.setEstimate(ui->estimateEdit->text());
     entry.colorIndex = ui->colorComboBox->currentIndex();
     entry.created = QDateTime::currentDateTime();
@@ -83,13 +84,13 @@ void EditTaskDialog::handleAddProject()
 
 void EditTaskDialog::handleEditProject()
 {
-    int projectIndex = ui->projectComboBox->currentIndex() + 1;
+    int projectIndex = ui->projectComboBox->currentData().toInt();
     ProjectEntry project = model->getProject(projectIndex);
     projectDialog->setProjectEntry(project);
     if(projectDialog->exec()){
         model->updateProject(projectDialog->getProjectEntry());
         updateProjectList();
-        ui->projectComboBox->setCurrentIndex(projectIndex - 1);
+        setProjectBoxToIndex(projectIndex);
     }
 }
 
@@ -106,5 +107,22 @@ void EditTaskDialog::initColorChooser()
 void EditTaskDialog::updateProjectList()
 {
     ui->projectComboBox->clear();
-    ui->projectComboBox->addItems(model->projectList());
+
+    QList<ProjectEntry> projects = model->getActiveProjects();
+
+    foreach(ProjectEntry e, projects){
+        ui->projectComboBox->addItem(e.title, e.id);
+    }
+}
+
+void EditTaskDialog::setProjectBoxToIndex(int projectIndex)
+{
+    int itemCount = ui->projectComboBox->count();
+
+    for(int i=0;i < itemCount; i++){
+        if(ui->projectComboBox->itemData(i).toInt() == projectIndex)
+            ui->projectComboBox->setCurrentIndex(i);
+    }
+
+    ui->projectComboBox->setCurrentText("n.a.");
 }

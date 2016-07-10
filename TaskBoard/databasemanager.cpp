@@ -208,6 +208,23 @@ QStringList DatabaseManager::listOfProjects() const
     return projects;
 }
 
+QList<ProjectEntry> DatabaseManager::getActiveProjects() const
+{
+    QString queryText = QString("SELECT id, short, name, description"
+                                " FROM projects"
+                                " WHERE hidden == 1");
+
+    QSqlQuery query(queryText);
+
+    QList<ProjectEntry> list;
+
+    while(query.next()){
+        list.append(buildProjectEntry(query));
+    }
+
+    return list;
+}
+
 void DatabaseManager::addProjectEntry(ProjectEntry entry)
 {
     QSqlQuery query;
@@ -414,7 +431,8 @@ void DatabaseManager::createTables()
                            " id INTEGER PRIMARY KEY,"
                            " short TEXT,"
                            " name TEXT,"
-                           " description TEXT)");
+                           " description TEXT,"
+                           " hidden INTEGER)");
 
     createTasks.prepare("CREATE TABLE tasks("
                         " id INTEGER PRIMARY KEY,"

@@ -54,6 +54,7 @@
    </attribute>
    <addaction name="actionTimer"/>
    <addaction name="actionStatistics"/>
+   <addaction name="actionSettings"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionStatistics">
@@ -75,6 +76,15 @@
    </property>
    <property name="text">
     <string>Timer</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/new/prefix1/resources/gear.png</normaloff>:/new/prefix1/resources/gear.png</iconset>
+   </property>
+   <property name="text">
+    <string>Settings</string>
    </property>
   </action>
  </widget>

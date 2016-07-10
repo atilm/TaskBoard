@@ -48,6 +48,7 @@ public:
     void insertIntoColumn(TaskState state, int beforeRow, int taskId);
 
     QStringList listOfProjects() const;
+    QList <ProjectEntry> getActiveProjects() const;
     void addProjectEntry(ProjectEntry entry);
     ProjectEntry getProjectEntry(int index) const;
     void updateProjectEntry(ProjectEntry entry);

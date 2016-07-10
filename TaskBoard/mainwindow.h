@@ -6,6 +6,7 @@
 #include "taskmodel.h"
 #include "databasemanager.h"
 #include "timercontroller.h"
+#include "settingsdialog.h"
 #include "statisticswindow.h"
 
 namespace Ui {
@@ -19,6 +20,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(TimerController *timerController,
                         StatisticsWindow *statsWindow,
+                        SettingsDialog *settings,
                         QWidget *parent = 0);
     ~MainWindow();
 
@@ -39,6 +41,7 @@ private:
     TaskColumn *doneColumn;
     TimerController *timerController;
     StatisticsWindow *statsWindow;
+    SettingsDialog *settings;
 
     void setup();
     void connectModels(TaskModel *todoModel,

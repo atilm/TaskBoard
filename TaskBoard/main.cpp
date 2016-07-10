@@ -21,7 +21,9 @@ int main(int argc, char *argv[])
     statsWindow->addAnalyzer(new DailyWorkChartCreator(db, new TimePeriodChooser()));
     statsWindow->addAnalyzer(new EstimationErrorChartCreator(db, new TimePeriodChooser()));
 
-    MainWindow w(timerController, statsWindow, 0);
+    SettingsDialog *settings = new SettingsDialog(&dataBase);
+
+    MainWindow w(timerController, statsWindow, settings, 0);
 
     w.injectColumnWidgets(new TaskColumn(new EditTaskDialog(new EditProjectDialog(),
                                                             new TaskRecordsDialog(&dataBase))),

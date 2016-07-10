@@ -37,7 +37,8 @@ SOURCES += main.cpp\
     estimationerrorchartcreator.cpp \
     histogram.cpp \
     QCustomPlot/dailyworkchartview.cpp \
-    timeperiodchooser.cpp
+    timeperiodchooser.cpp \
+    settingsdialog.cpp
 
 HEADERS  += mainwindow.h \
     taskcolumn.h \
@@ -60,7 +61,8 @@ HEADERS  += mainwindow.h \
     estimationerrorchartcreator.h \
     histogram.h \
     QCustomPlot/dailyworkchartview.h \
-    timeperiodchooser.h
+    timeperiodchooser.h \
+    settingsdialog.h
 
 FORMS    += mainwindow.ui \
     taskcolumn.ui \
@@ -68,7 +70,8 @@ FORMS    += mainwindow.ui \
     editprojectdialog.ui \
     statisticswindow.ui \
     taskrecordsdialog.ui \
-    timeperiodchooser.ui
+    timeperiodchooser.ui \
+    settingsdialog.ui
 
 RESOURCES += \
     resources.qrc

@@ -4,6 +4,7 @@
 
 MainWindow::MainWindow(TimerController *timerController,
                        StatisticsWindow *statsWindow,
+                       SettingsDialog *settings,
                        QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -15,6 +16,8 @@ MainWindow::MainWindow(TimerController *timerController,
     timerController->injectTimerAction(ui->actionTimer);
 
     this->statsWindow = statsWindow;
+
+    this->settings = settings;
 
     todoColumn = nullptr;
     todayColumn = nullptr;
@@ -31,6 +34,7 @@ MainWindow::~MainWindow()
     delete todayColumn;
     delete doneColumn;
     delete statsWindow;
+    delete settings;
 }
 
 void MainWindow::injectColumnWidgets(TaskColumn *todoColumn,
@@ -79,6 +83,7 @@ void MainWindow::setup()
     setWindowTitle("Task Board");
 
     connect(ui->actionStatistics, SIGNAL(triggered(bool)), this, SLOT(handleActionStatistics()));
+    connect(ui->actionSettings, SIGNAL(triggered(bool)), settings, SLOT(exec()));
 }
 
 void MainWindow::connectModels(TaskModel *todoModel,

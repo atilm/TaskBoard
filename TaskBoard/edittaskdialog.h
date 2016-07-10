@@ -43,6 +43,7 @@ private:
 
     void initColorChooser();
     void updateProjectList();
+    void setProjectBoxToIndex(int projectIndex);
 };
 
 #endif // EDITTASKDIALOG_H
