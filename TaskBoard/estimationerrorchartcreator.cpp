@@ -151,10 +151,8 @@ void EstimationErrorChartCreator::setYTicks()
 {
     chartView->yAxis->setAutoTicks(true);
     chartView->yAxis->setAutoTickLabels(true);
-    chartView->yAxis->setAutoSubTicks(false);
-    chartView->yAxis->setAutoTickStep(false);
-    chartView->yAxis->setTickStep(1);
-    chartView->yAxis->setSubTickCount(0);
+    chartView->yAxis->setAutoSubTicks(true);
+    chartView->yAxis->setAutoTickStep(true);
 }
 
 void EstimationErrorChartCreator::extractScatterData()
