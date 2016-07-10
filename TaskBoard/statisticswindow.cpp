@@ -32,6 +32,8 @@ void StatisticsWindow::show()
         a->updateView();
     }
 
+    analyzers.first()->showControls();
+
     QDialog::show();
 }
 
