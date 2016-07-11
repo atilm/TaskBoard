@@ -38,7 +38,8 @@ SOURCES += main.cpp\
     histogram.cpp \
     QCustomPlot/dailyworkchartview.cpp \
     timeperiodchooser.cpp \
-    settingsdialog.cpp
+    settingsdialog.cpp \
+    sqlitetablemodel.cpp
 
 HEADERS  += mainwindow.h \
     taskcolumn.h \
@@ -62,7 +63,8 @@ HEADERS  += mainwindow.h \
     histogram.h \
     QCustomPlot/dailyworkchartview.h \
     timeperiodchooser.h \
-    settingsdialog.h
+    settingsdialog.h \
+    sqlitetablemodel.h
 
 FORMS    += mainwindow.ui \
     taskcolumn.ui \

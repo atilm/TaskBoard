@@ -3,7 +3,8 @@
 
 #include <QDialog>
 #include <QSqlDatabase>
-#include <QSqlTableModel>
+
+#include "sqlitetablemodel.h"
 
 namespace Ui {
 class SettingsDialog;
@@ -24,7 +25,7 @@ public slots:
 private:
     Ui::SettingsDialog *ui;
     QSqlDatabase *db;
-    QSqlTableModel *model;
+    SQLiteTableModel *model;
 };
 
 #endif // SETTINGSDIALOG_H

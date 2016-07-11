@@ -212,7 +212,7 @@ QList<ProjectEntry> DatabaseManager::getActiveProjects() const
 {
     QString queryText = QString("SELECT id, short, name, description"
                                 " FROM projects"
-                                " WHERE hidden == 1");
+                                " WHERE hidden == 0");
 
     QSqlQuery query(queryText);
 
@@ -230,13 +230,14 @@ void DatabaseManager::addProjectEntry(ProjectEntry entry)
     QSqlQuery query;
 
     query.prepare("INSERT INTO projects "
-                  "(short, name, description) "
+                  "(short, name, description, hidden) "
                   "VALUES "
-                  "(:short, :name, :description)");
+                  "(:short, :name, :description, :hidden)");
 
     query.bindValue(":short", entry.shortSign);
     query.bindValue(":name", entry.title);
     query.bindValue(":description", entry.description);
+    query.bindValue(":hidden", 0);
 
     if(!query.exec())
         qDebug() << "SQL Error: " << query.lastError().text();
@@ -465,8 +466,15 @@ QSqlQuery DatabaseManager::taskQuery(TaskState state) const
                                  " tasks.estimate, tasks.color, tasks.createdDate, tasks.closedDate, tasks.sortingOrder"
                                  " FROM tasks"
                                  " JOIN projects ON tasks.project = projects.id"
-                                 " WHERE tasks.state = %1"
-                                 " ORDER BY tasks.sortingOrder").arg(state);
+                                 " WHERE tasks.state = %1").arg(state);
+
+    if(state == TaskState::Done){
+        QDate fourteenDaysAgo = QDate::currentDate().addDays(-14);
+        tempString += QString(" AND tasks.closedDate >= \"%1\"")
+                .arg(fourteenDaysAgo.toString("yyyy-MM-dd"));
+    }
+
+    tempString += " ORDER BY tasks.sortingOrder";
 
     return QSqlQuery(tempString);
 }

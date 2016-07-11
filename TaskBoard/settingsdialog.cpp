@@ -9,9 +9,10 @@ SettingsDialog::SettingsDialog(QSqlDatabase *db,
     ui->setupUi(this);
     this->db = db;
 
-    model = new QSqlTableModel(0, *db);
+    model = new SQLiteTableModel(0, *db);
     model->setTable("projects");
     model->setEditStrategy(QSqlTableModel::OnFieldChange);
+    model->setCheckable(4);
 
     ui->projectsTableView->setModel(model);
     ui->projectsTableView->hideColumn(0);
