@@ -18,6 +18,7 @@ SettingsDialog::SettingsDialog(QSqlDatabase *db,
     ui->projectsTableView->hideColumn(0);
     ui->projectsTableView->hideColumn(1);
     ui->projectsTableView->hideColumn(3);
+    ui->projectsTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     setWindowTitle(tr("Settings"));
 }

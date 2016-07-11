@@ -9,7 +9,6 @@ SQLiteTableModel::SQLiteTableModel(QObject *parent, QSqlDatabase db)
 
 SQLiteTableModel::~SQLiteTableModel()
 {
-
 }
 
 void SQLiteTableModel::setCheckable(int column)
@@ -20,10 +19,10 @@ void SQLiteTableModel::setCheckable(int column)
 Qt::ItemFlags SQLiteTableModel::flags(const QModelIndex &index) const
 {
     if(checkableColumns.contains(index.column())){
-        return QSqlTableModel::flags(index) | Qt::ItemIsUserCheckable;
+        return Qt::ItemIsEnabled | Qt::ItemIsUserCheckable | Qt::ItemIsEditable;
     }
     else{
-        return QSqlTableModel::flags(index);
+        return Qt::ItemIsEnabled;
     }
 }
 
