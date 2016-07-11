@@ -41,6 +41,23 @@ void TaskEntry::setEffort(const QString &s)
     effort_minutes = stringToMinutes(s);
 }
 
+void TaskEntry::setState(int value)
+{
+    switch(value){
+    case TaskEntry::done:
+        state = TaskEntry::done;
+        break;
+    case TaskEntry::today:
+        state = TaskEntry::today;
+        break;
+    case TaskEntry::todo:
+        state = TaskEntry::todo;
+        break;
+    default:
+        state = TaskEntry::todo;
+    }
+}
+
 int TaskEntry::stringToMinutes(const QString &s) const
 {
     // Capture one or more digits

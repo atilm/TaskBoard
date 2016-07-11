@@ -24,6 +24,7 @@ public:
 
     void setEstimate(const QString &s);
     void setEffort(const QString &s);
+    void setState(int value);
 
     int id;
     QString title;

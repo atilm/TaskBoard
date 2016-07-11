@@ -94,6 +94,10 @@ bool TaskModel::dropMimeData(const QMimeData *data, Qt::DropAction action,
     int insertionIndex;
 
     if(columnType == Done){
+        if(db->getTaskEntry(id).state == Done){
+            return false;
+        }
+
         insertionIndex = 0;
     }
     else{

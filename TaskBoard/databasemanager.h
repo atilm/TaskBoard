@@ -37,6 +37,7 @@ public:
 
     int size(TaskState state) const;
 
+    TaskEntry getTaskEntry(int id) const;
     TaskEntry getTaskEntry(TaskState state, int index) const;
     QVector<TaskEntry> getTaskEntries(TaskState state) const;
     void addTaskEntry(TaskEntry entry);

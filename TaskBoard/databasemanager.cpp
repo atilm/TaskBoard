@@ -37,6 +37,25 @@ int DatabaseManager::size(TaskState state) const
     }
 }
 
+TaskEntry DatabaseManager::getTaskEntry(int id) const
+{
+    QString queryText = QString("SELECT"
+                                " tasks.id, tasks.title, tasks.description, projects.id, projects.short, "
+                                " tasks.estimate, tasks.color, tasks.createdDate, tasks.closedDate, tasks.sortingOrder, tasks.state"
+                                " FROM tasks"
+                                " JOIN projects ON tasks.project = projects.id"
+                                " WHERE tasks.id=%1").arg(id);
+
+    QSqlQuery query(queryText);
+
+    if(query.next())
+        return buildTaskEntry(query);
+    else{
+        qDebug() << "getTaskEntry: SQL Error: " << query.lastError().text();
+        return TaskEntry();
+    }
+}
+
 TaskEntry DatabaseManager::getTaskEntry(TaskState state, int index) const
 {
     QSqlQuery query = taskQuery(state);
@@ -463,7 +482,7 @@ QSqlQuery DatabaseManager::taskQuery(TaskState state) const
 {
     QString tempString = QString("SELECT"
                                  " tasks.id, tasks.title, tasks.description, projects.id, projects.short, "
-                                 " tasks.estimate, tasks.color, tasks.createdDate, tasks.closedDate, tasks.sortingOrder"
+                                 " tasks.estimate, tasks.color, tasks.createdDate, tasks.closedDate, tasks.sortingOrder, tasks.state"
                                  " FROM tasks"
                                  " JOIN projects ON tasks.project = projects.id"
                                  " WHERE tasks.state = %1").arg(state);
@@ -493,6 +512,7 @@ TaskEntry DatabaseManager::buildTaskEntry(const QSqlQuery &query) const
     entry.created = QDateTime::fromString(query.record().value(7).toString(), "yyyy-MM-dd");
     entry.closed = QDateTime::fromString(query.record().value(8).toString(), "yyyy-MM-dd");
     entry.sortingOrder = query.record().value(9).toInt();
+    entry.setState(query.record().value(10).toInt());
 
     entry.effort_minutes = getEffortForTask(entry.id);
 
