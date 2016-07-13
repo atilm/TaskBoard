@@ -39,7 +39,10 @@ SOURCES += main.cpp\
     QCustomPlot/dailyworkchartview.cpp \
     timeperiodchooser.cpp \
     settingsdialog.cpp \
-    sqlitetablemodel.cpp
+    sqlitetablemodel.cpp \
+    effortstablecreator.cpp \
+    effortstablemodel.cpp \
+    effortstableitem.cpp
 
 HEADERS  += mainwindow.h \
     taskcolumn.h \
@@ -64,7 +67,10 @@ HEADERS  += mainwindow.h \
     QCustomPlot/dailyworkchartview.h \
     timeperiodchooser.h \
     settingsdialog.h \
-    sqlitetablemodel.h
+    sqlitetablemodel.h \
+    effortstablecreator.h \
+    effortstablemodel.h \
+    effortstableitem.h
 
 FORMS    += mainwindow.ui \
     taskcolumn.ui \

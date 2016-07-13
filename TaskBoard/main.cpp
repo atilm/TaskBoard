@@ -1,5 +1,6 @@
 #include "burnupchartcreator.h"
 #include "dailyworkchartcreator.h"
+#include "effortstablecreator.h"
 #include "estimationerrorchartcreator.h"
 #include "mainwindow.h"
 #include <QApplication>
@@ -20,6 +21,10 @@ int main(int argc, char *argv[])
     StatisticsWindow *statsWindow = new StatisticsWindow();
     statsWindow->addAnalyzer(new DailyWorkChartCreator(db, new TimePeriodChooser()));
     statsWindow->addAnalyzer(new EstimationErrorChartCreator(db, new TimePeriodChooser()));
+    statsWindow->addAnalyzer(new EffortsTableCreator(db,
+                                                     new EffortsTableModel(),
+                                                     new TimePeriodChooser(),
+                                                     new QTableView()));
 
     SettingsDialog *settings = new SettingsDialog(&dataBase);
 

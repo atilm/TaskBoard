@@ -58,8 +58,9 @@ public:
     int getEffortForTask(int taskID) const;
     QMap<QString, QVector<double>> getProjectEfforts(QDate begin, QDate end);
     QMap<QString, double> getProjectEfforts(QDate date);
+    QMap<QString, double> getSummedProjectEfforts(QDate begin, QDate end) const;
+    QList<QPair<QString, double>> getSummedTaskEfforts(const QString &project, QDate begin, QDate end) const;
     QVector<DayEffort> getDayEffortsOfProject(int projectID);
-
     QVector<EstimationError> getEstimationErrors(QDate begin, QDate end);
 
 signals:

@@ -370,6 +370,52 @@ QMap<QString, double> DatabaseManager::getProjectEfforts(QDate date)
     return map;
 }
 
+QMap<QString, double> DatabaseManager::getSummedProjectEfforts(QDate begin, QDate end) const
+{
+    QMap<QString, double> map;
+
+    QString queryString = QString("SELECT projects.name, SUM(records.time) FROM records"
+                                  " JOIN tasks ON records.task = tasks.id"
+                                  " JOIN projects ON tasks.project = projects.id"
+                                  " WHERE records.date BETWEEN \"%1\" AND \"%2\""
+                                  " GROUP BY tasks.project")
+            .arg(begin.toString("yyyy-MM-dd"))
+            .arg(end.toString("yyyy-MM-dd"));
+
+    QSqlQuery query(queryString);
+
+    while(query.next()){
+        map[query.value(0).toString()] = query.value(1).toDouble();
+    }
+
+    return map;
+}
+
+QList<QPair<QString, double> > DatabaseManager::getSummedTaskEfforts(const QString &project,
+                                                    QDate begin, QDate end) const
+{
+    QList<QPair<QString, double>> efforts;
+
+    QString queryString = QString("SELECT tasks.title, SUM(records.time) FROM records"
+                                  " JOIN tasks ON records.task = tasks.id"
+                                  " JOIN projects ON tasks.project = projects.id"
+                                  " WHERE projects.name = \"%1\""
+                                  " AND( records.date BETWEEN \"%2\" AND \"%3\" ) "
+                                  " GROUP BY tasks.id")
+            .arg(project)
+            .arg(begin.toString("yyyy-MM-dd"))
+            .arg(end.toString("yyyy-MM-dd"));
+
+    QSqlQuery query(queryString);
+
+    while(query.next()){
+        QPair<QString, double> p(query.value(0).toString(), query.value(1).toDouble());
+        efforts.append(p);
+    }
+
+    return efforts;
+}
+
 QVector<DatabaseManager::DayEffort> DatabaseManager::getDayEffortsOfProject(int projectID)
 {
     QString queryString = QString("SELECT records.date, SUM(records.time) FROM records "
