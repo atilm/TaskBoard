@@ -1,9 +1,9 @@
 # Task Board
 
-Task Board is a desktop application which lets you organize your work in projects and tasks
-, track your progress and assess the accuracy of your time estimates. You create several projects,
-assign tasks to these projects and estimate how long the task will take. Task Board can measure the
-actual time you spend working on each task and generate several charts from the gathered information.
+Task Board is a desktop application which lets you organize your work in projects and tasks, 
+track your progress and assess the accuracy of your time estimates. You create several projects,
+assign tasks to these projects and estimate how long the task will take. Task Board measures the
+actual time you spend working on each task and generates several charts from the gathered information.
 See e.g., how many hours you worked on a project during the last weeks or how the errors of your time estimates
 are distributed.
 

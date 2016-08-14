@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "taskcolumn.h"
+#include "version.h"
 
 MainWindow::MainWindow(TimerController *timerController,
                        StatisticsWindow *statsWindow,
@@ -80,7 +81,9 @@ void MainWindow::handleActionStatistics()
 
 void MainWindow::setup()
 {
-    setWindowTitle("Task Board");
+    setWindowTitle(QString("%1 %2")
+                   .arg("Task Board")
+                   .arg(Version::versionNumberString()));
 
     connect(ui->actionStatistics, SIGNAL(triggered(bool)), this, SLOT(handleActionStatistics()));
     connect(ui->actionSettings, SIGNAL(triggered(bool)), settings, SLOT(exec()));

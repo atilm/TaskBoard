@@ -10,6 +10,17 @@ CONFIG += c++11
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
+VERSION_MAJOR = 0
+VERSION_MINOR = 1
+VERSION_BUILD = 0
+
+DEFINES += "VERSION_MAJOR=$$VERSION_MAJOR"\
+       "VERSION_MINOR=$$VERSION_MINOR"\
+       "VERSION_BUILD=$$VERSION_BUILD"
+
+#Target version
+VERSION = $${VERSION_MAJOR}.$${VERSION_MINOR}.$${VERSION_BUILD}
+
 RC_ICONS = appIcon.ico
 
 TARGET = TaskBoard
@@ -42,7 +53,8 @@ SOURCES += main.cpp\
     sqlitetablemodel.cpp \
     effortstablecreator.cpp \
     effortstablemodel.cpp \
-    effortstableitem.cpp
+    effortstableitem.cpp \
+    version.cpp
 
 HEADERS  += mainwindow.h \
     taskcolumn.h \
@@ -70,7 +82,8 @@ HEADERS  += mainwindow.h \
     sqlitetablemodel.h \
     effortstablecreator.h \
     effortstablemodel.h \
-    effortstableitem.h
+    effortstableitem.h \
+    version.h
 
 FORMS    += mainwindow.ui \
     taskcolumn.ui \
