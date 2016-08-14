@@ -7,3 +7,4 @@ debug/
 *.o
 ui_*
 *.exe
+*.db

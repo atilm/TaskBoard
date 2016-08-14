@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 
     DataGenerator generator;
     QDate today = QDate::currentDate();
-    QDate oneWeekAgo = today.addDays(-7);
+    QDate oneWeekAgo = today.addMonths(-6);
 
     generator.generateData(oneWeekAgo, today);
 

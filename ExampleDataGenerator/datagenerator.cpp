@@ -104,7 +104,8 @@ void DataGenerator::fillDay(const QDate &date)
 
 void DataGenerator::addTask()
 {
-    int actualEffort = randomInt(20, 3*60);
+    int estimation = randomInt(10, 2*60);
+    int actualEffort = generateActualEffort(estimation);
 
     TaskEntry entry;
 
@@ -118,7 +119,7 @@ void DataGenerator::addTask()
     entry.title = title.arg(nextIssueNumber());
 
     entry.colorIndex = randomInt(0, 7);
-    entry.estimated_minutes = generateEstimation(actualEffort);
+    entry.estimated_minutes = estimation;
     entry.state = TaskEntry::done;
     entry.created = now;
     entry.closed = now.addSecs(actualEffort * 60);
@@ -143,10 +144,10 @@ int DataGenerator::randomInt(int from, int to)
     return dist(mt);
 }
 
-int DataGenerator::generateEstimation(int effort)
+int DataGenerator::generateActualEffort(int estimation)
 {
-    double actualEffort = effort;
-    uniform_real_distribution<double> dist(0.5*actualEffort, 2.0*actualEffort);
+    double doubleEstimation = estimation;
+    uniform_real_distribution<double> dist(0.5*doubleEstimation, 1.5*doubleEstimation);
     return (int)round(dist(mt));
 }
 

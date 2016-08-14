@@ -44,7 +44,7 @@ protected:
     void addTask();
     int nextIssueNumber();
     int randomInt(int from, int to);
-    int generateEstimation(int effort);
+    int generateActualEffort(int estimation);
 };
 
 #endif // DATAGENERATOR_H
