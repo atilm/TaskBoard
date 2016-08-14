@@ -1,6 +1,7 @@
 #include "datagenerator.h"
 
 DataGenerator::DataGenerator()
+    : mt(rd())
 {
     sqlite = QSqlDatabase::addDatabase("QSQLITE");
     db = new DatabaseManager(&sqlite);
@@ -17,6 +18,8 @@ void DataGenerator::generateData(const QDate &startDate,
     initializeProjectTemplates();
 
     QDate date = startDate;
+    issueNumber = 0;
+    currentTaskID = 0;
 
     while(date <= endDate){
         if(isWorkDay(date)){
@@ -90,5 +93,60 @@ bool DataGenerator::isWorkDay(const QDate &date)
 
 void DataGenerator::fillDay(const QDate &date)
 {
+    todaysWorkLoad = 0;
+
+    now = QDateTime(date, QTime(8, 0, 0));
+
+    while(todaysWorkLoad < 7*60){
+        addTask();
+    }
+}
+
+void DataGenerator::addTask()
+{
+    int actualEffort = randomInt(20, 3*60);
+
+    TaskEntry entry;
+
+    int projectIndex = randomInt(0, projects.keys().count()-1);
+    entry.projectIndex = projectIndex;
+
+    QString projectName = projects.keys().at(projectIndex);
+
+    int titleIndex = randomInt(0, projects[projectName].count()-1);
+    QString title = projects[projectName].at(titleIndex);
+    entry.title = title.arg(nextIssueNumber());
+
+    entry.colorIndex = randomInt(0, 7);
+    entry.estimated_minutes = generateEstimation(actualEffort);
+    entry.state = TaskEntry::done;
+    entry.created = now;
+    entry.closed = now.addSecs(actualEffort * 60);
+
+    db->addTaskEntry(entry);
+    currentTaskID++;
+
+    db->addRecord(currentTaskID, now, actualEffort);
+    todaysWorkLoad += actualEffort;
+
+    now = entry.closed;
+}
+
+int DataGenerator::nextIssueNumber()
+{
+    return ++issueNumber;
+}
+
+int DataGenerator::randomInt(int from, int to)
+{
+    uniform_int_distribution<int> dist(from, to);
+    return dist(mt);
+}
+
+int DataGenerator::generateEstimation(int effort)
+{
+    double actualEffort = effort;
+    uniform_real_distribution<double> dist(0.5*actualEffort, 2.0*actualEffort);
+    return (int)round(dist(mt));
 }
 
