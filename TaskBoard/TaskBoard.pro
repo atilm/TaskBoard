@@ -54,7 +54,8 @@ SOURCES += main.cpp\
     effortstablecreator.cpp \
     effortstablemodel.cpp \
     effortstableitem.cpp \
-    version.cpp
+    version.cpp \
+    aboutbox.cpp
 
 HEADERS  += mainwindow.h \
     taskcolumn.h \
@@ -83,7 +84,8 @@ HEADERS  += mainwindow.h \
     effortstablecreator.h \
     effortstablemodel.h \
     effortstableitem.h \
-    version.h
+    version.h \
+    aboutbox.h
 
 FORMS    += mainwindow.ui \
     taskcolumn.ui \
@@ -92,7 +94,8 @@ FORMS    += mainwindow.ui \
     statisticswindow.ui \
     taskrecordsdialog.ui \
     timeperiodchooser.ui \
-    settingsdialog.ui
+    settingsdialog.ui \
+    aboutbox.ui
 
 RESOURCES += \
     resources.qrc

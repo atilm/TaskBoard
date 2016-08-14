@@ -30,6 +30,8 @@ MainWindow::MainWindow(TimerController *timerController,
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete about;
+    delete spacer;
     delete timerController;
     delete todoColumn;
     delete todayColumn;
@@ -81,12 +83,20 @@ void MainWindow::handleActionStatistics()
 
 void MainWindow::setup()
 {
+    about = new AboutBox(this);
+
     setWindowTitle(QString("%1 %2")
                    .arg("Task Board")
                    .arg(Version::versionNumberString()));
 
+    // Add an expanding spacer widget to right align the about button
+    spacer = new QWidget();
+    spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    ui->mainToolBar->insertWidget(ui->actionAbout, spacer);
+
     connect(ui->actionStatistics, SIGNAL(triggered(bool)), this, SLOT(handleActionStatistics()));
     connect(ui->actionSettings, SIGNAL(triggered(bool)), settings, SLOT(exec()));
+    connect(ui->actionAbout, SIGNAL(triggered(bool)), about, SLOT(show()));
 }
 
 void MainWindow::connectModels(TaskModel *todoModel,

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "aboutbox.h"
 #include "taskcolumn.h"
 #include "taskmodel.h"
 #include "databasemanager.h"
@@ -36,6 +37,8 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    QWidget *spacer;
+    AboutBox *about;
     TaskColumn *todoColumn;
     TaskColumn *todayColumn;
     TaskColumn *doneColumn;

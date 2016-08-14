@@ -46,6 +46,15 @@
    </layout>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="movable">
+    <bool>true</bool>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::AllToolBarAreas</set>
+   </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
@@ -55,6 +64,7 @@
    <addaction name="actionTimer"/>
    <addaction name="actionStatistics"/>
    <addaction name="actionSettings"/>
+   <addaction name="actionAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionStatistics">
@@ -85,6 +95,15 @@
    </property>
    <property name="text">
     <string>Settings</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/new/prefix1/resources/1471210791_info.png</normaloff>:/new/prefix1/resources/1471210791_info.png</iconset>
+   </property>
+   <property name="text">
+    <string>About</string>
    </property>
   </action>
  </widget>
