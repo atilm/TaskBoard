@@ -4,7 +4,6 @@
 #include <QSqlRecord>
 #include <QSqlError>
 #include <QMap>
-#include <QMessageBox>
 
 DatabaseManager::DatabaseManager(QSqlDatabase *db) : maximumInt(2147483647)
 {

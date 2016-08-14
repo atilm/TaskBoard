@@ -2,6 +2,7 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     TaskBoard \
-    UnitTests
+    UnitTests \
+    ExampleDataGenerator
 
 CONFIG += ordered
