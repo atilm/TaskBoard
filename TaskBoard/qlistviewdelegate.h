@@ -18,6 +18,8 @@ public:
                        const QStyleOptionViewItem &option,
                        const QModelIndex &index) const;
 
+
+
 private:
     ColorContainer colors;
 

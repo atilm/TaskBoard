@@ -36,6 +36,8 @@ private:
     TaskModel *model;
     EditTaskDialog *editDialog;
 
+    bool eventFilter(QObject *, QEvent *event);
+
 protected slots:
     void handleAddClicked();
     void handleRemoveCurrent();

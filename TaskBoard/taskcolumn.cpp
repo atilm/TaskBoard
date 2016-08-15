@@ -1,7 +1,9 @@
 #include "taskcolumn.h"
 #include "ui_taskcolumn.h"
 #include "qlistviewdelegate.h"
+
 #include <QDebug>
+#include <QKeyEvent>
 #include <QMessageBox>
 
 int TaskColumn::currentTaskID = -1;
@@ -24,6 +26,7 @@ TaskColumn::TaskColumn(EditTaskDialog *editDialog,
     ui->listView->setDragEnabled(true);
     ui->listView->setAcceptDrops(true);
     ui->listView->setDropIndicatorShown(true);
+    ui->listView->installEventFilter(this);
 
     connect(ui->listView, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(handleListViewContextMenuRequested(QPoint)));
@@ -58,6 +61,16 @@ void TaskColumn::setModel(TaskModel *model)
 void TaskColumn::setColumnState(TaskEntry::State state)
 {
     columnState = state;
+}
+
+bool TaskColumn::eventFilter(QObject *, QEvent *event)
+{
+    if(event->type() == QEvent::KeyPress){
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 
 void TaskColumn::handleAddClicked()
