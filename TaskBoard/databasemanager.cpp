@@ -1,8 +1,10 @@
 #include "databasemanager.h"
 #include <QDebug>
+#include <QDir>
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QSqlError>
+#include <QStandardPaths>
 #include <QMap>
 
 DatabaseManager::DatabaseManager(QSqlDatabase *db) : maximumInt(2147483647)
@@ -470,7 +472,14 @@ QVector<DatabaseManager::EstimationError> DatabaseManager::getEstimationErrors(Q
 
 void DatabaseManager::openDatabase()
 {
-    db->setDatabaseName("tasks.db");
+    QStringList locations = QStandardPaths::standardLocations(QStandardPaths::AppDataLocation);
+
+    QDir appDir(locations.first());
+    if(!appDir.exists()){
+        appDir.mkdir(appDir.absolutePath());
+    }
+
+    db->setDatabaseName(locations.first() + "/tasks.db");
 
     if(!db->open()){
         qDebug() << "Error: " << db->lastError();
