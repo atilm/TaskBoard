@@ -27,6 +27,9 @@ public:
     void setTaskEntry(const TaskEntry &entry);
     TaskEntry getTaskEntry();
 
+public slots:
+    int exec();
+
 protected slots:
     void handleAddProject();
     void handleEditProject();
@@ -44,6 +47,8 @@ private:
     void initColorChooser();
     void updateProjectList();
     void setProjectBoxToIndex(int projectIndex);
+    void updateState();
+    void setControlsEnabled(bool on);
 };
 
 #endif // EDITTASKDIALOG_H

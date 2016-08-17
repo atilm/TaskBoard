@@ -79,6 +79,7 @@ void EditTaskDialog::handleAddProject()
     if(projectDialog->exec()){
         model->addProject(projectDialog->getProjectEntry());
         updateProjectList();
+        updateState();
     }
 }
 
@@ -97,6 +98,12 @@ void EditTaskDialog::handleEditProject()
 void EditTaskDialog::handleEditRecords()
 {
     recordsDialog->exec(currentTaskID);
+}
+
+int EditTaskDialog::exec()
+{
+    updateState();
+    return QDialog::exec();
 }
 
 void EditTaskDialog::initColorChooser()
@@ -133,5 +140,32 @@ void EditTaskDialog::setProjectBoxToIndex(int projectIndex)
         ProjectEntry p = model->getProject(projectIndex);
         ui->projectComboBox->addItem(p.title, projectIndex);
         ui->projectComboBox->setCurrentIndex(ui->projectComboBox->count()-1);
+    }
+}
+
+void EditTaskDialog::updateState()
+{
+    bool readyToUse = !model->projectList().isEmpty();
+
+    setControlsEnabled(readyToUse);
+}
+
+void EditTaskDialog::setControlsEnabled(bool on)
+{
+    ui->descriptionEdit->setEnabled(on);
+    ui->estimateEdit->setEnabled(on);
+    ui->editProjectButton->setEnabled(on);
+    ui->recordsButton->setEnabled(on);
+    ui->titleEdit->setEnabled(on);
+
+    QString addProjectMessage = tr("Please, add a project first!");
+
+    if(on){
+        if(ui->titleEdit->toPlainText() == addProjectMessage){
+            ui->titleEdit->clear();
+        }
+    }
+    else{
+        ui->titleEdit->setPlainText(addProjectMessage);
     }
 }
