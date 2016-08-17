@@ -18,6 +18,10 @@ are distributed.
 * Histogram and scatter plot of the estimate error distribution
 * List the tasks you worked on during the last days, weeks or months
 
+## Installation
+
+Download and execute the latest installer for Windows from the GitHub release page.
+
 ## Documentation
 
 In progress...
